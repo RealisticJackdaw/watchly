@@ -1,0 +1,29 @@
+
+html, body {
+  height: 100%;
+  width: 100%;
+  background-color: #777777;
+  font-family: 'Roboto', sans-serif;
+}
+
+.app-wrapper {
+  /*margin-left: 25%;*/
+  height: 1000px;
+  width: 480px;
+}
+
+#map-canvas {
+  border: 3px solid #000000;
+  border-radius: 2px;
+  margin: 5px;
+  height: 60%;
+  width: 480px;
+}
+
+.title, .subtitle {
+  border: 3px solid #000000;
+  margin: 5px;
+  border-radius: 2px;
+  text-align: center;
+  background-color: #FFFFFF;
+}
