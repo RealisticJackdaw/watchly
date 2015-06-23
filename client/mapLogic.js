@@ -51,7 +51,9 @@ var initialize = function() {
     zoomControl: true,
     zoomControlOptions: {
       // .SMALL, .LARGE, .DEFAULT
-      style: google.maps.ZoomControlStyle.SMALL
+      style: google.maps.ZoomControlStyle.SMALL,
+      // .LEFT_BOTTOM, .RIGHT_CENTER etc.
+      position: google.maps.ControlPosition.TOP_RIGHT
     },
     // Cardinal Direction Controller
     panControl: false,
