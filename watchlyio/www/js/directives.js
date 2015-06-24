@@ -39,6 +39,7 @@ angular.module('starter.directives', [])
           pos: {lat: 37.783901, lng: -122.409126},
           img: "./img/graffiti.png",
           title: "STUB_GRAFFITI"
+
         };
 
         var mapOptions = {
@@ -109,11 +110,12 @@ angular.module('starter.directives', [])
           map: map,
           icon: testGraffiti.img,
           title: testGraffiti.title,
+          draggable: true
         });
 
         $scope.onCreate({map: map});
 
-        // Stop the side bar from dragging when mousedown/tapdown on the map
+        // Stop the side bar from dragging when mousedown on the map
         google.maps.event.addDomListener($element[0], 'mousedown', function (e) {
           e.preventDefault();
           return false;
