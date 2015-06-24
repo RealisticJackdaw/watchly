@@ -1,0 +1,23 @@
+dependencies: \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVLocalStorage.m \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVLocalStorage.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVPlugin.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVPluginResult.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVAvailability.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVAvailabilityDeprecated.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/NSMutableArray+QueueAdditions.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVCommandDelegate.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVInvokedUrlCommand.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDV.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVViewController.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVCommandQueue.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVWhitelist.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVScreenOrientationDelegate.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVURLProtocol.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVDebug.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVTimer.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/NSArray+Comparisons.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/NSData+Base64.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/NSDictionary+Extensions.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/UIDevice+Extensions.h \
+  /Users/zacharylester/watchly/watchlyio/platforms/ios/CordovaLib/Classes/CDVJSON.h
