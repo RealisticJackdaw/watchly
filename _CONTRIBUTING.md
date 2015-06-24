@@ -135,13 +135,29 @@ else, just repeat again.
 
 **Pull requests should be small and occur often.**  Strive to fix one small thing in each pull request.
 
+### Bringing in changes from other local branches, if any
+
+If you need to merge two local branches for some reason, use the following workflow:
+
+Say you are merging local branch bugfix into local branch feature
+
+From local branch feature... 
+1. git pull --rebase upstream master
+1. Checkout bugfix
+1. git rebase feature
+1. Checkout feature
+1. git merge --ff-only bugfix 
+
+Now your feature branch will have incorporated the bugfix branch.  From here you can run your tests, push 
+to your remote repo's "feature" branch, then submit a pull request to the main repo's master branch.
+
 ### Guidelines
 
 1. Uphold the current code standard:
     - Keep your code [DRY][].
     - Leave code cleaner than you found it.
     - Follow [STYLE-GUIDE.md](STYLE-GUIDE.md)
-1. Run the before submitting a pull request.
+1. Run tests the before submitting a pull request.
 1. Submit tests if your pull request contains new, testable behavior.
 1. Your pull request is comprised of a single, squashed commit.
 
