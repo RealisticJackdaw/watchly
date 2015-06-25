@@ -11,6 +11,16 @@ var paths = {
   sass: ['./scss/**/*.scss']
 };
 
+var filesToMove = [
+        './bower_components/angular/angular.min.js',
+        './bower_components/angular-ui-router/release/angular-ui-router.min.js',
+        './bower_components/angular-sanitize/angular-sanitize.min.js',
+        './bower_components/angular-animate/angular-animate.min.js',
+        './bower_components/ionic/css/ionic.min.css',
+        './bower_components/ionic/css/ionic-angular.min.js',
+        './bower_components/ionic/js/ionic.bundle.min.js',
+        './manifest.json'
+    ];
 gulp.task('default', ['sass']);
 
 gulp.task('sass', function(done) {
@@ -25,6 +35,16 @@ gulp.task('sass', function(done) {
     .pipe(rename({ extname: '.min.css' }))
     .pipe(gulp.dest('./www/css/'))
     .on('end', done);
+});
+
+gulp.task('clean', function(){
+  return gulp.src(['./www/lib/*'], {read:false})
+  .pipe(clean());
+});
+
+gulp.task('move',['clean'], function(){
+  gulp.src(filesToMove)
+  .pipe(gulp.dest('./www/lib/'));
 });
 
 gulp.task('watch', function() {
