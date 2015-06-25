@@ -45,6 +45,11 @@ gulp.task('clean', function(){
   .pipe(clean());
 });
 
+gulp.task('cleanup', function(){
+  return gulp.src(['./www/lib/*','platforms','bower_components'], {read:false})
+  .pipe(clean());
+});
+
 gulp.task('move_lib',['clean'], function(){
   gulp.src(libFilesToMove)
   .pipe(gulp.dest('./www/lib/'));
