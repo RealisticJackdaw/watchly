@@ -4,9 +4,9 @@
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: Zachary Lester
+  - __Scrum Master__: Brian Loughnane
+  - __Development Team Members__: John Mai, Zachary Lester, Brian Loughnane
 
 ## Table of Contents
 
@@ -24,11 +24,11 @@
 
 ## Requirements
 
-- Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- Node 0.12.x
+- Express 4.x
+- MySQL 5.6.x
+- Ionic 1.0.x
+- Angular 1.4.x
 
 ## Development
 
