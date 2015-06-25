@@ -1,44 +1,56 @@
 angular.module('starter.controllers', [])
-  // Stub service for dev markers
-  // Access with stubServ.stubs. ...
-  .service('stubServ', function() {
-    this.stubs = {
 
-        testDealer: {
-          pos: {lat: 37.783568, lng: -122.408840},
-          img: "./www/img/drug.png",
-          title: "STUB_DRUG"
-        },
+.controller('MapCtrl', function($scope, $ionicLoading, $ionicSideMenuDelegate) {
 
-        testDealer2: {
-          pos: {lat: 37.783806, lng:  -122.408490},
-          img: "./www/img/drug.png",
-          title: "STUB_DRUG2"
-        },
+  $scope.stubs = {
 
-        testHazard: {
-          pos: {lat: 37.783844, lng: -122.409239},
-          img: "./www/img/hazard.png",
-          title: "STUB_ROAD_HAZARD"
-        },
+    testDealer: {
+      pos: {lat: 37.783568, lng: -122.408840},
+      img: "./www/img/drug.png",
+      title: "STUB_DRUG"
+    },
 
-        testHazard2: {
-          pos: {lat: 37.783225, lng: -122.409102},
-          img: "./www/img/hazard.png",
-          title: "STUB_ROAD_HAZARD2"
-        },
+    testDealer2: {
+      pos: {lat: 37.783806, lng:  -122.408490},
+      img: "./www/img/drug.png",
+      title: "STUB_DRUG2"
+    },
 
-        testGraffiti: {
-          pos: {lat: 37.783901, lng: -122.409126},
-          img: "./www/img/graffiti.png",
-          title: "STUB_GRAFFITI"
-        }
-      };
+    testHazard: {
+      pos: {lat: 37.783844, lng: -122.409239},
+      img: "./www/img/hazard.png",
+      title: "STUB_ROAD_HAZARD"
+    },
 
-  })
+    testHazard2: {
+      pos: {lat: 37.783225, lng: -122.409102},
+      img: "./www/img/hazard.png",
+      title: "STUB_ROAD_HAZARD2"
+    },
 
-.controller('MapCtrl', function($scope, $ionicLoading, stubServ) {
+    testGraffiti: {
+      pos: {lat: 37.783901, lng: -122.409126},
+      img: "./www/img/graffiti.png",
+      title: "STUB_GRAFFITI"
+    }
+  };
+
+  $scope.reportForm = {
+    hidden: true
+  };
+
+  $scope.toggleLeft = function() {
+    $ionicSideMenuDelegate.toggleLeft();
+  };
   
+  $scope.hideReportForm = function() {
+    $scope.reportForm.hidden = true;
+  };
+
+  $scope.showReportForm = function() {
+    $scope.reportForm.hidden = false;
+  };
+
   $scope.getStubs = function() {
     return stubServ.stubs;
   };
@@ -79,5 +91,3 @@ angular.module('starter.controllers', [])
     });
   };
 });
-
-// .controller('NavCtrl', function($scope, $ionicLoading)

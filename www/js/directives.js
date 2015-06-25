@@ -6,38 +6,38 @@ angular.module('starter.directives', [])
     scope: {
       onCreate: '&'
     },
-    link: function ($scope, $element, $attr) {
+    link: function ($scope, $element, $attr, initialize) {
       function initialize() {
 
         // Marker Stubs
 
         var testDealer = {
           pos: {lat: 37.783568, lng: -122.408840},
-          img: "./img/drug.png",
+          img: "./img/3_PED_HAZARD.png",
           title: "STUB_DRUG"
         };
 
         var testDealer2 = {
           pos: {lat: 37.783806, lng:  -122.408490},
-          img: "./img/drug.png",
+          img: "./img/2_DRUG_USE.png",
           title: "STUB_DRUG2"
         };
 
         var testHazard = {
           pos: {lat: 37.783844, lng: -122.409239},
-          img: "./img/hazard.png",
+          img: "./img/4_ROAD_HAZARD.png",
           title: "STUB_ROAD_HAZARD"
         };
 
         var testHazard2 = {
           pos: {lat: 37.783225, lng: -122.409102},
-          img: "./img/hazard.png",
+          img: "./img/4_ROAD_HAZARD.png",
           title: "STUB_ROAD_HAZARD2"
         };
 
         var testGraffiti = {
           pos: {lat: 37.783901, lng: -122.409126},
-          img: "./img/graffiti.png",
+          img: "./img/0_VANDALISM.png",
           title: "STUB_GRAFFITI"
 
         };
@@ -110,7 +110,6 @@ angular.module('starter.directives', [])
           map: map,
           icon: testGraffiti.img,
           title: testGraffiti.title,
-          draggable: true
         });
 
         $scope.onCreate({map: map});
@@ -120,6 +119,47 @@ angular.module('starter.directives', [])
           e.preventDefault();
           return false;
         });
+
+        // Marker listener on click after 2 seconds
+        var downTimer;
+
+        google.maps.event.addListener(map, 'mousedown', function(event) {
+           clearTimeout(downTimer);
+           downTimer = setTimeout(function() {
+             placeMarker(event.latLng);
+           }, 1200);
+        });
+
+        google.maps.event.addListener(map, 'mouseup', function(event) {
+          console.log("Heard mouseup event");
+          clearTimeout(downTimer);
+        });
+
+        google.maps.event.addListener(map, 'touchstart', function(event) {
+           clearTimeout(downTimer);
+           downTimer = setTimeout(function() {
+             placeMarker(event.latLng);
+           }, 1200);
+        });
+
+        google.maps.event.addListener(map, 'touchend', function(event) {
+          console.log("Heard mouseup event");
+          clearTimeout(downTimer);
+        });
+
+
+        var newIncident;
+
+        function placeMarker(location) {
+           if (!newIncident) {
+
+            newIncident = new google.maps.Marker({
+                position: location,
+                map: map,
+                icon: "./img/9_OTHER.png"
+            });
+          }
+        }
       }
 
       if (document.readyState === "complete") {
