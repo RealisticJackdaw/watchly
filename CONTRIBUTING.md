@@ -135,6 +135,25 @@ else, just repeat again.
 
 **Pull requests should be small and occur often.**  Strive to fix one small thing in each pull request.
 
+Your pull request should be comprised of a squashed commit if there are several commits that are working to the same end.  For example, the following commits:
+
+78a3993 2015-06-24 | (doc) add readme introduction (origin/doc) [BrianLoughnane]
+0759486 2015-06-24 | (doc) add readme body (origin/doc) [BrianLoughnane]
+0d393d6 2015-06-24 | (doc) add readme conclusion (origin/doc) [BrianLoughnane]
+
+can be squashed into one commit:
+
+5d3a3e6 2015-06-24 | (doc) add readme information (origin/doc) [BrianLoughnane]
+
+## Squashing Commits
+
+1. Soft reset to the commit occuring before the commits you would like to squash:
+  ```bash
+  git reset --soft [prior commit hash]
+  ```
+1. Commit changes.  Include a message that explains all commits being squashed.
+
+
 ### Bringing in changes from other local branches, if any
 
 If you need to merge two local branches for some reason, use the following workflow:
@@ -159,7 +178,7 @@ to your remote repo's "feature" branch, then submit a pull request to the main r
     - Follow [STYLE-GUIDE.md](STYLE-GUIDE.md)
 1. Run tests the before submitting a pull request.
 1. Submit tests if your pull request contains new, testable behavior.
-1. Your pull request is comprised of a single, squashed commit.
+1. Your pull request should be comprised of a squashed commit if there are several commits that are working to the same end. 
 
 ## Checklist:
 
