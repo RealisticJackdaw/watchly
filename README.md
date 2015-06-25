@@ -34,10 +34,14 @@
 ### Installing Dependencies
 
 From within the root directory:
+```sh
+* npm install
+* bower install
+* gulp
+```
 
 This is to emulate for iOS:
 ```sh
-* npm install
 * npm install -g cordova ionic ios-sim
 * ionic platform add ios
 * ionic build ios

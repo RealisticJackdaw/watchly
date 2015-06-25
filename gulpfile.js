@@ -6,22 +6,24 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var clean = require('gulp-clean');
 
 var paths = {
   sass: ['./scss/**/*.scss']
 };
 
 var filesToMove = [
+        './bower_components/jquery/dist/jquery.min.js',
         './bower_components/angular/angular.min.js',
         './bower_components/angular-ui-router/release/angular-ui-router.min.js',
         './bower_components/angular-sanitize/angular-sanitize.min.js',
         './bower_components/angular-animate/angular-animate.min.js',
         './bower_components/ionic/css/ionic.min.css',
-        './bower_components/ionic/css/ionic-angular.min.js',
+        './bower_components/ionic/js/ionic-angular.min.js',
         './bower_components/ionic/js/ionic.bundle.min.js',
         './manifest.json'
     ];
-gulp.task('default', ['sass']);
+gulp.task('default', ['sass', 'move']);
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
