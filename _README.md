@@ -20,8 +20,6 @@
 
 ## Usage
 
-> Some usage instructions
-
 ## Requirements
 
 - Node 0.12.x
@@ -36,10 +34,26 @@
 
 From within the root directory:
 
+This is to emulate for iOS:
 ```sh
-sudo npm install -g bower
-npm install
-bower install
+* npm install
+* npm install -g cordova ionic ios-sim
+* ionic platform add ios
+* ionic build ios
+* ionic emulate ios
+```
+This is to emulate for Android:
+```sh
+* download the android sdk from google
+* install the android sdk
+* download jre from oracle
+* install jre
+* add into your .bash_profile ANDROID_HOME and JAVA_HOME
+* rerun your .bash_profile
+* npm install -g cordova ionic
+* ionic platform add android
+* ionic build android
+* ionic emulate android
 ```
 
 ### Roadmap
