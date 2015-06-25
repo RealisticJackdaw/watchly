@@ -16,6 +16,8 @@
     "gulp-browserify": "^0.5.1",
     "bower": "^1.4.1",
     "gulp-util": "^2.2.14",
+    "gulp-clean": "^0.3.1",
+    "gulp-jshint": "^1.11.0",
     "shelljs": "^0.5.1"
   },
   "cordovaPlugins": [],
