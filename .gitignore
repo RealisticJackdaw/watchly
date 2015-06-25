@@ -31,5 +31,4 @@ dist/
 node_modules/
 bower_components/
 www/lib/
-platforms/ios/
-platforms/android/
+platforms/
