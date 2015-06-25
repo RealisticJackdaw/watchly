@@ -1,6 +1,6 @@
-# Project Name
+# Watchly
 
-> Pithy project description
+> Social Virtual Town Watch
 
 ## Team
 
@@ -19,6 +19,7 @@
 1. [Contributing](#contributing)
 
 ## Usage
+
 
 ## Requirements
 
