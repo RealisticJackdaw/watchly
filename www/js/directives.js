@@ -1,43 +1,43 @@
 angular.module('starter.directives', [])
 
-.directive('map', function() {
+.directive('map', function () {
   return {
     restrict: 'E',
     scope: {
       onCreate: '&'
     },
-    link: function ($scope, $element, $attr, initialize) {
+    link: function ($scope, $element, $attr) {
       function initialize() {
 
         // Marker Stubs
 
         var testDealer = {
           pos: {lat: 37.783568, lng: -122.408840},
-          img: "./img/3_PED_HAZARD.png",
+          img: "./img/ped_hazard.png",
           title: "STUB_DRUG"
         };
 
         var testDealer2 = {
           pos: {lat: 37.783806, lng:  -122.408490},
-          img: "./img/2_DRUG_USE.png",
+          img: "./img/drug_use.png",
           title: "STUB_DRUG2"
         };
 
         var testHazard = {
           pos: {lat: 37.783844, lng: -122.409239},
-          img: "./img/4_ROAD_HAZARD.png",
+          img: "./img/road_hazard.png",
           title: "STUB_ROAD_HAZARD"
         };
 
         var testHazard2 = {
           pos: {lat: 37.783225, lng: -122.409102},
-          img: "./img/4_ROAD_HAZARD.png",
+          img: "./img/road_hazard.png",
           title: "STUB_ROAD_HAZARD2"
         };
 
         var testGraffiti = {
           pos: {lat: 37.783901, lng: -122.409126},
-          img: "./img/0_VANDALISM.png",
+          img: "./img/vandalism.png",
           title: "STUB_GRAFFITI"
 
         };
@@ -64,7 +64,7 @@ angular.module('starter.directives', [])
           mapTypeControl: false,
           mapTypeControlOptions: {
             // .HORIZONTAL_BAR, .DROPDOWN_MENU, .DEFAULT
-            style:google.maps.MapTypeControlStyle.DROPDOWN_MENU
+            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
           },
           // Display scale control at bottom of map
           scaleControl: false,
@@ -159,7 +159,7 @@ angular.module('starter.directives', [])
                 position: location,
                 map: map,
                 icon: {
-                  url: "./img/9_OTHER.png",
+                  url: "./img/other.png",
                   size: new google.maps.Size(25, 25)
                 }
               });
