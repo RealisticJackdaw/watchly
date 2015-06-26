@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
   phone int(11),
   salt varchar(20),
   password varchar(100),
+  createdTime DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 
 ) ENGINE=InnoDB;
@@ -20,6 +21,7 @@ CREATE TABLE IF NOT EXISTS messages (
   description varchar(255),
   userId int(11) ,
   incidentTypeId int(11),
+  submittedTime DATETIME DEFAULT CURRENT_TIMESTAMP
   PRIMARY KEY (id),
   FOREIGN KEY userId REFERENCES users(id),
   FOREIGN KEY incidentTypeId REFERENCES incidents(id)
