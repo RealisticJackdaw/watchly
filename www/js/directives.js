@@ -123,26 +123,27 @@ angular.module('starter.directives', [])
         // Marker listener on click after 2 seconds
         var downTimer;
 
-        google.maps.event.addListener(map, 'mousedown', function(event) {
-           clearTimeout(downTimer);
-           downTimer = setTimeout(function() {
-             placeMarker(event.latLng);
-           }, 1200);
+        google.maps.event.addListener(map, 'mousedown', function (event) {
+          clearTimeout(downTimer);
+          downTimer = setTimeout(function () {
+            placeMarker(event.latLng);
+          }, 1200);
         });
 
-        google.maps.event.addListener(map, 'mouseup', function(event) {
+        google.maps.event.addListener(map, 'mouseup', function (event) {
           console.log("Heard mouseup event");
           clearTimeout(downTimer);
         });
 
-        google.maps.event.addListener(map, 'touchstart', function(event) {
-           clearTimeout(downTimer);
-           downTimer = setTimeout(function() {
-             placeMarker(event.latLng);
-           }, 1200);
-        });
+        google.maps.event.addListener(map, 'touchstart', function (event) {
+            clearTimeout(downTimer);
+            downTimer = setTimeout(function () {
+              placeMarker(event.latLng);
+            }, 1200);
+        
+          });
 
-        google.maps.event.addListener(map, 'touchend', function(event) {
+        google.maps.event.addListener(map, 'touchend', function (event) {
           console.log("Heard mouseup event");
           clearTimeout(downTimer);
         });
@@ -151,13 +152,17 @@ angular.module('starter.directives', [])
         var newIncident;
 
         function placeMarker(location) {
-           if (!newIncident) {
+          if (!newIncident) {
 
             newIncident = new google.maps.Marker({
+                animation: google.maps.Animation.DROP,
                 position: location,
                 map: map,
-                icon: "./img/9_OTHER.png"
-            });
+                icon: {
+                  url: "./img/9_OTHER.png",
+                  size: new google.maps.Size(25, 25)
+                }
+              });
           }
         }
       }
