@@ -6,14 +6,21 @@ CREATE TABLE IF NOT EXISTS users (
   id int(11) NOT NULL AUTO_INCREMENT,
   firstName varchar(30),
   lastName varchar(30),
-  username varchar(20) UNIQUE,
+  username varchar(40) UNIQUE,
   email varchar(40) UNIQUE,
   phone int(11),
   salt varchar(20),
   password varchar(100),
-  createdTime DATETIME DEFAULT CURRENT_TIMESTAMP,
+  createdTime datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS incidentTypes (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  type varchar(20) UNIQUE NOT NULL,
+  iconFilename varchar(50),
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS messages (
@@ -21,10 +28,10 @@ CREATE TABLE IF NOT EXISTS messages (
   description varchar(255),
   userId int(11) ,
   incidentTypeId int(11),
-  submittedTime DATETIME DEFAULT CURRENT_TIMESTAMP
+  submittedTime datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
-  FOREIGN KEY userId REFERENCES users(id),
-  FOREIGN KEY incidentTypeId REFERENCES incidents(id)
+  FOREIGN KEY fk_uid(userId) REFERENCES users(id),
+  FOREIGN KEY fk_itid(incidentTypeId) REFERENCES incidentTypes(id)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS incidents (
@@ -36,22 +43,15 @@ CREATE TABLE IF NOT EXISTS incidents (
   longitude decimal(9,7) NOT NULL,
   address varchar(100),
   fuzzyAddress varchar(100),
-  occurredTime DATETIME NOT NULL,
-  submittedTime DATETIME DEFAULT CURRENT_TIMESTAMP,
-  modificationTime DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  occurredTime datetime NOT NULL,
+  submittedTime datetime DEFAULT CURRENT_TIMESTAMP,
+  modificationTime datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
-  FOREIGN KEY userId REFERENCES users(id),
-  FOREIGN KEY incidentTypeId REFERENCES incidents(id)
+  FOREIGN KEY fk_uid(userId) REFERENCES users(id),
+  FOREIGN KEY fk_itid(incidentTypeId) REFERENCES incidentTypes(id)
 ) ENGINE=InnoDB;
 
 -- Foreign key syntax --
 
 -- ON DELETE action
 -- ON UPDATE action
-
-CREATE TABLE IF NOT EXISTS incidentTypes (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  type varchar(20) UNIQUE NOT NULL,
-  iconSrc varchar(50),
-  PRIMARY KEY (id)
-) ENGINE=InnoDB;
