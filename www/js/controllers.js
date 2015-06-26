@@ -1,6 +1,6 @@
-angular.module('starter.controllers', [])
+angular.module('watchly.controllers', [])
 
-.controller('MapCtrl', function($scope, $ionicLoading, $ionicSideMenuDelegate) {
+.controller('MapCtrl', function ($scope, $ionicLoading, $ionicSideMenuDelegate) {
 
   $scope.stubs = {
 
@@ -39,32 +39,32 @@ angular.module('starter.controllers', [])
     hidden: true
   };
 
-  $scope.toggleLeft = function() {
+  $scope.toggleLeft = function () {
     $ionicSideMenuDelegate.toggleLeft();
   };
   
-  $scope.hideReportForm = function() {
+  $scope.hideReportForm = function () {
     $scope.reportForm.hidden = true;
   };
 
-  $scope.showReportForm = function() {
+  $scope.showReportForm = function () {
     $scope.reportForm.hidden = false;
   };
 
-  $scope.getStubs = function() {
+  $scope.getStubs = function () {
     return stubServ.stubs;
   };
 
-  $scope.mapCreated = function(map) {
+  $scope.mapCreated = function (map) {
     $scope.map = map;
   };
 
-  $scope.testAlertProfile = function() {
+  $scope.testAlertProfile = function () {
     console.log("Clicked profile placeholder");
     alert("You clicked profile placeholder");
   };
 
-  $scope.testAlertForum = function() {
+  $scope.testAlertForum = function () {
     console.log("Clicked Forum placeholder");
     alert("You clicked Forum placeholder");
   };

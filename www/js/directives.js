@@ -1,4 +1,4 @@
-angular.module('starter.directives', [])
+angular.module('watchly.directives', [])
 
 .directive('map', function () {
   return {
