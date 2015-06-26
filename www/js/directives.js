@@ -115,45 +115,31 @@ angular.module('watchly.directives', [])
         $scope.onCreate({map: map});
 
         // Stop the side bar from dragging when mousedown on the map
-        google.maps.event.addDomListener($element[0], 'mousedown', function (e) {
-          e.preventDefault();
-          return false;
-        });
+        // google.maps.event.addDomListener($element[0], 'mousedown', function (e) {
+        //   e.preventDefault();
+        //   return false;
+        // });
 
         // Marker listener on click after 2 seconds
         var downTimer;
 
         google.maps.event.addListener(map, 'mousedown', function (event) {
+          console.log("heard  mousedown");
           clearTimeout(downTimer);
           downTimer = setTimeout(function () {
             placeMarker(event.latLng);
-          }, 1200);
+          }, 1500);
         });
 
         google.maps.event.addListener(map, 'mouseup', function (event) {
-          console.log("Heard mouseup event");
           clearTimeout(downTimer);
         });
 
-        google.maps.event.addListener(map, 'touchstart', function (event) {
-            clearTimeout(downTimer);
-            downTimer = setTimeout(function () {
-              placeMarker(event.latLng);
-            }, 1200);
-        
-          });
-
-        google.maps.event.addListener(map, 'touchend', function (event) {
-          console.log("Heard mouseup event");
-          clearTimeout(downTimer);
-        });
-
-
-        var newIncident;
+        // var newIncident;
 
         function placeMarker(location) {
-          if (!newIncident) {
-
+          // if (!newIncident) {
+          if (true) {
             newIncident = new google.maps.Marker({
                 animation: google.maps.Animation.DROP,
                 position: location,
