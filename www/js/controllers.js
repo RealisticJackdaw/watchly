@@ -35,12 +35,20 @@ angular.module('watchly.controllers', [])
     }
   };
 
+  $scope.debugLog = function () {
+    console.log("Debug Log Fired");
+  };
+
   $scope.reportForm = {
     hidden: true
   };
 
-  $scope.toggleLeft = function () {
-    $ionicSideMenuDelegate.toggleLeft();
+  $scope.reportConfirm = {
+    hidden: true
+  };
+
+  $scope.reportCancel = {
+    hidden: true
   };
   
   $scope.hideReportForm = function () {
@@ -51,30 +59,23 @@ angular.module('watchly.controllers', [])
     $scope.reportForm.hidden = false;
   };
 
-  $scope.getStubs = function () {
-    return stubServ.stubs;
-  };
-
   $scope.mapCreated = function (map) {
     $scope.map = map;
   };
 
   $scope.testAlertProfile = function () {
     console.log("Clicked profile placeholder");
-    alert("You clicked profile placeholder");
   };
 
   $scope.testAlertForum = function () {
     console.log("Clicked Forum placeholder");
-    alert("You clicked Forum placeholder");
   };
 
-  $scope.centerOnMe = function () {
-    console.log("Centering");
+  $scope.centerMapOnUser = function () {
+    console.log("Centering map on User's Current Location");
     if (!$scope.map) {
       return;
     }
-
     $scope.loading = $ionicLoading.show({
       content: 'Getting current location...',
       showBackdrop: false
@@ -82,12 +83,11 @@ angular.module('watchly.controllers', [])
 
     navigator.geolocation.getCurrentPosition(function (pos) {
       console.log('Got pos', pos);
-      // 
-      
       $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
       $scope.loading.hide();
     }, function (error) {
       alert('Unable to get location: ' + error.message);
     });
   };
+
 });
