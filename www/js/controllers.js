@@ -43,28 +43,29 @@ angular.module('watchly.controllers', [])
     hidden: true
   };
 
-  $scope.reportConfirm = {
-    hidden: true
+  $scope.createIncidentButton = {
+    hidden: true,
   };
 
-  $scope.reportCancel = {
-    hidden: true
+  $scope.cancelIncidentButton = {
+    hidden: true,
   };
   
-  $scope.hideReportForm = function () {
-    $scope.reportForm.hidden = true;
-  };
-
-  $scope.showReportForm = function () {
-    $scope.reportForm.hidden = false;
-  };
+  ionic.EventController.on('createIncident', function () {
+    console.log("Heard createIncident, setting cib.hidden to false");
+    // WHY DOESN'T THIS UPDATE THE NG-HIDE???
+    $scope.createIncidentButton.hidden = false;
+    $scope.cancelIncidentButton.hidden = false;
+    console.log($scope.cancelIncidentButton.hidden);
+    $scope.$apply();
+  }, $scope.map);
 
   $scope.mapCreated = function (map) {
     $scope.map = map;
   };
 
   $scope.testAlertProfile = function () {
-    console.log("Clicked profile placeholder");
+    console.log("Clicked Profile placeholder");
   };
 
   $scope.testAlertForum = function () {

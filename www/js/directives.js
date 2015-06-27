@@ -140,6 +140,7 @@ angular.module('watchly.directives', [])
         function placeMarker(location) {
           // if (!newIncident) {
           if (true) {
+            ionic.EventController.trigger('createIncident');
             newIncident = new google.maps.Marker({
                 animation: google.maps.Animation.DROP,
                 position: location,
