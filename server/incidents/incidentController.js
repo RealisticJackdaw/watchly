@@ -30,6 +30,9 @@ module.exports = {
   },
 
   newIncident: function (req, res, next) {
+    var userId = req.session.userId;
+    req.body.userId = userId;
+
     new Incident(req.body).save().then(function (newIncident) {
       Incidents.add(newIncident);
       console.log('added new incident!');
