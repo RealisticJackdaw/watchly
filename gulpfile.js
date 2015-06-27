@@ -54,7 +54,6 @@ gulp.task('cleanup', function(){
 gulp.task('move_lib',['clean'], function(){
   gulp.src(libFilesToMove)
   .pipe(gulp.dest('./www/lib/'));
-  gulp.src('')
 });
 
 gulp.task('lint', function() {
