@@ -5,4 +5,8 @@ module.exports = function (app) {
   app.route('/')
     .get(incidentController.allIncidents)
     .post(incidentController.newIncident);
+
+  app.route('/incidentType')
+    .get(incidentController.getIncidentTypes);
+
 };

@@ -8,6 +8,7 @@ module.exports = function (app, express) {
   // Express 4 allows us to use multiple routers with their own configurations
   var userRouter = express.Router();
   var incidentRouter = express.Router();
+  var messageRouter = express.Router();
   var session = { path: '/',
                 httpOnly: true,
                 secure: false,
@@ -41,4 +42,5 @@ module.exports = function (app, express) {
   // inject our routers into their respective route files
   require('../users/userRoutes.js')(userRouter);
   require('../incidents/incidentRoutes.js')(incidentRouter);
+  require('../messages/messageRoutes.js')(messageRouter);
 };
