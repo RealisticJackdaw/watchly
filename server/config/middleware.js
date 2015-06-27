@@ -26,11 +26,6 @@ module.exports = function (app, express) {
   app.use(bodyParser.json());
   app.use(express.static(__dirname + '/../../www'));
 
-
-  // app.use('/', function (req, res, next){
-  //   res.send(index.html);
-  // });
-
   app.use('/api/users', userRouter); // use user router for all user request
 
   // authentication middleware used to decode token and made available on the request
