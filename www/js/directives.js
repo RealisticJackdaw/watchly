@@ -136,11 +136,10 @@ angular.module('watchly.directives', [])
           clearTimeout(downTimer);
         });
 
-        // var newIncident;
+        var newIncident;
 
-        function placeMarker(location) {
-          // if (!newIncident) {
-          if (true) {
+        var placeMarker = function (location) {
+          if (!newIncident) {
             ionic.EventController.trigger('createIncident');
             newIncident = new google.maps.Marker({
                 animation: google.maps.Animation.DROP,
@@ -153,7 +152,14 @@ angular.module('watchly.directives', [])
               });
           }
         }
+
+        ionic.EventController.on('removeIncident', function () {
+          console.log("Heard removeIncident");
+          newIncident.setMap(null);
+          newIncident = false;
+        }, $scope.map);
       }
+
 
       if (document.readyState === "complete") {
         initialize();

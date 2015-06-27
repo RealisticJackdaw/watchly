@@ -43,8 +43,8 @@
 
     <ion-footer-bar class="bar-stable">
       <h4 class="title">Watchly Map Test</h4>
-    <button class="createIncident button button-positive button-large" ng-hide="createIncidentButton.hidden">Create Incident</button>
-    <button class="cancelIncident button button-assertive button-large" ng-hide="cancelIncidentButton.hidden">Cancel Incident</button>
+    <button ng-click="testAlertCreate()" class="createIncident button button-positive button" ng-hide="createIncidentButton.hidden"><a class="icon ion-edit"></a></button>
+    <button ng-click="removeIncident()" class="cancelIncident button button-assertive button" ng-hide="cancelIncidentButton.hidden"><a class="icon ion-close"></a></button>
     </ion-footer-bar>
 
 
