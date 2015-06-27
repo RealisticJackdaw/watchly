@@ -56,7 +56,11 @@ gulp.task('move_lib',['clean'], function(){
 });
 
 gulp.task('lint', function() {
-  return gulp.src('./www/js/*.js')
+  return gulp.src(['./www/js/*.js',
+      '*.js',
+      './server/*.js',
+      './server/**/*.js'
+    ])
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
