@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "watchly: virtual townwatch",
   "dependencies": {
+    "async": "^1.2.1",
     "bcrypt-nodejs": "~0.0.3",
     "bluebird": "~2.9.30",
     "body-parser": "^1.13.1",
