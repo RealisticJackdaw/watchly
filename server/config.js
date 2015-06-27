@@ -1,23 +1,3 @@
-//////////// DEPRECATED SYNTAX : 
-
-// var Bookshelf = require('bookshelf');
-// var path = require('path');
-
-// var db = Bookshelf.initialize({
-//   client: 'mysql',
-//   connection: {
-//     host: '127.0.0.1',
-//     user: 'root',
-//     password: 'brian',
-//     database: 'watchly',
-//     charset: 'utf8'
-//     // , filename: path.join(__dirname, '../db/shortly.sqlite')
-//   }
-// });
-
-//////////
-
-
 var path = require('path');
 
 var knex = require('knex')({
