@@ -31,8 +31,6 @@ CREATE TABLE IF NOT EXISTS incidents (
   description varchar(255),
   latitude float(10,6) NOT NULL,
   longitude float(10,6) NOT NULL,
-  -- latitude decimal(9,8) NOT NULL,
-  -- longitude decimal(9,8) NOT NULL,
   address varchar(100),
   fuzzyAddress varchar(100),
   occurredTime datetime NOT NULL,

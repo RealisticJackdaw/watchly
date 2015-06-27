@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "watchly: virtual townwatch",
   "dependencies": {
-    "knex": "~0.8.6",
     "bookshelf": "~0.8.1",
     "express": "~4.13.0",
     "mysql": "~2.7.0",
@@ -11,6 +10,7 @@
     "body-parser": "^1.13.1",
     "morgan": "^1.6.0",
     "request": "^2.58.0"
+    "knex": "~0.8.6",
   },
   "devDependencies": {
     "bower": "~1.4.1",
