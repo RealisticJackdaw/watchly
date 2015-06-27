@@ -50,7 +50,14 @@ angular.module('watchly.controllers', [])
   $scope.cancelIncidentButton = {
     hidden: true,
   };
-  
+
+  $scope.removeIncident = function () {
+    console.log("triggered removeIncident");
+    ionic.EventController.trigger('removeIncident');
+    $scope.createIncidentButton.hidden = true;
+    $scope.cancelIncidentButton.hidden = true;
+  };
+
   ionic.EventController.on('createIncident', function () {
     console.log("Heard createIncident, setting cib.hidden to false");
     $scope.createIncidentButton.hidden = false;
