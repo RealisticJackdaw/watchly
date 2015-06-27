@@ -1,4 +1,4 @@
-var db = require('../config.js')
+var db = require('../config.js');
 
 
 var Incident = db.Model.extend({
