@@ -1,3 +1,6 @@
+Users = require('../models/user');
+
+
 module.exports = {
   signin: function (req, res, next) {
     var username = req.body.username,

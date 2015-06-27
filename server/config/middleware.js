@@ -1,5 +1,6 @@
 var morgan      = require('morgan'), // used for logging incoming request
     bodyParser  = require('body-parser'),
+    expressSession = require('express-session'),
     helpers     = require('./helpers.js'); // our custom middleware
 
 
@@ -7,8 +8,19 @@ module.exports = function (app, express) {
   // Express 4 allows us to use multiple routers with their own configurations
   var userRouter = express.Router();
   var incidentRouter = express.Router();
+  var session = { path: '/',
+                httpOnly: true,
+                secure: false,
+                secret: 'town watch',
+                cookie: {maxAge: 60000, secure: false},
+                maxAge: 60000,
+                userid: null,
+                resave: false,
+                saveUninitialized: true
+              };
 
   app.use(morgan('dev'));
+  app.use(expressSession(session));
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(bodyParser.json());
   app.use(express.static(__dirname + '/../../www'));

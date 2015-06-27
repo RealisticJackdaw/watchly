@@ -15,10 +15,14 @@ var paths = {
 
 var libFilesToMove = [
         './bower_components/jquery/dist/jquery.min.js',
+        './bower_components/jquery/dist/jquery.min.map',
         './bower_components/angular/angular.min.js',
+        './bower_components/angular/angular.min.js.map',
         './bower_components/angular-ui-router/release/angular-ui-router.min.js',
         './bower_components/angular-sanitize/angular-sanitize.min.js',
+        './bower_components/angular-sanitize/angular-sanitize.min.js.map',
         './bower_components/angular-animate/angular-animate.min.js',
+        './bower_components/angular-animate/angular-animate.min.js.map',
         './bower_components/ionic/css/ionic.min.css',
         './bower_components/ionic/js/ionic-angular.min.js',
         './bower_components/ionic/js/ionic.bundle.min.js',
