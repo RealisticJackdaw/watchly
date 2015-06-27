@@ -1,6 +1,6 @@
-var Message = require('../models/Message');
-var Messages = require('../collections/Messages');
-var Incident = require('../models/Incident');
+var Message = require('../db/models/Message');
+var Messages = require('../db/collections/Messages');
+var Incident = require('../db/models/Incident');
 
 module.exports = {
   findIncident: function (req, res, next, id) {

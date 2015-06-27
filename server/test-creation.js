@@ -1,5 +1,5 @@
-var Incidents = require('./collections/incidents.js');
-var Incident = require('./models/incident.js');
+var Incidents = require('./db/collections/incidents.js');
+var Incident = require('./db/models/incident.js');
 
 var inc = new Incident({
   latitude: 37.792432, 

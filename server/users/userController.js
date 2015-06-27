@@ -1,4 +1,4 @@
-Users = require('../models/user');
+Users = require('../db/models/user');
 
 
 module.exports = {
