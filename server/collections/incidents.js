@@ -1,3 +1,5 @@
+var db = require('../config.js');
+
 var Incident = require('../models/incident.js');
 
 var Incidents = new db.Collection();

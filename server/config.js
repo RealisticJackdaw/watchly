@@ -11,12 +11,11 @@ var knex = require('knex')({
   }
 });
 
-var db = require('bookshelf')(knex);
+var bookshelf = require('bookshelf')(knex);
 
-
-db.knex.schema.hasTable('users').then(function(exists) {
+bookshelf.knex.schema.hasTable('users').then(function(exists) {
   if (!exists) {
-    db.knex.schema.createTable('users', function (user) {
+    bookshelf.knex.schema.createTable('users', function (user) {
       user.increments('id').primary();
       user.string('firstName', 30);
       user.string('lastName', 30);
@@ -32,9 +31,9 @@ db.knex.schema.hasTable('users').then(function(exists) {
   }
 });
 
-db.knex.schema.hasTable('incidentTypes').then(function(exists) {
+bookshelf.knex.schema.hasTable('incidentTypes').then(function(exists) {
   if (!exists) {
-    db.knex.schema.createTable('incidentTypes', function (incidentType) {
+    bookshelf.knex.schema.createTable('incidentTypes', function (incidentType) {
       incidentType.increments('id').primary();
       incidentType.string('type', 20);
       incidentType.string('iconFilename', 50);
@@ -44,9 +43,9 @@ db.knex.schema.hasTable('incidentTypes').then(function(exists) {
   }
 });
 
-db.knex.schema.hasTable('incidents').then(function(exists) {
+bookshelf.knex.schema.hasTable('incidents').then(function(exists) {
   if (!exists) {
-    db.knex.schema.createTable('incidents', function (incident) {
+    bookshelf.knex.schema.createTable('incidents', function (incident) {
       incident.increments('id').primary();
       incident.integer('userId', 11).references('id').inTable('users').unsigned();
       incident.integer('incidentTypeId', 11).references('id').inTable('incidentTypes').unsigned();
@@ -57,15 +56,17 @@ db.knex.schema.hasTable('incidents').then(function(exists) {
       incident.string('fuzzyAddress', 100);
       incident.dateTime('occurred_at'); 
       incident.timestamps();
+
+      console.log('incidents table created via config file');
     }).then(function (table) {
       console.log('Created Table', table);
     });
   }
 });
 
-db.knex.schema.hasTable('messages').then(function(exists) {
+bookshelf.knex.schema.hasTable('messages').then(function(exists) {
   if (!exists) {
-    db.knex.schema.createTable('messages', function (message) {
+    bookshelf.knex.schema.createTable('messages', function (message) {
       message.increments('id').primary();
       message.string('description', 255);
       message.integer('userId', 11).references('id').inTable('users').unsigned();
@@ -78,4 +79,4 @@ db.knex.schema.hasTable('messages').then(function(exists) {
 });
 
 
-module.exports = db;
+module.exports = bookshelf;
