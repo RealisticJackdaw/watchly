@@ -8,7 +8,7 @@ INSERT INTO incidentTypes (type, iconFilename)
 INSERT INTO incidentTypes (type, iconFilename) 
   VALUES ('Fight', 'fight.png');
 INSERT INTO incidentTypes (type, iconFilename) 
-  VALUES ('Drug Use', 'drug_use.png');
+  VALUES ('Drug use', 'drug_use.png');
 INSERT INTO incidentTypes (type, iconFilename) 
   VALUES ('Pedestrian Hazard', 'ped_hazard.png');
 INSERT INTO incidentTypes (type, iconFilename) 

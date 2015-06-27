@@ -1,8 +1,7 @@
 var db = require('../../config/dbconfig');
 
-
 var IncidentType = db.Model.extend({
-  tableName: 'incidentsType',
+  tableName: 'incidentTypes',
   hasTimestamps: false
 });
 
