@@ -8,3 +8,10 @@ map {
 .scroll {
   height: 100%;
 }
+
+.incidentReportForm {
+    position:absolute;
+    left:10px;
+    top: 50px;
+    z-index:3;
+}

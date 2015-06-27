@@ -35,16 +35,26 @@
       <a ng-click="centerMapOnUser()" class="button button-icon icon ion-pinpoint"></a>
       <a ng-click="testAlertForum()" class="button button-icon icon ion-navicon-round"></a>
     </ion-header-bar>
-
+    <div class="incidentReportForm" ng-hide="incidentReportForm.hidden">
+      <div class="list">
+        <label class="item item-input item-select">
+          <div class="input-label">
+          Incident Type
+          </div>
+          <select>
+            <option ng-repeat="incidentType in incidentTypes">{{ incidentType }}</option>
+          </select>
+        </label>
+      </div>
+    </div>
     <ion-content scroll="false">
       <map on-create="mapCreated(map); hideReportForm()"></map>
     </ion-content>
-  
 
     <ion-footer-bar class="bar-stable">
-      <h4 class="title">Watchly Map Test</h4>
-    <button ng-click="testAlertCreate()" class="createIncident button button-positive button" ng-hide="createIncidentButton.hidden"><a class="icon ion-edit"></a></button>
-    <button ng-click="removeIncident()" class="cancelIncident button button-assertive button" ng-hide="cancelIncidentButton.hidden"><a class="icon ion-close"></a></button>
+    <h4 class="title">Watchly Map Test</h4>
+      <button ng-click="confirmIncidentCreate()" class="createIncident button button-positive" ng-hide="createIncidentButton.hidden"><a class="icon ion-edit"></a></button>
+      <button ng-click="removeIncident()" class="cancelIncident button button-assertive" ng-hide="cancelIncidentButton.hidden"><a class="icon ion-close"></a></button>
     </ion-footer-bar>
 
 
