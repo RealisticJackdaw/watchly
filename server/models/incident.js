@@ -1,4 +1,4 @@
-var db = require('../config.js').then(function () {
+var db = require('../config.js')
 
 
 var Incident = db.Model.extend({
@@ -6,5 +6,4 @@ var Incident = db.Model.extend({
   hasTimestamps: true
 });
 
-});
-// module.exports = Incident;
+module.exports = Incident;

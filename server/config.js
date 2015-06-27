@@ -16,10 +16,10 @@ var bookshelf = require('bookshelf')(knex);
 bookshelf.knex.schema.hasTable('users').then(function(exists) {
   if (!exists) {
     bookshelf.knex.schema.createTable('users', function (user) {
-      user.increments('id').primary();
+      user.increments('id').primary().unsigned();
       user.string('firstName', 30);
       user.string('lastName', 30);
-      user.string('username', 140).unique();
+      user.string('username', 40).unique();
       user.string('email', 40).unique();
       user.bigInteger('phone', 11);
       user.string('salt', 20);
@@ -34,7 +34,7 @@ bookshelf.knex.schema.hasTable('users').then(function(exists) {
 bookshelf.knex.schema.hasTable('incidentTypes').then(function(exists) {
   if (!exists) {
     bookshelf.knex.schema.createTable('incidentTypes', function (incidentType) {
-      incidentType.increments('id').primary();
+      incidentType.increments('id').primary().unsigned();
       incidentType.string('type', 20);
       incidentType.string('iconFilename', 50);
     }).then(function (table) {
@@ -46,7 +46,7 @@ bookshelf.knex.schema.hasTable('incidentTypes').then(function(exists) {
 bookshelf.knex.schema.hasTable('incidents').then(function(exists) {
   if (!exists) {
     bookshelf.knex.schema.createTable('incidents', function (incident) {
-      incident.increments('id').primary();
+      incident.increments('id').primary().unsigned();
       incident.integer('userId', 11).references('id').inTable('users').unsigned();
       incident.integer('incidentTypeId', 11).references('id').inTable('incidentTypes').unsigned();
       incident.string('description', 255);
@@ -67,7 +67,7 @@ bookshelf.knex.schema.hasTable('incidents').then(function(exists) {
 bookshelf.knex.schema.hasTable('messages').then(function(exists) {
   if (!exists) {
     bookshelf.knex.schema.createTable('messages', function (message) {
-      message.increments('id').primary();
+      message.increments('id').primary().unsigned();
       message.string('description', 255);
       message.integer('userId', 11).references('id').inTable('users').unsigned();
       message.integer('incidentsId', 11).references('id').inTable('incidents').unsigned();
@@ -78,5 +78,6 @@ bookshelf.knex.schema.hasTable('messages').then(function(exists) {
   }
 });
 
+console.log('config file run');
 
 module.exports = bookshelf;
