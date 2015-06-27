@@ -1,4 +1,4 @@
-var db = require('../config');
+var db = require('../../config/dbconfig');
 var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
 

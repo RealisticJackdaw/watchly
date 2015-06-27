@@ -1,7 +1,7 @@
-var Incident = require('../models/incident');
-var Incidents = require('../collections/incidents');
-var IncidentType = require('../models/incident');
-var IncidentTypes = require('../collections/incidentTypes');
+var Incident = require('../db/models/incident');
+var Incidents = require('../db/collections/incidents');
+var IncidentType = require('../db/models/incident');
+var IncidentTypes = require('../db/collections/incidentTypes');
 
 module.exports = {
   findIncident: function (req, res, next, id) {

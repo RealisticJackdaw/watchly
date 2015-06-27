@@ -1,4 +1,4 @@
-var db = require('../config.js');
+var db = require('../../config/dbconfig');
 
 
 var Message = db.Model.extend({
