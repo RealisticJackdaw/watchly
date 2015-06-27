@@ -1,8 +1,8 @@
 angular.module('watchly.controllers', [])
 
-.controller('MapCtrl', function ($scope, $ionicLoading, $ionicSideMenuDelegate) {
+.controller('MapCtrl', function ($scope, $http, $ionicLoading, $ionicSideMenuDelegate) {
 
-  $scope.incidentTypes = ["test1", "test2", "test3"];
+  $scope.incidentTypes = [];
 
   ionic.EventController.on('initialize', function () {
     console.log("Heard initialize, populating incidentReportForm");
@@ -10,9 +10,16 @@ angular.module('watchly.controllers', [])
     $scope.$apply();
   }, $scope.map);
 
-
   $scope.populateIncidentTypes = function () {
     console.log("Called populate incident types");
+    $http.get('api/incident/incidenttype').then(function (response) {
+      console.log('Success', response);
+      for (var i = 0; i < resp.data.length; i++) {
+        $scope.incidentTypes.push(resp.data[i]);
+      }
+    }, function (err) {
+      console.error('Unable to retrieve incidentTypes', err);
+    });
   };
 
   $scope.incidentReportForm = {

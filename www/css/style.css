@@ -15,3 +15,7 @@ map {
     top: 50px;
     z-index:3;
 }
+
+.incidentReportFormLabel {
+  width: 220px;
+}

@@ -29,15 +29,16 @@
   </head>
 
   <body ng-app="watchly" ng-controller="MapCtrl">
-    <ion-header-bar class="bar-stable">
+    <ion-header-bar class="bar-calm">
       <h1 class="title">Watchly</h1>
       <a ng-click="testAlertProfile()" class="button button-icon icon ion-ios-contact-outline"></a>
       <a ng-click="centerMapOnUser()" class="button button-icon icon ion-pinpoint"></a>
       <a ng-click="testAlertForum()" class="button button-icon icon ion-navicon-round"></a>
     </ion-header-bar>
     <div class="incidentReportForm" ng-hide="incidentReportForm.hidden">
+      <label class="incidentReportTitle">Report New Incident</label>
       <div class="list">
-        <label class="item item-input item-select">
+        <label class="incidentReportFormLabel item item-input item-select">
           <div class="input-label">
           Incident Type
           </div>
@@ -45,6 +46,7 @@
             <option ng-repeat="incidentType in incidentTypes">{{ incidentType }}</option>
           </select>
         </label>
+      
       </div>
     </div>
     <ion-content scroll="false">
@@ -53,7 +55,7 @@
 
     <ion-footer-bar class="bar-stable">
     <h4 class="title">Watchly Map Test</h4>
-      <button ng-click="confirmIncidentCreate()" class="createIncident button button-positive" ng-hide="createIncidentButton.hidden"><a class="icon ion-edit"></a></button>
+      <button ng-click="confirmIncidentCreate()" class="createIncident button button-calm" ng-hide="createIncidentButton.hidden"><a class="icon ion-edit"></a></button>
       <button ng-click="removeIncident()" class="cancelIncident button button-assertive" ng-hide="cancelIncidentButton.hidden"><a class="icon ion-close"></a></button>
     </ion-footer-bar>
 
