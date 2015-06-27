@@ -53,10 +53,8 @@ angular.module('watchly.controllers', [])
   
   ionic.EventController.on('createIncident', function () {
     console.log("Heard createIncident, setting cib.hidden to false");
-    // WHY DOESN'T THIS UPDATE THE NG-HIDE???
     $scope.createIncidentButton.hidden = false;
     $scope.cancelIncidentButton.hidden = false;
-    console.log($scope.cancelIncidentButton.hidden);
     $scope.$apply();
   }, $scope.map);
 
