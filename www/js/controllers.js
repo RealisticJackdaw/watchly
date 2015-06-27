@@ -1,69 +1,63 @@
 angular.module('watchly.controllers', [])
 
-.controller('MapCtrl', function ($scope, $ionicLoading, $ionicSideMenuDelegate) {
+.controller('MapCtrl', function ($scope, $http, $ionicLoading, $ionicSideMenuDelegate) {
 
-  $scope.stubs = {
+  $scope.incidents = [];
 
-    testDealer: {
-      pos: {lat: 37.783568, lng: -122.408840},
-      img: "./www/img/drug.png",
-      title: "STUB_DRUG"
-    },
+  ionic.EventController.on('initialize', function () {
+    console.log("Heard initialize, populating incidentReportForm");
+    $scope.populateIncidents();
+    $scope.$apply();
+  }, $scope.map);
 
-    testDealer2: {
-      pos: {lat: 37.783806, lng:  -122.408490},
-      img: "./www/img/drug.png",
-      title: "STUB_DRUG2"
-    },
-
-    testHazard: {
-      pos: {lat: 37.783844, lng: -122.409239},
-      img: "./www/img/hazard.png",
-      title: "STUB_ROAD_HAZARD"
-    },
-
-    testHazard2: {
-      pos: {lat: 37.783225, lng: -122.409102},
-      img: "./www/img/hazard.png",
-      title: "STUB_ROAD_HAZARD2"
-    },
-
-    testGraffiti: {
-      pos: {lat: 37.783901, lng: -122.409126},
-      img: "./www/img/graffiti.png",
-      title: "STUB_GRAFFITI"
-    }
+  $scope.populateIncidents = function () {
+    console.log("Called populate incidents");
+    $http.get('/getIncidentTypes').then(function (res) {
+      console.log('Successfully got incident types', res);
+      for (var i = 0; i < res.data.length; i++) {
+        $scope.incidents.push(res.data[i]);
+      }
+    }, function (err) {
+      console.error('Unable to retrieve incidents', err);
+    });
   };
 
-  $scope.debugLog = function () {
-    console.log("Debug Log Fired");
-  };
-
-  $scope.reportForm = {
+  $scope.incidentReportForm = {
     hidden: true
   };
 
   $scope.createIncidentButton = {
-    hidden: true,
+    hidden: true
   };
 
   $scope.cancelIncidentButton = {
-    hidden: true,
+    hidden: true
   };
 
-  $scope.removeIncident = function () {
-    console.log("triggered removeIncident");
-    ionic.EventController.trigger('removeIncident');
-    $scope.createIncidentButton.hidden = true;
-    $scope.cancelIncidentButton.hidden = true;
+  $scope.confirmIncidentCreate = function () {
+    console.log("User confirmed incident create, incidentReportForm.hidden set to false");
+    $scope.incidentReportForm.hidden = false;
   };
 
+  // Listener for createIncident coming from map directive
+  // Makes ng-hide for create/cancelIncidentButtons buttons false
   ionic.EventController.on('createIncident', function () {
-    console.log("Heard createIncident, setting cib.hidden to false");
+    console.log("Heard createIncident, setting CIBs.hidden to false");
     $scope.createIncidentButton.hidden = false;
     $scope.cancelIncidentButton.hidden = false;
     $scope.$apply();
   }, $scope.map);
+
+  // Makes ng-hide for create/cancelIncidentButtons buttons true
+  $scope.removeIncident = function () {
+    console.log("Called removeIncident, setting CIBs.hidden to true");
+    console.log("Triggered removeIncident");
+    // Triggers removeIncident so map directive knows to remove createIncident Marker
+    ionic.EventController.trigger('removeIncident');
+    $scope.incidentReportForm.hidden = true;
+    $scope.createIncidentButton.hidden = true;
+    $scope.cancelIncidentButton.hidden = true;
+  };
 
   $scope.mapCreated = function (map) {
     $scope.map = map;

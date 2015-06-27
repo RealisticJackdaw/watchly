@@ -8,42 +8,13 @@ angular.module('watchly.directives', [])
     },
     link: function ($scope, $element, $attr) {
       function initialize() {
+        // Broadcast initialize event
+        ionic.EventController.trigger('initialize');
 
-        // Marker Stubs
-
-        var testDealer = {
-          pos: {lat: 37.783568, lng: -122.408840},
-          img: "./img/ped_hazard.png",
-          title: "STUB_DRUG"
-        };
-
-        var testDealer2 = {
-          pos: {lat: 37.783806, lng:  -122.408490},
-          img: "./img/drug_use.png",
-          title: "STUB_DRUG2"
-        };
-
-        var testHazard = {
-          pos: {lat: 37.783844, lng: -122.409239},
-          img: "./img/road_hazard.png",
-          title: "STUB_ROAD_HAZARD"
-        };
-
-        var testHazard2 = {
-          pos: {lat: 37.783225, lng: -122.409102},
-          img: "./img/road_hazard.png",
-          title: "STUB_ROAD_HAZARD2"
-        };
-
-        var testGraffiti = {
-          pos: {lat: 37.783901, lng: -122.409126},
-          img: "./img/vandalism.png",
-          title: "STUB_GRAFFITI"
-
-        };
-
+        // Set Map Options
         var mapOptions = {
           // Center on Hack Reactor
+          // TODO: Change to User's current position
           center: new google.maps.LatLng(37.783726, -122.408973),
           zoom: 18,
           // mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -56,7 +27,7 @@ angular.module('watchly.directives', [])
             // .SMALL, .LARGE, .DEFAULT
             style: google.maps.ZoomControlStyle.SMALL,
             // .LEFT_BOTTOM, .RIGHT_CENTER etc.
-            position: google.maps.ControlPosition.TOP_LEFT
+            position: google.maps.ControlPosition.TOP_RIGHT
           },
           // Cardinal Direction Controller
           panControl: false,
@@ -77,40 +48,39 @@ angular.module('watchly.directives', [])
         
         // Stub marker instanitation
 
-        var drugMarker = new google.maps.Marker({
-          position: testDealer.pos,
+        var pedHazard = new google.maps.Marker({
+          position: {lat: 37.783568, lng: -122.408840},
           map: map,
-          icon: testDealer.img,
-          title: testDealer.title
-
+          icon: "./img/ped_hazard.png",
+          title: "STUB_DRUG"
         });
 
-        var drugMarker2 = new google.maps.Marker({
-          position: testDealer2.pos,
+        var drugMarker = new google.maps.Marker({
+          position: {lat: 37.783806, lng:  -122.408490},
           map: map,
-          icon: testDealer2.img,
-          title: testDealer2.title
+          icon: "./img/drug_use.png",
+          title: "STUB_DRUG2"
         });
 
         var potholeMarker = new google.maps.Marker({
-          position: testHazard.pos,
+          position: {lat: 37.783844, lng: -122.409239},
           map: map,
-          icon: testHazard.img,
-          title: testHazard.title
+          icon: "./img/road_hazard.png",
+          title: "STUB_ROAD_HAZARD"
         });
 
         var potholeMarker2 = new google.maps.Marker({
-          position: testHazard2.pos,
+          position: {lat: 37.783225, lng: -122.409102},
           map: map,
-          icon: testHazard2.img,
-          title: testHazard2.title
+          icon: "./img/road_hazard.png",
+          title: "STUB_ROAD_HAZARD2"
         });
 
         var graffitiMarker = new google.maps.Marker({
-          position: testGraffiti.pos,
+          position: {lat: 37.783901, lng: -122.409126},
           map: map,
-          icon: testGraffiti.img,
-          title: testGraffiti.title,
+          icon: "./img/vandalism.png",
+          title: "STUB_GRAFFITI"
         });
 
         $scope.onCreate({map: map});
