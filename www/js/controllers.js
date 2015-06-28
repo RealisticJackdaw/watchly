@@ -4,8 +4,7 @@ angular.module('watchly.controllers', ['watchly.services'])
 
     function initialize() {
         var mapOptions = {
-          // Center on Hack Reactor
-          // TODO: Change to User's current position
+          // Center on Hack Reactor    
           center: new google.maps.LatLng(37.783726, -122.408973),
           zoom: 18,
           // mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -42,7 +41,6 @@ angular.module('watchly.controllers', ['watchly.services'])
         $scope.map = map;
         $scope.populateIncidentTypes();
         $scope.getIncidents();
-        $scope.setMapBounds();
         $scope.setDateAndTime();
 
         google.maps.event.addListener(map, 'mousedown', function (event) {
@@ -90,22 +88,34 @@ angular.module('watchly.controllers', ['watchly.services'])
       }
     };
 
+    $scope.getIncidentNameFromId = function(incidentTypeNumber) {
+      return $scope.incidentTypes[incidentTypeNumber-1].type;
+    }
     $scope.getIncidentIcon = function(incidentTypeNumber) {
       return $scope.incidentTypes[incidentTypeNumber-1].iconFilename;
     }
 
-    $scope.renderIncident = function(incident) {
-      var incidentPos = new google.maps.LatLng(incident.latitude, incident.longitude);
-      var incidentIcon = "./img/" + $scope.getIncidentIcon(incident.incidentTypeId);
+    $scope.renderIncident = function(incidentObj) {
+      var incidentPos = new google.maps.LatLng(incidentObj.latitude, incidentObj.longitude);
+      var incidentIcon = "./img/" + $scope.getIncidentIcon(incidentObj.incidentTypeId);
+      var incidentTitle = $scope.getIncidentNameFromId(incidentObj.incidentTypeId);
       var incident = new google.maps.Marker({
         position: incidentPos,
         map: $scope.map,
         icon: incidentIcon
       });
 
-      // Add listener for user clicking on incident
-      // Display infowindow popup when user clicks
+      var incidentInfoWindowContent = '<div class="incidentInfoTitle"> ' + incidentTitle + ' on ' + incidentObj.fuzzyAddress + ' </div>' + 
+      '<div class="incidentInfoDescription"> ' + 'User Description: ' + incidentObj.description + ' </div>' + 
+      '<div class="incidnetInfoUsername"> ' + 'Reported by: user' + incidentObj.userId + ' to have occured on ' + incidentObj.occurred_at + '</div>';
 
+      var incidentInfoWindow = new google.maps.InfoWindow({
+        content: incidentInfoWindowContent
+      });
+
+      google.maps.event.addListener(incident, 'click', function() {
+         incidentInfoWindow.open($scope.map,incident);
+       });
     };
 
     $scope.populateIncidentTypes = function () {
