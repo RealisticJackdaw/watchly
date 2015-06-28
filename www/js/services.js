@@ -86,7 +86,7 @@ angular.module('watchly.services',[])
   var getIncidentTypes  = function (location) {
     return $http({
       method: 'GET',
-      url: '/api/incidents/incidenttype',
+      url: '/api/incidents/incidentType',
     })
     .then(function (res) {
       return res.data;
