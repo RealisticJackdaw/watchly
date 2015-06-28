@@ -3,7 +3,7 @@ angular.module('watchly.controllers', [])
   .controller('MapCtrl', function ($scope, $http, $ionicLoading, $ionicSideMenuDelegate, $compile) {
 
 
-// get all incidents
+    // get all incidents
     // $http.get('api/incidents/')
     // .success(function (data) {
     //   debugger;
@@ -76,15 +76,17 @@ angular.module('watchly.controllers', [])
           // Map stylers
           styles: [{featureType: "poi.business",elementType: "labels",stylers: [{ visibility: "off" }]},{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"on"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":700}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7dcdcd"}]}]
         };
-        debugger;
+        
         var map = new google.maps.Map(document.getElementById("map"),
             mapOptions);
 
         $scope.map = map;
 
         $scope.createStubs();
-        $scope.populateIncidents();
+        $scope.getIncidents();
+        $scope.populateIncidentTypes();
         $scope.setDateAndTime();
+
         google.maps.event.addListener(map, 'mousedown', function (event) {
           console.log("heard  mousedown");
           clearTimeout($scope.downTimer);
@@ -103,8 +105,19 @@ angular.module('watchly.controllers', [])
     google.maps.event.addDomListener(window, 'load', initialize);
 
     $scope.incidentTypes = [];
+    $scope.incidents = [];
 
-    $scope.populateIncidents = function () {
+    $scope.getIncidents = function() {
+      $http.get('api/incidents').then(function (res) {
+        console.log('Sucessfully got incidents', res);
+        for (var i = 0; i < res.data.length; i++) {
+          $scope.incidents.push(res.data[i]);
+        }
+      }, function (err) {
+        console.log('Unable to retrieve incidents', err);
+      });
+    }
+    $scope.populateIncidentTypes = function () {
       console.log("Called populate incidents");
       $http.get('api/incidents/incidentType').then(function (res) {
         console.log('Successfully got incident types', res);
@@ -112,7 +125,7 @@ angular.module('watchly.controllers', [])
           $scope.incidentTypes.push(res.data[i]);
         }
       }, function (err) {
-        console.error('Unable to retrieve incidents', err);
+        console.error('Unable to retrieve incident types', err);
       });
     };
 
