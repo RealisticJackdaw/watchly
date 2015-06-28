@@ -1,6 +1,6 @@
-angular.module('watchly.controllers', [])
+angular.module('watchly.controllers', [watchly.services])
 
-  .controller('MapCtrl', function ($scope, $http, $ionicLoading, $ionicSideMenuDelegate, $compile) {
+  .controller('MapCtrl', function ($scope, $http, $ionicLoading, $ionicSideMenuDelegate, $compile, Auth, Incidents, Messages) {
 
 
 // get all incidents
@@ -205,6 +205,9 @@ angular.module('watchly.controllers', [])
     // Placeholder/debugging functions
 
     $scope.testAlertProfile = function () {
+      if(Auth.isAuthenticated) {
+        console.log("Has been authenticated");
+      }
       console.log("Clicked Profile placeholder");
     };
 
