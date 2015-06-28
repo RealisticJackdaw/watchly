@@ -52,7 +52,7 @@ angular.module('watchly.services',[])
   };
 })
 .factory('Incidents', function($http){
-  var findIncident = function (incidentId) {
+  var getIncidentById = function (incidentId) {
     return $http({
       method: 'GET',
       url: '/api/incidents/' + incidentId,
@@ -105,7 +105,7 @@ angular.module('watchly.services',[])
   };
 
   return {
-    findIncident: findIncident,
+    getIncidentById: getIncidentById,
     getIncidentsByLocation: getIncidentsByLocation,
     getAllIncidents: getAllIncidents,
     getIncidentTypes: getIncidentTypes,
