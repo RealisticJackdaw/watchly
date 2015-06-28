@@ -63,6 +63,18 @@ angular.module('watchly.controllers', ['watchly.services'])
 
     $scope.incidentTypes = [];
     $scope.incidents = [];
+    $scope.mapBounds = {};
+
+    $scope.setMapBounds = function () {
+      console.log("Calculating and setting map bounds...");
+      var bounds = $scope.map.getBounds();
+      var northEastBound = bounds.getNorthEast();
+      var southWestBound = bounds.getSouthWest();
+      $scope.mapBounds.minLat = southWestBound.A;
+      $scope.mapBounds.maxLat = northEastBound.A;
+      $scope.mapBounds.minLon = southWestBound.F;
+      $scope.mapBounds.maxLon = northEastBound.F;
+    }
 
     $scope.getIncidents = function() {
       Incidents.getAllIncidents().then(function (result) {
@@ -89,6 +101,10 @@ angular.module('watchly.controllers', ['watchly.services'])
         map: $scope.map,
         icon: incidentIcon
       });
+
+      // Add listener for user clicking on incident
+      // Display infowindow popup when user clicks
+
     };
 
     $scope.populateIncidentTypes = function () {
