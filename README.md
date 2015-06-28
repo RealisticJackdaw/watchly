@@ -69,3 +69,50 @@ View the project roadmap [here](https://github.com/RealisticJackdaw/watchly/issu
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+
+
+### API Documentation
+
+## INCIDENTS
+
+# Get all incidents
+$http.get('api/incidents/');
+
+# Post a new incident
+Pass the following data in your request:
+
+var data = { 
+   description: description,
+   latitude: latitude, 
+   longitude: longitude,
+   address: address,
+   fuzzyAddress: fuzzyAddress,
+   occurred_at: occurred_at
+ }
+
+$http.post('api/incidents/', data);
+
+# Post the top and bottom of a map as min and max latitudes(x) and longitudes(y) to get incidents within map
+var data = {xMin: 0, xMax: 100, yMin: -200, yMax: 100} 
+$http.post('api/incidents/nearby', data);
+
+# get all incident types
+$http.get('api/incidents/incidentType');
+
+## MESSAGES 
+
+# Post a new message, passing an incidentId and a description
+var data = { incidentsId: 1, description: 'There are lots of bikes stolen in that area, be careful' };
+$http.post('api/messages/', data);
+
+# Get thread of messages about an incident by posting an incidentId to thread endpoint
+var data = { incidentsId: 1 };
+$http.post('api/messages/thread', data);
+
+   
+
+
+
+
+
+
