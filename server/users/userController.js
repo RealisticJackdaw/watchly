@@ -1,4 +1,4 @@
-var util = require('../config/utility');
+var utils = require('../config/utility');
 var User = require('../db/models/user');
 
 
@@ -14,9 +14,9 @@ module.exports = {
       else {
         user.comparePassword(password, function(match){
           if( match) {
-            util.createSession(req, res, user);
+            utils.createSession(req, res, user);
           } else {
-            res.redirect('/login');
+            res.redirect('#/signin');
           }
         });
       }
@@ -38,7 +38,7 @@ module.exports = {
       } 
       else {
         console.log('Account already exists');
-        res.redirect('/signup');
+        res.redirect('#/signup');
       }
     });    
 
@@ -53,7 +53,7 @@ module.exports = {
 
   signout: function (req, res, next) {
     req.session.destroy(function(){
-      res.redirect('/login');
+      res.redirect('/');
     });
   }
 };
