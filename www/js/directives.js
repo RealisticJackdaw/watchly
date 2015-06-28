@@ -1,6 +1,6 @@
-angular.module('starter.directives', [])
+angular.module('watchly.directives', [])
 
-.directive('map', function() {
+.directive('map', function () {
   return {
     restrict: 'E',
     scope: {
@@ -8,42 +8,13 @@ angular.module('starter.directives', [])
     },
     link: function ($scope, $element, $attr) {
       function initialize() {
+        // Broadcast initialize event
+        ionic.EventController.trigger('initialize');
 
-        // Marker Stubs
-
-        var testDealer = {
-          pos: {lat: 37.783568, lng: -122.408840},
-          img: "./img/drug.png",
-          title: "STUB_DRUG"
-        };
-
-        var testDealer2 = {
-          pos: {lat: 37.783806, lng:  -122.408490},
-          img: "./img/drug.png",
-          title: "STUB_DRUG2"
-        };
-
-        var testHazard = {
-          pos: {lat: 37.783844, lng: -122.409239},
-          img: "./img/hazard.png",
-          title: "STUB_ROAD_HAZARD"
-        };
-
-        var testHazard2 = {
-          pos: {lat: 37.783225, lng: -122.409102},
-          img: "./img/hazard.png",
-          title: "STUB_ROAD_HAZARD2"
-        };
-
-        var testGraffiti = {
-          pos: {lat: 37.783901, lng: -122.409126},
-          img: "./img/graffiti.png",
-          title: "STUB_GRAFFITI"
-
-        };
-
+        // Set Map Options
         var mapOptions = {
           // Center on Hack Reactor
+          // TODO: Change to User's current position
           center: new google.maps.LatLng(37.783726, -122.408973),
           zoom: 18,
           // mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -56,7 +27,7 @@ angular.module('starter.directives', [])
             // .SMALL, .LARGE, .DEFAULT
             style: google.maps.ZoomControlStyle.SMALL,
             // .LEFT_BOTTOM, .RIGHT_CENTER etc.
-            position: google.maps.ControlPosition.TOP_LEFT
+            position: google.maps.ControlPosition.TOP_RIGHT
           },
           // Cardinal Direction Controller
           panControl: false,
@@ -64,63 +35,101 @@ angular.module('starter.directives', [])
           mapTypeControl: false,
           mapTypeControlOptions: {
             // .HORIZONTAL_BAR, .DROPDOWN_MENU, .DEFAULT
-            style:google.maps.MapTypeControlStyle.DROPDOWN_MENU
+            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
           },
           // Display scale control at bottom of map
           scaleControl: false,
           // Display map overview nav at bottom of map
           overviewMapControl: false,
+          styles: [{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"color":"#e0efef"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"on"},{"hue":"#1900ff"},{"color":"#c0e8e8"}]},{"featureType":"road","elementType":"geometry","stylers":[{"lightness":100},{"visibility":"simplified"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"off"}]},{"featureType":"transit.line","elementType":"geometry","stylers":[{"visibility":"on"},{"lightness":700}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#7dcdcd"}]}]
         };
 
         var map = new google.maps.Map($element[0], mapOptions);
         
         // Stub marker instanitation
 
-        var drugMarker = new google.maps.Marker({
-          position: testDealer.pos,
+        var pedHazard = new google.maps.Marker({
+          position: {lat: 37.783568, lng: -122.408840},
           map: map,
-          icon: testDealer.img,
-          title: testDealer.title
-
+          icon: "./img/ped_hazard.png",
+          title: "STUB_DRUG"
         });
 
-        var drugMarker2 = new google.maps.Marker({
-          position: testDealer2.pos,
+        var drugMarker = new google.maps.Marker({
+          position: {lat: 37.783806, lng:  -122.408490},
           map: map,
-          icon: testDealer2.img,
-          title: testDealer2.title
+          icon: "./img/drug_use.png",
+          title: "STUB_DRUG2"
         });
 
         var potholeMarker = new google.maps.Marker({
-          position: testHazard.pos,
+          position: {lat: 37.783844, lng: -122.409239},
           map: map,
-          icon: testHazard.img,
-          title: testHazard.title
+          icon: "./img/road_hazard.png",
+          title: "STUB_ROAD_HAZARD"
         });
 
         var potholeMarker2 = new google.maps.Marker({
-          position: testHazard2.pos,
+          position: {lat: 37.783225, lng: -122.409102},
           map: map,
-          icon: testHazard2.img,
-          title: testHazard2.title
+          icon: "./img/road_hazard.png",
+          title: "STUB_ROAD_HAZARD2"
         });
 
         var graffitiMarker = new google.maps.Marker({
-          position: testGraffiti.pos,
+          position: {lat: 37.783901, lng: -122.409126},
           map: map,
-          icon: testGraffiti.img,
-          title: testGraffiti.title,
-          draggable: true
+          icon: "./img/vandalism.png",
+          title: "STUB_GRAFFITI"
         });
 
         $scope.onCreate({map: map});
 
         // Stop the side bar from dragging when mousedown on the map
-        google.maps.event.addDomListener($element[0], 'mousedown', function (e) {
-          e.preventDefault();
-          return false;
+        // google.maps.event.addDomListener($element[0], 'mousedown', function (e) {
+        //   e.preventDefault();
+        //   return false;
+        // });
+
+        // Marker listener on click after 2 seconds
+        var downTimer;
+
+        google.maps.event.addListener(map, 'mousedown', function (event) {
+          console.log("heard  mousedown");
+          clearTimeout(downTimer);
+          downTimer = setTimeout(function () {
+            placeMarker(event.latLng);
+          }, 1500);
         });
+
+        google.maps.event.addListener(map, 'mouseup', function (event) {
+          clearTimeout(downTimer);
+        });
+
+        var newIncident;
+
+        var placeMarker = function (location) {
+          if (!newIncident) {
+            ionic.EventController.trigger('createIncident');
+            newIncident = new google.maps.Marker({
+                animation: google.maps.Animation.DROP,
+                position: location,
+                map: map,
+                icon: {
+                  url: "./img/other.png",
+                  size: new google.maps.Size(25, 25)
+                }
+              });
+          }
+        }
+
+        ionic.EventController.on('removeIncident', function () {
+          console.log("Heard removeIncident");
+          newIncident.setMap(null);
+          newIncident = false;
+        }, $scope.map);
       }
+
 
       if (document.readyState === "complete") {
         initialize();

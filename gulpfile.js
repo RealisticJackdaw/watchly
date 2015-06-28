@@ -6,12 +6,30 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var clean = require('gulp-clean');
+var jshint = require('gulp-jshint');
 
 var paths = {
   sass: ['./scss/**/*.scss']
 };
 
-gulp.task('default', ['sass']);
+var libFilesToMove = [
+        './bower_components/jquery/dist/jquery.min.js',
+        './bower_components/jquery/dist/jquery.min.map',
+        './bower_components/angular/angular.min.js',
+        './bower_components/angular/angular.min.js.map',
+        './bower_components/angular-ui-router/release/angular-ui-router.min.js',
+        './bower_components/angular-sanitize/angular-sanitize.min.js',
+        './bower_components/angular-sanitize/angular-sanitize.min.js.map',
+        './bower_components/angular-animate/angular-animate.min.js',
+        './bower_components/angular-animate/angular-animate.min.js.map',
+        './bower_components/ionic/css/ionic.min.css',
+        './bower_components/ionic/js/ionic-angular.min.js',
+        './bower_components/ionic/js/ionic.bundle.min.js',
+        './bower_components/ionicons/css/ionicons.min.css',
+        './manifest.json'
+    ];
+
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
@@ -27,15 +45,34 @@ gulp.task('sass', function(done) {
     .on('end', done);
 });
 
-gulp.task('watch', function() {
-  gulp.watch(paths.sass, ['sass']);
+gulp.task('clean', function(){
+  return gulp.src(['./www/lib/*'], {read:false})
+  .pipe(clean());
 });
 
-gulp.task('install', ['git-check'], function() {
-  return bower.commands.install()
-    .on('log', function(data) {
-      gutil.log('bower', gutil.colors.cyan(data.id), data.message);
-    });
+gulp.task('cleanup', function(){
+  return gulp.src(['./www/lib/*','platforms','bower_components'], {read:false})
+  .pipe(clean());
+});
+
+gulp.task('move_lib',['clean'], function(){
+  gulp.src(libFilesToMove)
+  .pipe(gulp.dest('./www/lib/'));
+});
+
+gulp.task('lint', function() {
+  return gulp.src(['./www/js/*.js',
+      '*.js',
+      './server/*.js',
+      './server/**/*.js',
+      './server/**/**/*.js'
+    ])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
+
+gulp.task('watch', function() {
+  gulp.watch(paths.sass, ['sass']);
 });
 
 gulp.task('git-check', function(done) {
@@ -50,3 +87,12 @@ gulp.task('git-check', function(done) {
   }
   done();
 });
+
+gulp.task('install', ['git-check'], function() {
+  return bower.commands.install()
+    .on('log', function(data) {
+      gutil.log('bower', gutil.colors.cyan(data.id), data.message);
+    });
+});
+
+gulp.task('default', ['lint', 'sass', 'move_lib']);

@@ -1,10 +1,21 @@
 {
-  "name": "HelloIonic",
+  "name": "Watchly",
+  "version": "0.1.0",
   "private": "true",
-  "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.0"
-  },
+  "devDependencies": {},
   "dependencies": {
-    "ionicons": "~2.0.1"
+    "angular": "~1.4.1",
+    "angular-animate": "~1.4.1",
+    "angular-sanitize": "~1.4.1",
+    "angular-ui-router": "~0.2.15",
+    "ionic": "driftyco/ionic-bower#v1.0.0",
+    "ionicons": "~2.0.1",
+    "jquery": "~2.1.4"
+  },
+  "resolutions": {
+    "angular": "1.4.1",
+    "angular-animate": "1.4.1",
+    "angular-sanitize": "1.4.1",
+    "angular-ui-router": "0.2.15"
   }
 }

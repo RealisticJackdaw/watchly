@@ -1,9 +1,9 @@
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.directives'])
+angular.module('watchly', ['ionic', 'watchly.controllers', 'watchly.directives'])
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    if(window.StatusBar) {
+.run(function ($ionicPlatform) {
+  $ionicPlatform.ready(function () {
+    if (window.StatusBar) {
       StatusBar.styleDefault();
     }
   });
-})
+});

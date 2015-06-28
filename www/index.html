@@ -5,40 +5,73 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="lib/ionic.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
+    <link href="css/ionic.app.min.css" rel="stylesheet">
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
 
     <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/ionic.bundle.min.js"></script>
+    <!-- google maps api -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es&sensor=true"></script>
-
+    <!-- jquery -->
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
-    <!-- your app's js -->
+    <!-- watchly js -->
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/directives.js"></script>
+
   </head>
 
-  <body ng-app="starter" ng-controller="MapCtrl">
-    <ion-header-bar class="bar-stable">
+  <body ng-app="watchly" ng-controller="MapCtrl">
+    
+    <ion-header-bar class="bar-calm">
       <h1 class="title">Watchly</h1>
-      <a ng-click="centerOnMe()" class="button button-icon icon ion-ios-contact-outline"></a>
+      <a ng-click="testAlertProfile()" class="button button-icon icon ion-ios-contact-outline"></a>
+      <a ng-click="centerMapOnUser()" class="button button-icon icon ion-pinpoint"></a>
       <a ng-click="testAlertForum()" class="button button-icon icon ion-navicon-round"></a>
     </ion-header-bar>
 
+    <div class="incidentReportForm" ng-hide="incidentReportForm.hidden">
+    
+      <label class="incidentReportTitle">Report New Incident</label>
+    
+        <label class="incidentReportFormLabel item item-input item-select">
+          <div class="input-label">Incident Type: </div>
+          <select>
+            <option ng-repeat="incident in incidents">{{ incident.type }}</option>
+          </select>
+        </label>
+    
+        <label class="item item-input">
+          <span class="input-label">Incident Date: </span>
+          <input class="incidentDate" type="date" value="{{ curDate }}">
+        </label>
+    
+        <label class="item item-input">
+          <span class="input-label">Incident Time: </span>
+          <input class="incidentTime" type="time" value="{{ curTime }}">
+        </label>
+    
+        <label class="item item-input">
+            <input class="incidentDescription" type="text" placeholder="Incident Description">
+        </label>
+    
+        <button class="button button-block button-calm">Submit Incident</button>
+    
+    </div>
     <ion-content scroll="false">
-      <map on-create="mapCreated(map)"></map>
+      <map on-create="mapCreated(map); hideReportForm()"></map>
     </ion-content>
-
     <ion-footer-bar class="bar-stable">
-      <h4>Watchly Map Test</h4>
+    <h4 class="title">Watchly Map Test</h4>
+      <button ng-click="confirmIncidentCreate()" class="createIncident button button-calm" ng-hide="createIncidentButton.hidden"><a class="icon ion-edit"></a></button>
+      <button ng-click="removeIncident()" class="cancelIncident button button-assertive" ng-hide="cancelIncidentButton.hidden"><a class="icon ion-close"></a></button>
     </ion-footer-bar>
   </body>
 </html>
