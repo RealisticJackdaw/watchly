@@ -7,6 +7,9 @@ module.exports = function (app) {
     .get(incidentController.allIncidents)
     .post(incidentController.newIncident);
 
+  app.route('/nearby')
+    .post(incidentController.findIncident);
+
   app.route('/incidentType')
     .get(incidentController.getIncidentTypes);
 

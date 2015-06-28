@@ -2,6 +2,49 @@ angular.module('watchly.controllers', [])
 
 .controller('MapCtrl', function ($scope, $http, $ionicLoading, $ionicSideMenuDelegate) {
 
+
+  // get all incidents
+  $http.get('api/incidents/')
+    .success(function (data) {
+      debugger
+    })
+
+  // post a new incident
+  // pass the following data:
+  //{ 
+  //   username: username,
+  //   description: description,
+  //   latitude: latitude, 
+  //   longitude: longitude,
+  //   address: address,
+  //   fuzzyAddress: fuzzyAddress,
+  //   occurred_at: occurred_at
+  // }
+  $http.post('api/incidents/', { address: 'test' }) // this is abbreviated to just include address, but posts should include everything above
+    .success(function (data) {
+      debugger
+    })
+    .error(function (err) {
+      debugger
+    });
+
+  // post map x,y min and max to get incidents within map
+  $http.post('api/incidents/nearby', {xMin: 0, xMax: 100, yMin: -200, yMax: 100} )
+    .success(function (data) {
+      debugger
+    })
+    .error(function (err) {
+      debugger
+    });
+
+  // get all incident types
+  $http.get('api/incidents/incidentType')
+    .success(function (data) {
+      debugger
+    })
+
+
+
   $scope.incidents = [];
 
   ionic.EventController.on('initialize', function () {
