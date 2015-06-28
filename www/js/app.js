@@ -1,4 +1,4 @@
-angular.module('watchly', ['ionic', 'watchly.controllers', 'watchly.directives'])
+angular.module('watchly', ['ionic', 'watchly.controllers'])
 
 .run(function ($ionicPlatform) {
   $ionicPlatform.ready(function () {
