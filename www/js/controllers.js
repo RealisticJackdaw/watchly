@@ -42,6 +42,7 @@ angular.module('watchly.controllers', ['watchly.services'])
         $scope.map = map;
         $scope.populateIncidentTypes();
         $scope.getIncidents();
+        $scope.setMapBounds();
         $scope.setDateAndTime();
 
         google.maps.event.addListener(map, 'mousedown', function (event) {
