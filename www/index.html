@@ -24,7 +24,6 @@
     <!-- watchly js -->
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
-    <script src="js/directives.js"></script>
 
   </head>
 
@@ -32,9 +31,9 @@
     
     <ion-header-bar class="bar-calm">
       <h1 class="title">Watchly</h1>
-      <a ng-click="testAlertProfile()" class="button button-icon icon ion-ios-contact-outline"></a>
       <a ng-click="centerMapOnUser()" class="button button-icon icon ion-pinpoint"></a>
-      <a ng-click="testAlertForum()" class="button button-icon icon ion-navicon-round"></a>
+      <!-- <a ng-click="testAlertForum()" class="button button-icon icon ion-navicon-round"></a> -->
+      <a ng-click="testAlertProfile()" class="button button-icon icon ion-ios-contact-outline"></a>
     </ion-header-bar>
 
     <div class="incidentReportForm" ng-hide="incidentReportForm.hidden">
@@ -50,24 +49,25 @@
     
         <label class="item item-input">
           <span class="input-label">Incident Date: </span>
-          <input class="incidentDate" type="date" value="{{ curDate }}">
+          <input class="incidentDate" type="date">
         </label>
     
         <label class="item item-input">
           <span class="input-label">Incident Time: </span>
-          <input class="incidentTime" type="time" value="{{ curTime }}">
+          <input class="incidentTime" type="time">
         </label>
     
         <label class="item item-input">
             <input class="incidentDescription" type="text" placeholder="Incident Description">
         </label>
     
-        <button class="button button-block button-calm">Submit Incident</button>
+        <button ng-click="submitIncident()" class="button button-block button-calm">Submit Incident</button>
     
     </div>
     <ion-content scroll="false">
-      <map on-create="mapCreated(map); hideReportForm()"></map>
+      <div id="map"></div>
     </ion-content>
+
     <ion-footer-bar class="bar-stable">
     <h4 class="title">Watchly Map Test</h4>
       <button ng-click="confirmIncidentCreate()" class="createIncident button button-calm" ng-hide="createIncidentButton.hidden"><a class="icon ion-edit"></a></button>
