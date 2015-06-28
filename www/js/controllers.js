@@ -1,6 +1,6 @@
 angular.module('watchly.controllers', ['watchly.services'])
 
-  .controller('MapCtrl', function ($scope, $http, $ionicLoading, $ionicSideMenuDelegate, $compile, Auth, Incidents, Messages) {
+  .controller('MapCtrl', function ($scope, $http, $ionicPopup, $ionicLoading, $ionicSideMenuDelegate, $compile, Auth, Incidents, Messages) {
 
 
     // get all incidents
@@ -218,9 +218,22 @@ angular.module('watchly.controllers', ['watchly.services'])
     // Placeholder/debugging functions
 
     $scope.testAlertProfile = function () {
-      if(Auth.isAuthenticated) {
-        console.log("Has been authenticated");
+      var alertPopup; 
+
+      if(!Auth.isAuthenticated()) {
+        alertPopup = $ionicPopup.alert({
+          title: 'Authentication',
+          templateUrl: '/templates/signin.html'
+        });
+        alertPopup.then(function(res){
+          console.log("alert popup")
+        });
+        console.log("Has been NOT authenticated");
       }
+      else {
+        console.log("already authenticated")
+      }
+
       console.log("Clicked Profile placeholder");
     };
 

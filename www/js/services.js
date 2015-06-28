@@ -52,7 +52,7 @@ angular.module('watchly.services',[])
   };
 })
 .factory('Incidents', function($http){
-  var findIncident = function (incidentId) {
+  var getIncidentById = function (incidentId) {
     return $http({
       method: 'GET',
       url: '/api/incidents/' + incidentId,
@@ -65,7 +65,7 @@ angular.module('watchly.services',[])
   var getIncidentsByLocation = function (location) {
     return $http({
       method: 'GET',
-      url: '/api/incidents/',
+      url: '/api/incidents',
       data: location
     })
     .then(function (res) {
@@ -76,7 +76,7 @@ angular.module('watchly.services',[])
   var getAllIncidents = function () {
     return $http({
       method: 'GET',
-      url: '/api/incidents/',
+      url: '/api/incidents',
     })
     .then(function (res) {
       return res.data;
@@ -96,7 +96,7 @@ angular.module('watchly.services',[])
   var createNewIncident  = function (incident) {
     return $http({
       method: 'POST',
-      url: '/api/incidents/',
+      url: '/api/incidents',
       data: incident
     })
     .then(function (res) {
@@ -105,7 +105,7 @@ angular.module('watchly.services',[])
   };
 
   return {
-    findIncident: findIncident,
+    getIncidentById: getIncidentById,
     getIncidentsByLocation: getIncidentsByLocation,
     getAllIncidents: getAllIncidents,
     getIncidentTypes: getIncidentTypes,
@@ -115,8 +115,8 @@ angular.module('watchly.services',[])
 .factory('Messages', function($http){
   var getMessageByIncident  = function (incident) {
     return $http({
-      method: 'POST',
-      url: '/api/incidents/',
+      method: 'GET',
+      url: '/api/incidents',
       data: incident
     })
     .then(function (res) {
@@ -127,7 +127,7 @@ angular.module('watchly.services',[])
   var createNewMessage  = function (message) {
     return $http({
       method: 'POST',
-      url: '/api/messages/',
+      url: '/api/messages',
       data: message
     })
     .then(function (res) {

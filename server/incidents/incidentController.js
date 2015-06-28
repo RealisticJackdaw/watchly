@@ -22,7 +22,7 @@ module.exports = {
 
   allIncidents: function (req, res, next) {
     console.log('all incidents controller helper fired');
-    knex.select('*').from('incidentTypes')
+    knex.select('*').from('incidents')
       .then(function (rows) {
         console.log(rows);
         res.send(rows);
