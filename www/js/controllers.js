@@ -65,6 +65,9 @@ angular.module('watchly.controllers', [])
     });
   };
 
+  $scope.curDate = "2015-06-27";
+  $scope.curTime = "12:00";
+
   $scope.incidentReportForm = {
     hidden: true
   };

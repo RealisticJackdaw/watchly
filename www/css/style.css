@@ -17,5 +17,5 @@ map {
 }
 
 .incidentReportFormLabel {
-  width: 220px;
+  min-width: 300px;
 }
