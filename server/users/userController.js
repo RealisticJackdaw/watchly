@@ -15,8 +15,7 @@ module.exports = {
         user.comparePassword(password, function(match){
           if( match) {
             util.createSession(req, res, user);
-          } 
-          else {
+          } else {
             res.redirect('/login');
           }
         });
@@ -28,15 +27,12 @@ module.exports = {
     var username  = req.body.username,
         password  = req.body.password;
 
-    new User({ username: username })
-    .fetch()
-    .then(function(user) {
+    new User({ username: username }).fetch().then(function(user) {
       if (!user) {
         var newUser = new User({
           username: username,
           password: password
-        });
-        newUser.save().then(function(savedUser){
+        }).save().then(function(savedUser){
           util.createSession(req, res, savedUser);
         });
       } 

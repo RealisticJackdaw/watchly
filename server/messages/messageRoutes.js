@@ -7,15 +7,11 @@ module.exports = function (app) {
   // like line 16 below. That code will actually be the shortned url
   // so the real URL will be pre fetched from mongo and attached to
   // req.navLink before it reaches line 16.
-  app.param('id', messageController.findIncident);
+  // /// //// app.param('id', messageController.findIncident);
 
   app.route('/')
-    .get()
     .post(messageController.newMessage);
-    
 
-  app
-  .get('/:id', messageController.getAllMessages)
-  .post('/:id', messageController.newMessage);
-
+  app.route('/thread')
+    .post(messageController.getMessagesForIncident)
 };
