@@ -32,40 +32,41 @@
       <h1 class="title">Watchly</h1>
       <a ng-click="centerMapOnUser()" class="button button-icon icon ion-pinpoint"></a>
       <!-- <a ng-click="testAlertForum()" class="button button-icon icon ion-navicon-round"></a> -->
-      <a ng-click="testAlertProfile()" class="button button-icon icon ion-ios-contact-outline"></a>
+      <a ng-click="profileActivate()" class="button button-icon icon ion-ios-contact-outline"></a>
     </ion-header-bar>
 
-    <div class="incidentReportForm" ng-hide="incidentReportForm.hidden">
-    
-      <label class="incidentReportTitle">Report New Incident</label>
-    
-        <label class="incidentReportFormLabel item item-input item-select">
-          <div class="input-label">Incident Type: </div>
-          <select>
-            <option ng-repeat="incidentType in incidentTypes">{{ incidentType.type }}</option>
-          </select>
-        </label>
-    
-        <label class="item item-input">
-          <span class="input-label">Incident Date: </span>
-          <input class="incidentDate" type="date">
-        </label>
-    
-        <label class="item item-input">
-          <span class="input-label">Incident Time: </span>
-          <input class="incidentTime" type="time">
-        </label>
-    
-        <label class="item item-input">
-            <input class="incidentDescription" type="text" placeholder="Incident Description">
-        </label>
-    
-        <button ng-click="submitIncident()" class="button button-block button-calm">Submit Incident</button>
-    
-    </div>
     <ion-content scroll="false">
       <div id="map"></div>
     </ion-content>
+
+    <div class="incidentReportForm" ng-hide="incidentReportForm.hidden">
+        
+        <label class="incidentReportTitle">Report New Incident</label>
+      
+          <label class="incidentReportFormLabel item item-input item-select">
+            <div class="input-label">Incident Type: </div>
+            <select>
+              <option ng-repeat="incidentType in incidentTypes">{{ incidentType.type }}</option>
+            </select>
+          </label>
+      
+          <label class="item item-input">
+            <span class="input-label">Incident Date: </span>
+            <input class="incidentDate" type="date">
+          </label>
+      
+          <label class="item item-input">
+            <span class="input-label">Incident Time: </span>
+            <input class="incidentTime" type="time">
+          </label>
+      
+          <label class="item item-input">
+              <input class="incidentDescription" type="text" placeholder="Incident Description">
+          </label>
+      
+          <button ng-click="submitIncident()" class="button button-block button-calm">Submit Incident</button>
+      
+        </div>
 
     <ion-footer-bar class="bar-stable">
     <h4 class="title">Watchly Map Test</h4>

@@ -2,47 +2,6 @@ angular.module('watchly.controllers', ['watchly.services'])
 
   .controller('MapCtrl', function ($scope, $http, $ionicPopup, $ionicLoading, $ionicSideMenuDelegate, $compile, Auth, Incidents, Messages) {
 
-
-    // get all incidents
-    // $http.get('api/incidents/')
-    // .success(function (data) {
-    //   debugger;
-    // });
-
-    // post a new incident
-    // pass the following data:
-    //{ 
-    //   username: username,
-    //   description: description,
-    //   latitude: latitude, 
-    //   longitude: longitude,
-    //   address: address,
-    //   fuzzyAddress: fuzzyAddress,
-    //   occurred_at: occurred_at
-    // }
-    // $http.post('api/incidents/', { address: 'test' }) // this is abbreviated to just include address, but posts should include everything above
-    //   .success(function (data) {
-    //   debugger;
-    //   })
-    //   .error(function (err) {
-    //   debugger;
-    //   });
-
-    // // post map x,y min and max to get incidents within map
-    // $http.post('api/incidents/nearby', {xMin: 0, xMax: 100, yMin: 200, yMax: 100} )
-    //   .success(function (data) {
-    //   debugger;
-    //   })
-    //   .error(function (err) {
-    //   debugger;
-    //   });
-
-    // // get all incident types
-    // $http.get('api/incidents/incidentType')
-    //   .success(function (data) {
-    //   debugger;
-    // });
-
     function initialize() {
         var mapOptions = {
           // Center on Hack Reactor
@@ -81,10 +40,8 @@ angular.module('watchly.controllers', ['watchly.services'])
             mapOptions);
 
         $scope.map = map;
-
-        $scope.createStubs();
-        $scope.getIncidents();
         $scope.populateIncidentTypes();
+        $scope.getIncidents();
         $scope.setDateAndTime();
 
         google.maps.event.addListener(map, 'mousedown', function (event) {
@@ -108,24 +65,37 @@ angular.module('watchly.controllers', ['watchly.services'])
     $scope.incidents = [];
 
     $scope.getIncidents = function() {
-      $http.get('api/incidents').then(function (res) {
-        console.log('Sucessfully got incidents', res);
-        for (var i = 0; i < res.data.length; i++) {
-          $scope.incidents.push(res.data[i]);
-        }
-      }, function (err) {
-        console.log('Unable to retrieve incidents', err);
+      Incidents.getAllIncidents().then(function (result) {
+        $scope.incidents = result;
+        $scope.renderAllIncidents();
       });
+    };
+
+    $scope.renderAllIncidents = function() {
+      for (var i = 0; i < $scope.incidents.length; i++) {
+        $scope.renderIncident($scope.incidents[i]);
+      }
+    };
+
+    $scope.getIncidentIcon = function(incidentTypeNumber) {
+      return $scope.incidentTypes[incidentTypeNumber-1].iconFilename;
     }
+
+    $scope.renderIncident = function(incident) {
+      var incidentPos = new google.maps.LatLng(incident.latitude, incident.longitude);
+      var incidentIcon = "./img/" + $scope.getIncidentIcon(incident.incidentTypeId);
+      var incident = new google.maps.Marker({
+        position: incidentPos,
+        map: $scope.map,
+        icon: incidentIcon
+      });
+    };
+
     $scope.populateIncidentTypes = function () {
       console.log("Called populate incidents");
-      $http.get('api/incidents/incidentType').then(function (res) {
-        console.log('Successfully got incident types', res);
-        for (var i = 0; i < res.data.length; i++) {
-          $scope.incidentTypes.push(res.data[i]);
-        }
-      }, function (err) {
-        console.error('Unable to retrieve incident types', err);
+      Incidents.getIncidentTypes().then(function (result) {
+        $scope.incidentTypes = result;
+      console.log($scope.incidentTypes);
       });
     };
 
@@ -136,12 +106,13 @@ angular.module('watchly.controllers', ['watchly.services'])
       incidentTime.value = $scope.curTime;
     };
 
+    // TODO Change this to current time rather than being hard coded
     $scope.curDate = "2015-06-27";
     $scope.curTime = "12:00";
 
     $scope.incidentReportForm = {
       hidden: true
-    };
+    }
 
     $scope.createIncidentButton = {
       hidden: true
@@ -215,9 +186,7 @@ angular.module('watchly.controllers', ['watchly.services'])
           });
       };
 
-    // Placeholder/debugging functions
-
-    $scope.testAlertProfile = function () {
+    $scope.profileActivate = function () {
       var alertPopup; 
 
       if(!Auth.isAuthenticated()) {
@@ -233,45 +202,6 @@ angular.module('watchly.controllers', ['watchly.services'])
       else {
         console.log("already authenticated")
       }
-
-      console.log("Clicked Profile placeholder");
-    };
-
-    $scope.createStubs = function() {
-      var pedHazard = new google.maps.Marker({
-        position: {lat: 37.783568, lng: -122.408840},
-        map: $scope.map,
-        icon: "./img/ped_hazard.png",
-        title: "STUB_DRUG"
-      });
-
-      var drugMarker = new google.maps.Marker({
-        position: {lat: 37.783806, lng:  -122.408490},
-        map: $scope.map,
-        icon: "./img/drug_use.png",
-        title: "STUB_DRUG2"
-      });
-
-      var potholeMarker = new google.maps.Marker({
-        position: {lat: 37.783844, lng: -122.409239},
-        map: $scope.map,
-        icon: "./img/road_hazard.png",
-        title: "STUB_ROAD_HAZARD"
-      });
-
-      var potholeMarker2 = new google.maps.Marker({
-        position: {lat: 37.783225, lng: -122.409102},
-        map: $scope.map,
-        icon: "./img/road_hazard.png",
-        title: "STUB_ROAD_HAZARD2"
-      });
-
-      var graffitiMarker = new google.maps.Marker({
-        position: {lat: 37.783901, lng: -122.409126},
-        map: $scope.map,
-        icon: "./img/vandalism.png",
-        title: "STUB_GRAFFITI"
-      });
     };
 
   });
