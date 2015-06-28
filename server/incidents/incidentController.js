@@ -41,7 +41,7 @@ module.exports = {
   },
 
   getIncidentTypes: function (req, res, next) {
-    knex.select('type', 'iconFilename').from('incidentTypes')
+    knex('incidentTypes')
       .then(function (rows) {
         res.send(rows);
       });
