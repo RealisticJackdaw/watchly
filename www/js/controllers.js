@@ -4,8 +4,7 @@ angular.module('watchly.controllers', ['watchly.services'])
 
     function initialize() {
         var mapOptions = {
-          // Center on Hack Reactor
-          // TODO: Change to User's current position
+          // Center on Hack Reactor    
           center: new google.maps.LatLng(37.783726, -122.408973),
           zoom: 18,
           // mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -63,6 +62,18 @@ angular.module('watchly.controllers', ['watchly.services'])
 
     $scope.incidentTypes = [];
     $scope.incidents = [];
+    $scope.mapBounds = {};
+
+    $scope.setMapBounds = function () {
+      console.log("Calculating and setting map bounds...");
+      var bounds = $scope.map.getBounds();
+      var northEastBound = bounds.getNorthEast();
+      var southWestBound = bounds.getSouthWest();
+      $scope.mapBounds.minLat = southWestBound.A;
+      $scope.mapBounds.maxLat = northEastBound.A;
+      $scope.mapBounds.minLon = southWestBound.F;
+      $scope.mapBounds.maxLon = northEastBound.F;
+    }
 
     $scope.getIncidents = function() {
       Incidents.getAllIncidents().then(function (result) {
@@ -77,18 +88,34 @@ angular.module('watchly.controllers', ['watchly.services'])
       }
     };
 
+    $scope.getIncidentNameFromId = function(incidentTypeNumber) {
+      return $scope.incidentTypes[incidentTypeNumber-1].type;
+    }
     $scope.getIncidentIcon = function(incidentTypeNumber) {
       return $scope.incidentTypes[incidentTypeNumber-1].iconFilename;
     }
 
-    $scope.renderIncident = function(incident) {
-      var incidentPos = new google.maps.LatLng(incident.latitude, incident.longitude);
-      var incidentIcon = "./img/" + $scope.getIncidentIcon(incident.incidentTypeId);
+    $scope.renderIncident = function(incidentObj) {
+      var incidentPos = new google.maps.LatLng(incidentObj.latitude, incidentObj.longitude);
+      var incidentIcon = "./img/" + $scope.getIncidentIcon(incidentObj.incidentTypeId);
+      var incidentTitle = $scope.getIncidentNameFromId(incidentObj.incidentTypeId);
       var incident = new google.maps.Marker({
         position: incidentPos,
         map: $scope.map,
         icon: incidentIcon
       });
+
+      var incidentInfoWindowContent = '<div class="incidentInfoTitle"> ' + incidentTitle + ' on ' + incidentObj.fuzzyAddress + ' </div>' + 
+      '<div class="incidentInfoDescription"> ' + 'User Description: ' + incidentObj.description + ' </div>' + 
+      '<div class="incidnetInfoUsername"> ' + 'Reported by: user' + incidentObj.userId + ' to have occured on ' + incidentObj.occurred_at + '</div>';
+
+      var incidentInfoWindow = new google.maps.InfoWindow({
+        content: incidentInfoWindowContent
+      });
+
+      google.maps.event.addListener(incident, 'click', function() {
+         incidentInfoWindow.open($scope.map,incident);
+       });
     };
 
     $scope.populateIncidentTypes = function () {
