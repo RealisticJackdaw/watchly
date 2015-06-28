@@ -27,14 +27,15 @@ module.exports = function (app, express) {
   app.use(express.static(__dirname + '/../../www'));
 
   app.use('/api/users', userRouter); // use user router for all user request
+  app.use('/api/incidents', incidentRouter); // user link router for link request
+  app.use('/api/messages', messageRouter);
 
   // authentication middleware used to decode token and made available on the request
   // app.use('/api/incidents', helpers.decode);
-  app.use('/api/incidents', incidentRouter); // user link router for link request
+
   app.use(helpers.errorLogger);
   app.use(helpers.errorHandler);
 
-  app.use('api/messages', messageRouter);
 
   // inject our routers into their respective route files
   require('../users/userRoutes.js')(userRouter);

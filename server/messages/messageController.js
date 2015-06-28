@@ -1,16 +1,25 @@
+var knex = require('../config/knex-config.js')
 var Message = require('../db/models/Message');
 var Messages = require('../db/collections/Messages');
-var Incident = require('../db/models/Incident');
 
 module.exports = {
-  findIncident: function (req, res, next, id) {
+  getMessagesForIncident: function (req, res) {
+    var incidentsId = req.body.incidentsId;
 
+    knex('messages').where({'incidentsId': incidentsId })
+      .then(function (rows) {
+        console.log(rows);
+        res.send(rows);
+      });
   },
+  newMessage: function (req, res) {
+    var userId = req.session.userId;
+    req.body.userId = userId;
 
-  getAllMessages: function (req, res, next, id) {
-  },
-
-  newMessage: function (req, res, next, id) {
-
+    new Message(req.body).save().then(function (newIncident) {
+      Messages.add(newIncident);
+      console.log('added new incident!');
+      res.send(newIncident);
+    });
   }
 };

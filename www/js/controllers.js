@@ -2,12 +2,18 @@ angular.module('watchly.controllers', [])
 
 .controller('MapCtrl', function ($scope, $http, $ionicLoading, $ionicSideMenuDelegate) {
 
+  //
+  // INCIDENTS //
+  //
 
   // get all incidents
   $http.get('api/incidents/')
     .success(function (data) {
       debugger
     })
+    .error(function (err) {
+      debugger
+    });
 
   // post a new incident
   // pass the following data:
@@ -42,7 +48,37 @@ angular.module('watchly.controllers', [])
     .success(function (data) {
       debugger
     })
+    .error(function (err) {
+      debugger
+    });
 
+  //
+  // MESSAGES //
+  //
+
+  // post a new message, passing an incidentId
+  $http.post('api/messages/', { incidentsId: 1, description: 'hey I saw that too' })
+    .success(function (data) {
+      debugger
+    })
+    .error(function (err) {
+      debugger
+    });
+
+  // get thread of messages about an incident by posting an incidentId to thread endpoint
+  $http.post('api/messages/thread', { incidentsId: 1 })
+    .success(function (data) {
+      debugger
+    })
+    .error(function (err) {
+      debugger
+    });
+
+     
+
+  //
+  // END API CALL EXAMPLES   
+  //
 
 
   $scope.incidents = [];
