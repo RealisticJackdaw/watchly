@@ -1,4 +1,4 @@
-angular.module('watchly.controllers', [watchly.services])
+angular.module('watchly.controllers', ['watchly.services'])
 
   .controller('MapCtrl', function ($scope, $http, $ionicLoading, $ionicSideMenuDelegate, $compile, Auth, Incidents, Messages) {
 
