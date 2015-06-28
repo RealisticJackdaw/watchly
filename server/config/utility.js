@@ -1,5 +1,5 @@
 exports.isLoggedIn = function(req, res) {
-  return req.session ? !!req.session.user : false;
+  return req.session ? !! req.session.userid : false;
 };
 
 exports.checkUser = function(req, res, next) {
@@ -12,7 +12,7 @@ exports.checkUser = function(req, res, next) {
 
 exports.createSession = function(req, res, newUser) {
   return req.session.regenerate(function() {
-      req.session.user = newUser;
+      req.session.userid = newUser;
       res.redirect('/');
     });
 };

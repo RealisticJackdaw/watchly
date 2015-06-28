@@ -34,6 +34,8 @@ module.exports = function (app, express) {
   app.use(helpers.errorLogger);
   app.use(helpers.errorHandler);
 
+  app.use('api/messages', messageRouter);
+
   // inject our routers into their respective route files
   require('../users/userRoutes.js')(userRouter);
   require('../incidents/incidentRoutes.js')(incidentRouter);
