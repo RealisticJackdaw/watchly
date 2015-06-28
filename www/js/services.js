@@ -1,5 +1,5 @@
 angular.module('watchly.services',[])
-.factory('Auth', function ($http, $location, $window) {
+.factory('Auth', function ($http, $location) {
   var authenticated = false;
   var signin = function (user) {
     return $http({
@@ -40,7 +40,7 @@ angular.module('watchly.services',[])
     });
   };
 
-  var isAuth = function() {
+  var isAuthenticated = function() {
     return authenticated ? true : false;
   };
 
@@ -51,7 +51,7 @@ angular.module('watchly.services',[])
     isAuthenticated: isAuthenticated
   };
 })
-.factory('Incidents', function($http, $location, $window){
+.factory('Incidents', function($http){
   var findIncident = function (incidentId) {
     return $http({
       method: 'GET',
@@ -112,7 +112,7 @@ angular.module('watchly.services',[])
     createNewIncident: createNewIncident 
   };
 })
-.factory('Messages', function($http, $location, $window){
+.factory('Messages', function($http){
   var getMessageByIncident  = function (incident) {
     return $http({
       method: 'POST',
@@ -137,6 +137,6 @@ angular.module('watchly.services',[])
 
   return {
     getMessageByIncident: getMessageByIncident,
-    reateNewMessage: reateNewMessage
-  }
+    createNewMessage: createNewMessage
+  };
 });
