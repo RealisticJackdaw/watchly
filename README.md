@@ -68,9 +68,7 @@ Enter Password:  [your password]
 create database watchly;
 use watchly;
 ```
-
-1. Enter the database password
-** please request the database password
+When the app is started (node index.js), the schema will be created so long as this setup has been performed.
 
 ### Emulating in the browser
 1. Start server

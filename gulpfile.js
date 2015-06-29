@@ -8,7 +8,6 @@ var rename = require('gulp-rename');
 var sh = require('shelljs');
 var clean = require('gulp-clean');
 var jshint = require('gulp-jshint');
-var del = require('del');
 
 
 var paths = {
@@ -102,10 +101,10 @@ gulp.task('default', ['lint', 'sass', 'move_lib']);
 // Generate Public Folder
 
 gulp.task('clean_public', function () {
-  del([
-    './public/**/*'
-  ]);
-})
+  return gulp.src(['./www/lib/*'], {read:false})
+    .pipe(clean());
+});
+
 
 gulp.task('move_to_public', ['clean_public'], function(){
   gulp.src(['!./public', '!./versions', '!./server/config/knex-config.js', './**/*.*'])
