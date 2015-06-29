@@ -92,6 +92,10 @@ angular.module('watchly.controllers', ['watchly.services'])
 
     $scope.infoWindows = [];
 
+    $scope.testLog = function () {
+      console.log("DEBUGGER ME HEARTIES");
+    };
+
     $scope.renderIncident = function(incidentObj) {
       var incidentPos = new google.maps.LatLng(incidentObj.latitude, incidentObj.longitude);
       var incidentIcon = "./img/" + incidentObj.iconFilename;
@@ -141,6 +145,9 @@ angular.module('watchly.controllers', ['watchly.services'])
     $scope.newIncident = {};
     $scope.newIncident.curDate = "";
     $scope.newIncident.curTime = "";
+    $scope.newIncidentType;
+    // $scope.newIncident.type = null;
+
     // $scope.newIncident.date = today.format("YYYY-MM-DD");
     // value="{{newIncident.time | date : 'hh:mm'}}
     // $scope.newIncident.time = today.format("hh:mm A");
@@ -215,8 +222,8 @@ angular.module('watchly.controllers', ['watchly.services'])
     };
 
     $scope.removeIncident = function () {
-      $scope.newIncident.setMap(null);
-      $scope.newIncident = false;
+      $scope.newIncidentMarker.setMap(null);
+      $scope.newIncidentMarker = false;
       $scope.hideConfirmCancel();
     };
 
@@ -231,11 +238,9 @@ angular.module('watchly.controllers', ['watchly.services'])
       console.log("Heard incident submit");
       var dbIncident = {};
       // $scope.removeIncident();
-
       dbIncident.description = incident.description || "N/A";
-      dbIncident.incidentTypeId = incident.type || 1;
-      // dbIncident.incidentTypeId = $scope.incidentTypeNames[incident.type];
-      dbIncident.occurred_at = incident.curDate + " " + incident.curTime;
+      dbIncident.incidentTypeId = $scope.incidentTypeNames[$scope.newIncidentType];
+      dbIncident.occurred_at = incident.curDate.toISOString().slice(0,10) + " " + incident.curTime.toTimeString().slice(0,8);
       dbIncident.latitude = $scope.userIncident.latitude;
       dbIncident.longitude = $scope.userIncident.longitude;
       dbIncident.description = incident.description;
