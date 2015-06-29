@@ -31,10 +31,10 @@ module.exports = {
         var newUser = new User({
           username: user.username,
           password: user.password,
-          firstname: user.firstname,
-          lastname: user.lastname,
+          firstName: user.firstName,
+          lastName: user.lastName,
           email: user.email,
-          phone: user.contactnumber
+          phone: user.phone
         }).save().then(function(savedUser){
           utils.createSession(req, res, savedUser);
           res.send(savedUser);
