@@ -231,19 +231,20 @@ angular.module('watchly.controllers', ['watchly.services'])
 
     $ionicModal.fromTemplateUrl('templates/profile.html', {
       scope: $scope,
-      animation: 'slide-in-down',
+      animation: 'slide-in-up',
     }).then(function(modal) {
       $scope.profileModal = modal;       
     });
 
     $scope.profileActivate = function () { 
-      if(!Auth.isAuthenticated()) {
-        $scope.signInModal.show();
-        console.log("Has been NOT authenticated");
-      }
-      else {
+      if(Auth.isAuthenticated()) {
+        $scope.user = Auth.getUser();
         $scope.profileModal.show();   
         console.log("already authenticated");
+      }
+      else {
+        $scope.signInModal.show();
+        console.log("Has been NOT authenticated");
       }
     };
 
@@ -259,6 +260,10 @@ angular.module('watchly.controllers', ['watchly.services'])
       $scope.signUpModal.show();
     };
 
+    $scope.closeSignUpModal = function() {
+      $scope.closeSignUpModal.show();
+    };
+
     $scope.openForgotPasswordModal = function() {
       $scope.forgotPasswordModal.show();
     };
@@ -267,9 +272,15 @@ angular.module('watchly.controllers', ['watchly.services'])
       $scope.profileModal.hide();
     };
 
-    $scope.$on('$destroy', function() {
-      debugger;
-      $scope.modal.remove();
-    });
+    $scope.signUp = function(user) {
+      Auth.signup(user).then(function(res) {
+        $scope.closeSignUpModal();
+      });
+    };
 
+    $scope.signIn = function(user) {
+      Auth.signin(user).then(function(res) {
+        $scope.closeSignInModal();
+      });
+    };
   });

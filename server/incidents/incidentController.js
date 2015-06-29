@@ -15,7 +15,6 @@ module.exports = {
       .whereBetween('latitude', [xMin, xMax])
       .whereBetween('longitude', [yMin, yMax])
       .then(function (rows) {
-        console.log(rows);
         res.send(rows);
       });  
   },
@@ -24,9 +23,8 @@ module.exports = {
     console.log('all incidents controller helper fired');
     var query = 'select users.username, incidents.*, incidentTypes.type, incidentTypes.iconFilename from incidents, users,incidentTypes where incidents.userid = users.id and incidents.incidentTypeId = incidentTypes.id';
     knex.raw(query)
-    // knex.select('*').from('incident')
+    // knex.select('*').from('incidents')
       .then(function (rows) {
-        console.log(rows);
         res.send(rows);
       });
   },
@@ -38,7 +36,6 @@ module.exports = {
 
       new Incident(req.body).save().then(function (newIncident) {
         Incidents.add(newIncident);
-        console.log('added new incident!');
         res.send(newIncident);
       });
     }

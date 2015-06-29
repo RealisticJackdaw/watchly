@@ -4,7 +4,6 @@ var bookshelf = require('bookshelf')(knex);
 
 var initialize = function(err, results) {
   if(err) console.log(err); 
-  console.log('initialize fired')
   require('./db-initialize');
 }
 
@@ -19,17 +18,17 @@ async.parallel([
           user.string('username', 40).unique();
           user.string('email', 40).unique();
           user.bigInteger('phone', 11);
-          user.string('salt', 20);
+          user.string('salt', 40);
           user.string('password', 100);
           user.timestamps();
         }).then(function (table) {
-          console.log('Created Table', table);
+          console.log('Created Table users');
           callback();
         });
       } else {
         callback();
       }
-    })
+    });
   }
   ,
   function(callback) {
@@ -40,13 +39,13 @@ async.parallel([
           incidentType.string('type', 20);
           incidentType.string('iconFilename', 50);
         }).then(function (table) {
-          console.log('Created Table', table);
+          console.log('Created Table incidentTypes');
           callback();
         });
       } else {
         callback();
       }
-    })
+    });
   }
   ,
   function(callback) {
@@ -65,13 +64,13 @@ async.parallel([
           incident.timestamps();
           console.log('incidents table created via config file');
         }).then(function (table) {
-          console.log('Created Table', table);
+          console.log('Created Table incidents');
           callback();
         });
       } else {
         callback();
       }
-    })
+    });
   }
   ,
   function(callback) {
@@ -84,13 +83,13 @@ async.parallel([
           message.integer('incidentsId', 11).references('id').inTable('incidents').unsigned();
           message.timestamps();
         }).then(function (table) {
-          console.log('Created Table', table);
+          console.log('Created Table messages');
           callback();
         });
       } else {
         callback();
       }
-    })
+    });
   }
 ], initialize);
 

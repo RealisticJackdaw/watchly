@@ -1,6 +1,6 @@
 angular.module('watchly.services',[])
 .factory('Auth', function ($http, $location) {
-  var authenticated = false;
+  var authenticatedUser;
   var signin = function (user) {
     return $http({
       method: 'POST',
@@ -8,10 +8,13 @@ angular.module('watchly.services',[])
       data: user
     })
     .then(function (res) {
-      if (res.data.userid) {
-        authenticated = true;
+      if (res.status === 200) {
+        authenticatedUser = res.data;
       }
-      return res.data.userid;
+      else {
+        console.log(res.data.error);
+      }
+      return authenticatedUser;
     });
   };
 
@@ -22,10 +25,13 @@ angular.module('watchly.services',[])
       data: user
     })
     .then(function (res) {
-      if (res.data.userid) {
-        authenticated = true;
+      if (res.status === 200) {
+        authenticatedUser = res.data;
       }
-      return res.data.userid;
+      else {
+        console.log(res.data.error);
+      }
+      return authenticatedUser;
     });
   };
 
@@ -35,20 +41,25 @@ angular.module('watchly.services',[])
       url: '/api/users/signout',
     })
     .then(function (res) {
-      authenticated = false;
-      $location.path('#/signin');
+      authenticatedUser = undefined;
+      $location.path('#/');
     });
   };
 
   var isAuthenticated = function() {
-    return authenticated ? true : false;
+    return authenticatedUser ? true : false;
   };
+
+  var getUser = function() {
+    return authenticatedUser;
+  }
 
   return {
     signin: signin,
     signup: signup,
     signout: signout,
-    isAuthenticated: isAuthenticated
+    isAuthenticated: isAuthenticated,
+    getUser: getUser
   };
 })
 .factory('Incidents', function($http){

@@ -15,8 +15,9 @@ module.exports = {
         user.comparePassword(password, function(match){
           if( match) {
             utils.createSession(req, res, user);
+            res.status(200).send(user);
           } else {
-            res.redirect('#/signin');
+            res.status(401).send({error: "Incorrect username or password"});
           }
         });
       }
@@ -24,21 +25,24 @@ module.exports = {
   },
 
   signup: function (req, res, next) {
-    var username  = req.body.username,
-        password  = req.body.password;
-
-    new User({ username: username }).fetch().then(function(user) {
-      if (!user) {
+    var user = req.body;
+    new User({ username: user.username }).fetch().then(function(exist) {
+      if (!exist) {
         var newUser = new User({
-          username: username,
-          password: password
+          username: user.username,
+          password: user.password,
+          firstname: user.firstname,
+          lastname: user.lastname,
+          email: user.email,
+          phone: user.contactnumber
         }).save().then(function(savedUser){
-          util.createSession(req, res, savedUser);
+          utils.createSession(req, res, savedUser);
+          res.send(savedUser);
         });
       } 
       else {
         console.log('Account already exists');
-        res.redirect('#/signup');
+        res.status(400).send({error: 'Account already exists'});
       }
     });    
 
