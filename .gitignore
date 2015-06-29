@@ -37,3 +37,8 @@ knex-config.js
 public
 server/db/dev-support-assets
 versions
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
