@@ -77,7 +77,7 @@ angular.module('watchly.controllers', ['watchly.services'])
 
     $scope.getIncidents = function() {
       Incidents.getAllIncidents().then(function (result) {
-        $scope.incidents = result;
+        $scope.incidents = result[0];
         $scope.renderAllIncidents();
       });
     };
@@ -88,26 +88,18 @@ angular.module('watchly.controllers', ['watchly.services'])
       }
     };
 
-    $scope.getIncidentNameFromId = function(incidentTypeNumber) {
-      return $scope.incidentTypes[incidentTypeNumber-1].type;
-    }
-    $scope.getIncidentIcon = function(incidentTypeNumber) {
-      return $scope.incidentTypes[incidentTypeNumber-1].iconFilename;
-    }
-
     $scope.renderIncident = function(incidentObj) {
       var incidentPos = new google.maps.LatLng(incidentObj.latitude, incidentObj.longitude);
-      var incidentIcon = "./img/" + $scope.getIncidentIcon(incidentObj.incidentTypeId);
-      var incidentTitle = $scope.getIncidentNameFromId(incidentObj.incidentTypeId);
+      var incidentIcon = "./img/" + incidentObj.iconFilename;
       var incident = new google.maps.Marker({
         position: incidentPos,
         map: $scope.map,
         icon: incidentIcon
       });
 
-      var incidentInfoWindowContent = '<div class="incidentInfoTitle"> ' + incidentTitle + ' on ' + incidentObj.fuzzyAddress + ' </div>' + 
+      var incidentInfoWindowContent = '<div class="incidentInfoTitle"> ' + incidentObj.type + ' on ' + incidentObj.fuzzyAddress + ' </div>' + 
       '<div class="incidentInfoDescription"> ' + 'User Description: ' + incidentObj.description + ' </div>' + 
-      '<div class="incidnetInfoUsername"> ' + 'Reported by: user' + incidentObj.userId + ' to have occured on ' + incidentObj.occurred_at + '</div>';
+      '<div class="incidnetInfoUsername"> ' + 'Reported by: ' + incidentObj.username + ' to have occured on ' + incidentObj.occurred_at + '</div>';
 
       var incidentInfoWindow = new google.maps.InfoWindow({
         content: incidentInfoWindowContent
@@ -122,7 +114,6 @@ angular.module('watchly.controllers', ['watchly.services'])
       console.log("Called populate incidents");
       Incidents.getIncidentTypes().then(function (result) {
         $scope.incidentTypes = result;
-      console.log($scope.incidentTypes);
       });
     };
 
