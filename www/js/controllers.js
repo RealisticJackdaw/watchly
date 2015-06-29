@@ -55,17 +55,22 @@ angular.module('watchly.controllers', ['watchly.services'])
           clearTimeout($scope.downTimer);          
         });
 
+        google.maps.event.addListener(map, 'drag', function (event) {
+          clearTimeout($scope.downTimer);          
+        });
+
+
     }
     
     google.maps.event.addDomListener(window, 'load', initialize);
 
     $scope.incidentTypes = [];
     $scope.incidentTypeNames = {};
-    $scope.incidents = [];
+    $scope.incidents = {};
+    $scope.renderedIncidents = {};
     $scope.mapBounds = {};
 
     $scope.setMapBounds = function () {
-      console.log("Calculating and setting map bounds...");
       var bounds = $scope.map.getBounds();
       var northEastBound = bounds.getNorthEast();
       var southWestBound = bounds.getSouthWest();
@@ -77,14 +82,20 @@ angular.module('watchly.controllers', ['watchly.services'])
 
     $scope.getIncidents = function() {
       Incidents.getAllIncidents().then(function (result) {
-        $scope.incidents = result[0];
+        result[0].forEach(function (incident) {
+          $scope.incidents[incident.id] = incident;
+        })
         $scope.renderAllIncidents();
       });
     };
 
     $scope.renderAllIncidents = function() {
-      for (var i = 0; i < $scope.incidents.length; i++) {
-        $scope.renderIncident($scope.incidents[i]);
+      var keys = Object.keys($scope.incidents);
+      for (var i = 0; i < keys.length; i++) {
+        if ($scope.renderedIncidents[keys[i]] === undefined) {
+          $scope.renderIncident($scope.incidents[keys[i]]);
+          $scope.renderedIncidents[keys[i]] = true;
+        }
       }
     };
 
@@ -139,11 +150,6 @@ angular.module('watchly.controllers', ['watchly.services'])
     $scope.newIncident.curDate = "";
     $scope.newIncident.curTime = "";
     $scope.newIncidentType;
-    // $scope.newIncident.type = null;
-
-    // $scope.newIncident.date = today.format("YYYY-MM-DD");
-    // value="{{newIncident.time | date : 'hh:mm'}}
-    // $scope.newIncident.time = today.format("hh:mm A");
 
     $scope.incidentReportForm = {
       hidden: true
@@ -161,8 +167,8 @@ angular.module('watchly.controllers', ['watchly.services'])
     $scope.newIncidentMarker;
 
     $scope.placeMarker = function (location) {
+     
       if (!$scope.newIncidentMarker) {
-        console.log(location);
         $scope.newIncidentMarker = new google.maps.Marker({
             animation: google.maps.Animation.DROP,
             position: location,
@@ -180,7 +186,6 @@ angular.module('watchly.controllers', ['watchly.services'])
       if ($scope.newIncidentMarker) {
         $scope.newIncidentMarker.setMap(null);
         $scope.newIncidentMarker = false;
-        console.log(location);
         $scope.newIncidentMarker = new google.maps.Marker({
             animation: google.maps.Animation.DROP,
             position: location,
@@ -195,11 +200,15 @@ angular.module('watchly.controllers', ['watchly.services'])
         $scope.userIncident.longitude = location.lng();
         $scope.userIncident.latitude = location.lat();
       }
+      
     };
 
     $scope.confirmIncidentCreate = function () {
-      console.log("User confirmed incident create");
-      $scope.incidentReportForm.hidden = false;
+      if (Auth.isAuthenticated()) {
+        $scope.incidentReportForm.hidden = false;
+      } else {
+        $scope.openSignInModal();
+      }
     };
 
     $scope.revealConfirmCancel = function () {
@@ -228,9 +237,13 @@ angular.module('watchly.controllers', ['watchly.services'])
     };
 
     $scope.submitIncident = function (incident) {
+      $scope.loading = $ionicLoading.show({
+          content: 'Submitting New Incident...',
+          showBackdrop: false
+      });
       var dbIncident = {};
       // $scope.removeIncident();
-      dbIncident.description = incident.description || "N/A";
+      dbIncident.description = incident.description;
       dbIncident.incidentTypeId = $scope.incidentTypeNames[$scope.newIncidentType];
       dbIncident.occurred_at = incident.curDate.toISOString().slice(0,10) + " " + incident.curTime.toTimeString().slice(0,8);
       dbIncident.latitude = $scope.userIncident.latitude;
@@ -241,10 +254,11 @@ angular.module('watchly.controllers', ['watchly.services'])
         dbIncident.address = $scope.userIncident.fuzzyAddress;
         dbIncident.fuzzyAddress = $scope.userIncident.fuzzyAddress;
         Incidents.createNewIncident(dbIncident);
+        $scope.removeIncident();
+        $scope.getIncidents();
+        $scope.renderAllIncidents();
+        $scope.loading.hide(); 
       });
-
-      $scope.hideConfirmCancel();
-
     };
 
     $scope.reverseGeo = function(location, next) {
@@ -333,7 +347,7 @@ angular.module('watchly.controllers', ['watchly.services'])
     };
 
     $scope.closeSignUpModal = function() {
-      $scope.closeSignUpModal.hide();
+      $scope.signUpModal.hide();
     };
 
     $scope.openForgotPasswordModal = function() {

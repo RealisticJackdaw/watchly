@@ -56,7 +56,7 @@
             <input class="incidentTime" type="time" ng-model="newIncident.curTime">
         </label>
         <label class="item item-input">
-            <input class="incidentDescription" type="text" ng-model="newIncident.description"placeholder="Incident Description">
+            <input class="incidentDescription" type="text" ng-model="newIncident.description"placeholder="Incident Description" required>
         </label>
         <button ng-click="submitIncident(newIncident)" class="button button-block button-calm">Submit Incident</button>
     </div>
