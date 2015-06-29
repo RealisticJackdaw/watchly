@@ -61,6 +61,11 @@ angular.module('watchly.services',[])
       data: {email: email}
     })
     .then(function (res) {
+      if (res.status === 200) {
+      }
+      else {
+        console.log(res.data.error);
+      }
       return res.data;
     });
   };
@@ -81,6 +86,11 @@ angular.module('watchly.services',[])
       url: '/api/incidents/' + incidentId,
     })
     .then(function (res) {
+      if (res.status === 200) {
+      }
+      else {
+        console.log(res.data.error);
+      }
       return res.data;
     });
   };
@@ -92,6 +102,11 @@ angular.module('watchly.services',[])
       data: location
     })
     .then(function (res) {
+      if (res.status === 200) {
+      }
+      else {
+        console.log(res.data.error);
+      }
       return res.data;
     });
   };
@@ -102,6 +117,11 @@ angular.module('watchly.services',[])
       url: '/api/incidents',
     })
     .then(function (res) {
+      if (res.status === 200) {
+      }
+      else {
+        console.log(res.data.error);
+      }
       return res.data;
     });
   };
@@ -112,6 +132,11 @@ angular.module('watchly.services',[])
       url: '/api/incidents/incidentType',
     })
     .then(function (res) {
+      if (res.status === 200) {
+      }
+      else {
+        console.log(res.data.error);
+      }
       return res.data;
     });
   };
@@ -123,6 +148,11 @@ angular.module('watchly.services',[])
       data: incident
     })
     .then(function (res) {
+      if (res.status === 200) {
+      }
+      else {
+        console.log(res.data.error);
+      }
       return res.data;
     });
   };
@@ -143,6 +173,11 @@ angular.module('watchly.services',[])
       data: incident
     })
     .then(function (res) {
+      if (res.status === 200) {
+      }
+      else {
+        console.log(res.data.error);
+      }
       return res.data;
     });
   };
@@ -154,6 +189,11 @@ angular.module('watchly.services',[])
       data: message
     })
     .then(function (res) {
+      if (res.status === 200) {
+      }
+      else {
+        console.log(res.data.error);
+      }
       return res.data;
     });
   };
