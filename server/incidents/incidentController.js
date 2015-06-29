@@ -31,6 +31,7 @@ module.exports = {
 
   newIncident: function (req, res, next) {
     var userId = req.session.userId;
+
     if (userId) {
       req.body.userId = userId;
 

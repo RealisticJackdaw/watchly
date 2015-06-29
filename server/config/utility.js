@@ -11,8 +11,8 @@ exports.checkUser = function(req, res, next) {
 };
 
 exports.createSession = function(req, res, newUser) {
-  return req.session.regenerate(function() {
-      req.session.userId = newUser.id;
-    });
+  req.session.regenerate(function(err) {
+  });
+  req.session.userId = newUser.id;
 };
 
