@@ -44,21 +44,21 @@
         <label class="incidentReportFormLabel item item-input item-select">
             <div class="input-label">Incident Type: </div>
             <select>
-                <option ng-repeat="incidentType in incidentTypes">{{ incidentType.type }}</option>
+                <option ng-repeat="incidentType in incidentTypes" ng-model="newIncident.type">{{ incidentType.type }}</option>
             </select>
         </label>
         <label class="item item-input">
             <span class="input-label">Incident Date: </span>
-            <input class="incidentDate" type="date" ng-model="newIncident.date">
+            <input class="incidentDate" type="date" ng-model="newIncident.curDate">
         </label>
         <label class="item item-input">
             <span class="input-label">Incident Time: </span>
-            <input class="incidentTime" type="time" ng-model="newIncident.time">
+            <input class="incidentTime" type="time" ng-model="newIncident.curTime">
         </label>
         <label class="item item-input">
             <input class="incidentDescription" type="text" ng-model="newIncident.description"placeholder="Incident Description">
         </label>
-        <button ng-click="submitIncident()" class="button button-block button-calm">Submit Incident</button>
+        <button ng-click="submitIncident(newIncident)" class="button button-block button-calm">Submit Incident</button>
     </div>
 
     <ion-footer-bar class="bar-stable">
