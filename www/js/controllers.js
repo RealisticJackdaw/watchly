@@ -3,6 +3,7 @@ angular.module('watchly.controllers', ['watchly.services'])
   .controller('MapCtrl', function ($scope, $http, $ionicModal, $ionicLoading, $ionicSideMenuDelegate, $compile, Auth, Incidents, Messages) {
 
     function initialize() {
+        $scope.geoCoder = new google.maps.Geocoder();
         var mapOptions = {
           // Center on Hack Reactor    
           center: new google.maps.LatLng(37.783726, -122.408973),
@@ -61,15 +62,9 @@ angular.module('watchly.controllers', ['watchly.services'])
     google.maps.event.addDomListener(window, 'load', initialize);
 
     $scope.incidentTypes = [];
+    $scope.incidentTypeNames = {};
     $scope.incidents = [];
     $scope.mapBounds = {};
-    $scope.userIncident = {
-      date: "",
-      time: "",
-      description: "",
-      latitude: "",
-      longitutde: ""
-    }
 
     $scope.setMapBounds = function () {
       console.log("Calculating and setting map bounds...");
@@ -128,22 +123,27 @@ angular.module('watchly.controllers', ['watchly.services'])
       console.log("Called populate incidents");
       Incidents.getIncidentTypes().then(function (result) {
         $scope.incidentTypes = result;
+        result.forEach(function (incidentType) {
+          $scope.incidentTypeNames[incidentType.type] = incidentType.id;
+        })
       });
     };
 
     $scope.setDateAndTime = function () {
       var incidentDate = document.getElementsByClassName('incidentDate')[0];
       var incidentTime = document.getElementsByClassName('incidentTime')[0];
-      incidentDate.value = $scope.curDate;
-      incidentTime.value = $scope.curTime;
+      incidentDate.value = $scope.newIncident.curDate;
+      incidentTime.value = $scope.newIncident.curTime;
     };
 
-    $scope.setIncidentDateAndTime = function () {
-      // $scope.userIncident.
-    }
     // TODO Change this to current time rather than being hard coded
-    $scope.curDate = "2015-06-27";
-    $scope.curTime = "12:00:00";
+    // var today = new Date();
+    $scope.newIncident = {};
+    $scope.newIncident.curDate = "";
+    $scope.newIncident.curTime = "";
+    // $scope.newIncident.date = today.format("YYYY-MM-DD");
+    // value="{{newIncident.time | date : 'hh:mm'}}
+    // $scope.newIncident.time = today.format("hh:mm A");
 
     $scope.incidentReportForm = {
       hidden: true
@@ -158,12 +158,12 @@ angular.module('watchly.controllers', ['watchly.services'])
     };
 
     $scope.downTimer;
-    $scope.newIncident;
+    $scope.newIncidentMarker;
 
     $scope.placeMarker = function (location) {
-      if (!$scope.newIncident) {
+      if (!$scope.newIncidentMarker) {
         console.log(location);
-        $scope.newIncident = new google.maps.Marker({
+        $scope.newIncidentMarker = new google.maps.Marker({
             animation: google.maps.Animation.DROP,
             position: location,
             map: $scope.map,
@@ -173,14 +173,15 @@ angular.module('watchly.controllers', ['watchly.services'])
             }
           });
         $scope.revealConfirmCancel();
+        $scope.userIncident.location = location;
         $scope.userIncident.longitude = location.lng();
         $scope.userIncident.latitude = location.lat();
       }
-      if ($scope.newIncident) {
-        $scope.newIncident.setMap(null);
-        $scope.newIncident = false;
+      if ($scope.newIncidentMarker) {
+        $scope.newIncidentMarker.setMap(null);
+        $scope.newIncidentMarker = false;
         console.log(location);
-        $scope.newIncident = new google.maps.Marker({
+        $scope.newIncidentMarker = new google.maps.Marker({
             animation: google.maps.Animation.DROP,
             position: location,
             map: $scope.map,
@@ -190,6 +191,7 @@ angular.module('watchly.controllers', ['watchly.services'])
             }
           });
         $scope.revealConfirmCancel();
+        $scope.userIncident.location = location;
         $scope.userIncident.longitude = location.lng();
         $scope.userIncident.latitude = location.lat();
       }
@@ -218,9 +220,45 @@ angular.module('watchly.controllers', ['watchly.services'])
       $scope.hideConfirmCancel();
     };
 
-    $scope.submitIncident = function () {
-      console.log("heard incident submit");
-      $scope.removeIncident();
+    $scope.userIncident = {
+      location: "",
+      latitude: "",
+      longitude: "",
+      fuzzyAddress: ""
+    }
+
+    $scope.submitIncident = function (incident) {
+      console.log("Heard incident submit");
+      var dbIncident = {};
+      // $scope.removeIncident();
+
+      dbIncident.description = incident.description || "N/A";
+      dbIncident.incidentTypeId = incident.type || 1;
+      // dbIncident.incidentTypeId = $scope.incidentTypeNames[incident.type];
+      dbIncident.occurred_at = incident.curDate + " " + incident.curTime;
+      dbIncident.latitude = $scope.userIncident.latitude;
+      dbIncident.longitude = $scope.userIncident.longitude;
+      dbIncident.description = incident.description;
+      $scope.reverseGeo($scope.userIncident.location, function(){
+        // TODO Figure out if we can reverseGeo the real address...placeholder for now.
+        dbIncident.address = $scope.userIncident.fuzzyAddress;
+        dbIncident.fuzzyAddress = $scope.userIncident.fuzzyAddress;
+        debugger;
+        Incidents.createNewIncident(dbIncident);
+      });
+    }
+
+    $scope.reverseGeo = function(location, next) {
+      $scope.geoCoder.geocode({'latLng': location}, function (result, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          console.log(result);
+          $scope.userIncident.address = result[0].formatted_address;
+          $scope.userIncident.fuzzyAddress = result[1].formatted_address;
+          next();
+        } else {
+          console.log("Error Retrieving Address");
+        }
+      })
     }
 
     $scope.centerMapOnUser = function () {
