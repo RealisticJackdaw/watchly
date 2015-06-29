@@ -15,6 +15,8 @@
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
     1. [Setting up the database environemnt](#setting-up-the-database-environment)
+    1. [Database development support](#database-development-support)
+    1. [Working with the database](#working-with-the-database)
     1. [Emulating in the browser](#emulating-in-the-brower)
     1. [Emulating for iOS](#emulating-for-ios)
     1. [Emulating for Android](#emulating-for-android)
@@ -46,19 +48,27 @@ From within the root directory:
 * gulp
 ```
 
-### Setting up the database environment
-1. In server/db/knex-config.js, set your mysql username and password in the configuration object
-1. Start mysql and sign in from root directory:
+### Database Development Support
+![alt tag](https://raw.github.com/BrianLoughnane/watchly/doc/server/db/schema_design.png)
+In the server/db/dev-support-assets directory, developers may access the following items:
+  1. Schema visualization image
+  1. schema.sql file which is unused in production but may be useful for creating schema during development
+  1. testdata.sql file which is unused in production but may be useful for inserting sample data during development
+
+### Setting up a development database environment
+1. Start mysql and sign in:
 ```sh
 mysql.server start
 mysql -u [your username] -p
 Enter Password:  [your password]
 ```
+1. In server/db/knex-config.js, set your mysql username and password in the configuration object
 1. Create and use database "watchly"
 ```sh
 create database watchly;
 use watchly;
 ```
+When the app is started (node index.js), the schema will be created so long as this setup has been performed.
 
 ### Emulating in the browser
 1. Start server
