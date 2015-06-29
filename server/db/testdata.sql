@@ -1,26 +1,29 @@
-use watchly;
+use ebdb;
 
--- Set incident type data
+-- -- Set incident type data
+-- INSERT INTO incidentTypes (type, iconFilename) 
+--   VALUES ('Vandalism', 'vandalism.png');
+-- INSERT INTO incidentTypes (type, iconFilename) 
+--   VALUES ('Theft', 'theft.png');
+-- INSERT INTO incidentTypes (type, iconFilename) 
+--   VALUES ('Fight', 'fight.png');
+-- INSERT INTO incidentTypes (type, iconFilename) 
+--   VALUES ('Drug use', 'drug_use.png');
+-- INSERT INTO incidentTypes (type, iconFilename) 
+--   VALUES ('Pedestrian Hazard', 'ped_hazard.png');
+-- INSERT INTO incidentTypes (type, iconFilename) 
+--   VALUES ('Break In', 'break_in.png');
+-- INSERT INTO incidentTypes (type, iconFilename) 
+--   VALUES ('Aggressive Person', 'aggro_per.png');
+-- INSERT INTO incidentTypes (type, iconFilename) 
+--   VALUES ('Mugging', 'mugging.png');
+-- INSERT INTO incidentTypes (type, iconFilename) 
+--   VALUES ('Gun Use', 'gunshot.png');
+-- INSERT INTO incidentTypes (type, iconFilename) 
+--   VALUES ('Other Danger', 'other.png');
+
 INSERT INTO incidentTypes (type, iconFilename) 
-  VALUES ('Vandalism', 'vandalism.png');
-INSERT INTO incidentTypes (type, iconFilename) 
-  VALUES ('Theft', 'theft.png');
-INSERT INTO incidentTypes (type, iconFilename) 
-  VALUES ('Fight', 'fight.png');
-INSERT INTO incidentTypes (type, iconFilename) 
-  VALUES ('Drug use', 'drug_use.png');
-INSERT INTO incidentTypes (type, iconFilename) 
-  VALUES ('Pedestrian Hazard', 'ped_hazard.png');
-INSERT INTO incidentTypes (type, iconFilename) 
-  VALUES ('Break In', 'break_in.png');
-INSERT INTO incidentTypes (type, iconFilename) 
-  VALUES ('Aggressive Person', 'aggro_per.png');
-INSERT INTO incidentTypes (type, iconFilename) 
-  VALUES ('Mugging', 'mugging.png');
-INSERT INTO incidentTypes (type, iconFilename) 
-  VALUES ('Gun Use', 'gunshot.png');
-INSERT INTO incidentTypes (type, iconFilename) 
-  VALUES ('Other Danger', 'other.png');
+  VALUES ('Fire', 'road_hazard.png');
 
 -- 
 -- Sample Data Below
@@ -42,15 +45,15 @@ INSERT INTO incidents (userId, incidentTypeId, description, latitude, longitude,
 INSERT INTO incidents (userId, incidentTypeId, description, latitude, longitude, address, fuzzyAddress, occurred_at) 
   VALUES (2, 6, 'I heard a scream and a smashing sound', 37.791417, -122.398347, '411 Market St. San Francisco', '400 Block of Market St', '2015-06-26 15:27:00');
 INSERT INTO incidents (userId, incidentTypeId, description, latitude, longitude, address, fuzzyAddress, occurred_at) 
-  VALUES (2, 4, 'druggie', 37.783568, -122.408840, '411 Market St. San Francisco', '400 Block of Market St', '2015-06-26 15:27:00');
+  VALUES (2, 3, 'Two Hack Reactor students violently debating vim and sublime text', 37.783624, -122.408999, '944 Market St. San Francisco', '900 Block of Market St', '2015-06-26 15:27:00');
 INSERT INTO incidents (userId, incidentTypeId, description, latitude, longitude, address, fuzzyAddress, occurred_at) 
-  VALUES (2, 4, 'another druggie', 37.783806, -122.408490, '411 Market St. San Francisco', '400 Block of Market St', '2015-06-26 15:27:00');
-INSERT INTO incidents (userId, incidentTypeId, description, latitude, longitude, address, fuzzyAddress, occurred_at) 
-  VALUES (2, 5, 'hazard', 37.783844, -122.409239, '411 Market St. San Francisco', '400 Block of Market St', '2015-06-26 15:27:00');  
-INSERT INTO incidents (userId, incidentTypeId, description, latitude, longitude, address, fuzzyAddress, occurred_at) 
-  VALUES (2, 5, 'another hazard', 37.783225, -122.409102, '411 Market St. San Francisco', '400 Block of Market St', '2015-06-26 15:27:00');
-INSERT INTO incidents (userId, incidentTypeId, description, latitude, longitude, address, fuzzyAddress, occurred_at) 
-  VALUES (3, 1, 'another hazard', 37.783901, -122.409126, '411 Market St. San Francisco', '400 Block of Market St', '2015-06-26 15:27:00');   
+  VALUES (2, 11, 'One Hack Reactor student set another student\'s car on fire', 37.782733, -122.410306, '988 Market St. San Francisco', '900 Block of Market St', '2015-06-26 15:27:00');
+-- INSERT INTO incidents (userId, incidentTypeId, description, latitude, longitude, address, fuzzyAddress, occurred_at) 
+--   VALUES (2, 5, 'burning trash can on the corner', 37.783844, -122.409239, '411 Market St. San Francisco', '400 Block of Market St', '2015-06-26 15:27:00');  
+-- INSERT INTO incidents (userId, incidentTypeId, description, latitude, longitude, address, fuzzyAddress, occurred_at) 
+--   VALUES (2, 5, 'another hazard', 37.783225, -122.409102, '411 Market St. San Francisco', '400 Block of Market St', '2015-06-26 15:27:00');
+-- INSERT INTO incidents (userId, incidentTypeId, description, latitude, longitude, address, fuzzyAddress, occurred_at) 
+--   VALUES (3, 1, 'another hazard', 37.783901, -122.409126, '411 Market St. San Francisco', '400 Block of Market St', '2015-06-26 15:27:00');   
      
 
 -- -- Sample Data: messages
