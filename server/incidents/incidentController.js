@@ -33,13 +33,18 @@ module.exports = {
 
   newIncident: function (req, res, next) {
     var userId = req.session.userId;
-    req.body.userId = userId;
+    if (userId) {
+      req.body.userId = userId;
 
-    new Incident(req.body).save().then(function (newIncident) {
-      Incidents.add(newIncident);
-      console.log('added new incident!');
-      res.send(newIncident);
-    });
+      new Incident(req.body).save().then(function (newIncident) {
+        Incidents.add(newIncident);
+        console.log('added new incident!');
+        res.send(newIncident);
+      });
+    }
+    else {
+      res.status(401).send("Unknown user");
+    }
   },
 
   getIncidentTypes: function (req, res, next) {

@@ -1,6 +1,6 @@
 angular.module('watchly.controllers', ['watchly.services'])
 
-  .controller('MapCtrl', function ($scope, $http, $ionicPopup, $ionicLoading, $ionicSideMenuDelegate, $compile, Auth, Incidents, Messages) {
+  .controller('MapCtrl', function ($scope, $http, $ionicModal, $ionicLoading, $ionicSideMenuDelegate, $compile, Auth, Incidents, Messages) {
 
     function initialize() {
         var mapOptions = {
@@ -204,22 +204,72 @@ angular.module('watchly.controllers', ['watchly.services'])
           });
       };
 
-    $scope.profileActivate = function () {
-      var alertPopup; 
+    $ionicModal.fromTemplateUrl('templates/signin.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true,
+    }).then(function(modal) {
+      $scope.signInModal = modal;         
+    });
 
+
+    $ionicModal.fromTemplateUrl('templates/signup.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true,
+    }).then(function(modal) {
+      $scope.signUpModal = modal;         
+    });
+
+    $ionicModal.fromTemplateUrl('templates/forgotpassword.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true,
+    }).then(function(modal) {
+      $scope.forgotPasswordModal = modal;         
+    });    
+
+    $ionicModal.fromTemplateUrl('templates/profile.html', {
+      scope: $scope,
+      animation: 'slide-in-down',
+    }).then(function(modal) {
+      $scope.profileModal = modal;       
+    });
+
+    $scope.profileActivate = function () { 
       if(!Auth.isAuthenticated()) {
-        alertPopup = $ionicPopup.alert({
-          title: 'Authentication',
-          templateUrl: '/templates/signin.html'
-        });
-        alertPopup.then(function(res){
-          console.log("alert popup")
-        });
+        $scope.signInModal.show();
         console.log("Has been NOT authenticated");
       }
       else {
-        console.log("already authenticated")
+        $scope.profileModal.show();   
+        console.log("already authenticated");
       }
     };
+
+    $scope.openSignInModal = function() {
+      $scope.signInModal.show();
+    };
+
+    $scope.closeSignInModal = function() {
+      $scope.signInModal.hide();
+    };
+
+    $scope.openSignUpModal = function() {
+      $scope.signUpModal.show();
+    };
+
+    $scope.openForgotPasswordModal = function() {
+      $scope.forgotPasswordModal.show();
+    };
+
+    $scope.closeProfileModal = function() {
+      $scope.profileModal.hide();
+    };
+
+    $scope.$on('$destroy', function() {
+      debugger;
+      $scope.modal.remove();
+    });
 
   });
