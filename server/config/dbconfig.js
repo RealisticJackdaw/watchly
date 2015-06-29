@@ -22,7 +22,6 @@ async.parallel([
           user.string('password', 100);
           user.timestamps();
         }).then(function (table) {
-          console.log('Created Table users');
           callback();
         });
       } else {
@@ -39,7 +38,6 @@ async.parallel([
           incidentType.string('type', 20);
           incidentType.string('iconFilename', 50);
         }).then(function (table) {
-          console.log('Created Table incidentTypes');
           callback();
         });
       } else {
@@ -62,9 +60,7 @@ async.parallel([
           incident.string('fuzzyAddress', 100);
           incident.dateTime('occurred_at'); 
           incident.timestamps();
-          console.log('incidents table created via config file');
         }).then(function (table) {
-          console.log('Created Table incidents');
           callback();
         });
       } else {

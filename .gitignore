@@ -30,3 +30,10 @@ node_modules/
 bower_components/
 www/lib/*
 platforms/
+
+
+# Private information
+knex-config.js
+public
+server/db/dev-support-assets
+versions
