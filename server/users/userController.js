@@ -9,7 +9,7 @@ module.exports = {
 
     new User({username: username}).fetch().then(function(user){
       if( !user ){  
-        res.status(401).send("Unknown user");
+        res.status(401).send({error: "Unknown user"});
       }
       else {
         user.comparePassword(password, function(match){
@@ -59,5 +59,21 @@ module.exports = {
     req.session.destroy(function(){
       res.redirect('/');
     });
+  },
+
+  forgotpassword: function (req, res, next) {
+    var email = req.body.email;
+
+    new User({email: email}).fetch().then(function(user){
+      if( !user ){  
+        res.status(401).send({error: "Unknown user"});
+      }
+      else {
+        console.log("Found user account with the email supplied " + user);
+        res.send();
+      }
+
+    });
+    
   }
 };

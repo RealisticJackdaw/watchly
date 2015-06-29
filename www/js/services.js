@@ -52,14 +52,26 @@ angular.module('watchly.services',[])
 
   var getUser = function() {
     return authenticatedUser;
-  }
+  };
+
+  var forgotpassword = function(email) {
+    return $http({
+      method: 'POST',
+      url: '/api/users/forgotpassword',
+      data: {email: email}
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
 
   return {
     signin: signin,
     signup: signup,
     signout: signout,
     isAuthenticated: isAuthenticated,
-    getUser: getUser
+    getUser: getUser,
+    forgotpassword: forgotpassword
   };
 })
 .factory('Incidents', function($http){

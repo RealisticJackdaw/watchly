@@ -261,11 +261,15 @@ angular.module('watchly.controllers', ['watchly.services'])
     };
 
     $scope.closeSignUpModal = function() {
-      $scope.closeSignUpModal.show();
+      $scope.closeSignUpModal.hide();
     };
 
     $scope.openForgotPasswordModal = function() {
       $scope.forgotPasswordModal.show();
+    };
+
+    $scope.closeForgotPasswordModal = function() {
+      $scope.forgotPasswordModal.hide();
     };
 
     $scope.closeProfileModal = function() {
@@ -282,5 +286,25 @@ angular.module('watchly.controllers', ['watchly.services'])
       Auth.signin(user).then(function(res) {
         $scope.closeSignInModal();
       });
+    };
+
+    $scope.signOut = function() {
+      Auth.signout().then(function(res) {
+        $scope.closeProfileModal();
+      });
+    };
+
+    $scope.forgotPassword = function(email) {
+      Auth.forgotpassword(email).then(function(res) {
+        $scope.closeForgotPasswordModal();
+      });
+    };
+
+    $scope.isValidPhoneNumber = function(number) {
+      return number ? number.match(/^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/) : false;
+    };
+
+    $scope.isValidEmail = function(email) {
+      return email ? email.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/) : false;
     };
   });
