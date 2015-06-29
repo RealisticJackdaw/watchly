@@ -37,3 +37,6 @@ knex-config.js
 public
 server/db/dev-support-assets
 versions
+
+
+get-pip.py
