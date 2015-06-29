@@ -5,8 +5,9 @@ var utils = require('../config/utility');
 module.exports = function (app) {
   // app === userRouter injected from middlware.js
 
-  app.post('/signin', utils.checkUser, userController.signin);
+  app.post('/signin', userController.signin);
   app.post('/signup', userController.signup);
   app.get('/signout', userController.signout);
+  app.post('/forgotpassword', userController.forgotpassword);
   // app.get('/signedin', userController.checkAuth);
 };

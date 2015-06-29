@@ -1,9 +1,28 @@
-<div id='signin'>
-  <h1>signin</h1>
-  <form name="signinForm" ng-submit='signin()'>
-    <input type='text'ng-model='user.username'>
-    <input type="password" ng-model='user.password'>
-    <button>Sign In</button>
-  </form>
-  <a href="#/signup">Don't have an account? <strong>Sign Up</strong> ...</a>
-</div>
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">Sign In</h1>
+  </ion-header-bar>
+  <ion-content>
+    <div class="list">
+      <label class="item item-input">
+        <span class="input-label">Username</span>
+        <input type="text" ng-model="user.username">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Password</span>
+        <input type="password" ng-model="user.password">
+      </label>
+    </div>
+    <div class="padding">
+      <button class="button button-block button-positive" ng-click="signIn(user)">
+        Sign In
+      </button>
+      <p class="text-center">
+        <button class="button button-positive" ng-click="closeSignInModal(); openForgotPasswordModal()">Forgot Password</button>
+      </p>
+      <p class="text-center">
+        <button class="button button-positive" ng-click="closeSignInModal(); openSignUpModal()">Sign Up</button>
+      </p>
+    </div>
+  </ion-content>
+</ion-modal-view>

@@ -1,6 +1,6 @@
 var db = require('../../config/dbconfig');
-var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
+var bcrypt = require('bcrypt-nodejs');
 
 var User = db.Model.extend({
   tableName: 'users',
@@ -14,29 +14,15 @@ var User = db.Model.extend({
     });
   },
   hashPassword: function(){
-    var cipher = Promise.promisify(bcrypt.hash);
-    // return a promise - bookshelf will wait for the promise
-    // to resolve before completing the create action
-    return cipher(this.get('password'), this.get('salt'), null)
-      .bind(this)
-      .then(function(hash) {
-        this.set('password', hash);
-      });
+    this.set('password', bcrypt.hashSync(this.get('password'), this.get('salt')));
   },
   generateSalt: function(){
-    var cipher = Promise.promisify(bcrypt.genSalt);
-    // return a promise - bookshelf will wait for the promise
-    // to resolve before completing the create action
-    return cipher(10)
-      .bind(this)
-      .then(function(salt) {
-        this.set('salt', salt);
-      });
+    this.set('salt', bcrypt.genSaltSync(10));
   },
   createPassword: function() {
-    this.generateSalt().then(function() {
+    this.generateSalt();
       this.hashPassword();
-    });
+    
   }
 });
 

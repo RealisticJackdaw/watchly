@@ -4,7 +4,7 @@ exports.isLoggedIn = function(req, res) {
 
 exports.checkUser = function(req, res, next) {
   if (!exports.isLoggedIn(req)) {
-    res.redirect('#/login');
+    res.redirect('#/');
   } else {
     next();
   }
@@ -13,7 +13,6 @@ exports.checkUser = function(req, res, next) {
 exports.createSession = function(req, res, newUser) {
   return req.session.regenerate(function() {
       req.session.userId = newUser.id;
-      res.redirect('/');
     });
 };
 

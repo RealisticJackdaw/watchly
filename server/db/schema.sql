@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
   username varchar(40) UNIQUE,
   email varchar(40) UNIQUE,
   phone bigint(11),
-  salt varchar(20),
+  salt varchar(40),
   password varchar(100),
   created_at datetime DEFAULT CURRENT_TIMESTAMP,
   updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

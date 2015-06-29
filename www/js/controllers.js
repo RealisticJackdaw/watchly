@@ -1,6 +1,6 @@
 angular.module('watchly.controllers', ['watchly.services'])
 
-  .controller('MapCtrl', function ($scope, $http, $ionicPopup, $ionicLoading, $ionicSideMenuDelegate, $compile, Auth, Incidents, Messages) {
+  .controller('MapCtrl', function ($scope, $http, $ionicModal, $ionicLoading, $ionicSideMenuDelegate, $compile, Auth, Incidents, Messages) {
 
     function initialize() {
         var mapOptions = {
@@ -204,22 +204,107 @@ angular.module('watchly.controllers', ['watchly.services'])
           });
       };
 
-    $scope.profileActivate = function () {
-      var alertPopup; 
+    $ionicModal.fromTemplateUrl('templates/signin.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true,
+    }).then(function(modal) {
+      $scope.signInModal = modal;         
+    });
 
-      if(!Auth.isAuthenticated()) {
-        alertPopup = $ionicPopup.alert({
-          title: 'Authentication',
-          templateUrl: '/templates/signin.html'
-        });
-        alertPopup.then(function(res){
-          console.log("alert popup")
-        });
-        console.log("Has been NOT authenticated");
+
+    $ionicModal.fromTemplateUrl('templates/signup.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true,
+    }).then(function(modal) {
+      $scope.signUpModal = modal;         
+    });
+
+    $ionicModal.fromTemplateUrl('templates/forgotpassword.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true,
+    }).then(function(modal) {
+      $scope.forgotPasswordModal = modal;         
+    });    
+
+    $ionicModal.fromTemplateUrl('templates/profile.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+    }).then(function(modal) {
+      $scope.profileModal = modal;       
+    });
+
+    $scope.profileActivate = function () { 
+      if(Auth.isAuthenticated()) {
+        $scope.user = Auth.getUser();
+        $scope.profileModal.show();   
+        console.log("already authenticated");
       }
       else {
-        console.log("already authenticated")
+        $scope.signInModal.show();
+        console.log("Has been NOT authenticated");
       }
     };
 
+    $scope.openSignInModal = function() {
+      $scope.signInModal.show();
+    };
+
+    $scope.closeSignInModal = function() {
+      $scope.signInModal.hide();
+    };
+
+    $scope.openSignUpModal = function() {
+      $scope.signUpModal.show();
+    };
+
+    $scope.closeSignUpModal = function() {
+      $scope.closeSignUpModal.hide();
+    };
+
+    $scope.openForgotPasswordModal = function() {
+      $scope.forgotPasswordModal.show();
+    };
+
+    $scope.closeForgotPasswordModal = function() {
+      $scope.forgotPasswordModal.hide();
+    };
+
+    $scope.closeProfileModal = function() {
+      $scope.profileModal.hide();
+    };
+
+    $scope.signUp = function(user) {
+      Auth.signup(user).then(function(res) {
+        $scope.closeSignUpModal();
+      });
+    };
+
+    $scope.signIn = function(user) {
+      Auth.signin(user).then(function(res) {
+        $scope.closeSignInModal();
+      });
+    };
+
+    $scope.signOut = function() {
+      Auth.signout().then(function(res) {
+        $scope.closeProfileModal();
+      });
+    };
+
+    $scope.forgotPassword = function(email) {
+      Auth.forgotpassword(email).then(function(res) {
+        $scope.closeForgotPasswordModal();
+      });
+    };
+
+    $scope.isValidPhoneNumber = function(number) {
+      return number ? number.match(/^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/) : false;
+    };
+
+    $scope.isValidEmail = function(email) {
+      return email ? email.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/) : false;
+    };
   });
