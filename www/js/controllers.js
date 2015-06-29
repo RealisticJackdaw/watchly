@@ -333,7 +333,7 @@ angular.module('watchly.controllers', ['watchly.services'])
     };
 
     $scope.closeSignUpModal = function() {
-      $scope.closeSignUpModal.hide();
+      $scope.signUpModal.hide();
     };
 
     $scope.openForgotPasswordModal = function() {
