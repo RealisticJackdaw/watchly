@@ -48,7 +48,7 @@ angular.module('watchly.controllers', ['watchly.services'])
           clearTimeout($scope.downTimer);
           $scope.downTimer = setTimeout(function () {
             $scope.placeMarker(event.latLng);
-          }, 1500);
+          }, 1000);
         });
 
         google.maps.event.addListener(map, 'mouseup', function (event) {
@@ -63,6 +63,13 @@ angular.module('watchly.controllers', ['watchly.services'])
     $scope.incidentTypes = [];
     $scope.incidents = [];
     $scope.mapBounds = {};
+    $scope.userIncident = {
+      date: "",
+      time: "",
+      description: "",
+      latitude: "",
+      longitutde: ""
+    }
 
     $scope.setMapBounds = function () {
       console.log("Calculating and setting map bounds...");
@@ -88,6 +95,8 @@ angular.module('watchly.controllers', ['watchly.services'])
       }
     };
 
+    $scope.infoWindows = [];
+
     $scope.renderIncident = function(incidentObj) {
       var incidentPos = new google.maps.LatLng(incidentObj.latitude, incidentObj.longitude);
       var incidentIcon = "./img/" + incidentObj.iconFilename;
@@ -101,11 +110,16 @@ angular.module('watchly.controllers', ['watchly.services'])
       '<div class="incidentInfoDescription"> ' + 'User Description: ' + incidentObj.description + ' </div>' + 
       '<div class="incidnetInfoUsername"> ' + 'Reported by: ' + incidentObj.username + ' to have occured on ' + incidentObj.occurred_at + '</div>';
 
-      var incidentInfoWindow = new google.maps.InfoWindow({
-        content: incidentInfoWindowContent
-      });
+      var incidentInfoWindow;
 
       google.maps.event.addListener(incident, 'click', function() {
+         $scope.infoWindows.forEach(function(window) {
+           window.close();
+         });
+         incidentInfoWindow = new google.maps.InfoWindow({
+           content: incidentInfoWindowContent
+         });
+         $scope.infoWindows.push(incidentInfoWindow);
          incidentInfoWindow.open($scope.map,incident);
        });
     };
@@ -124,9 +138,12 @@ angular.module('watchly.controllers', ['watchly.services'])
       incidentTime.value = $scope.curTime;
     };
 
+    $scope.setIncidentDateAndTime = function () {
+      // $scope.userIncident.
+    }
     // TODO Change this to current time rather than being hard coded
     $scope.curDate = "2015-06-27";
-    $scope.curTime = "12:00";
+    $scope.curTime = "12:00:00";
 
     $scope.incidentReportForm = {
       hidden: true
@@ -145,6 +162,7 @@ angular.module('watchly.controllers', ['watchly.services'])
 
     $scope.placeMarker = function (location) {
       if (!$scope.newIncident) {
+        console.log(location);
         $scope.newIncident = new google.maps.Marker({
             animation: google.maps.Animation.DROP,
             position: location,
@@ -155,6 +173,25 @@ angular.module('watchly.controllers', ['watchly.services'])
             }
           });
         $scope.revealConfirmCancel();
+        $scope.userIncident.longitude = location.lng();
+        $scope.userIncident.latitude = location.lat();
+      }
+      if ($scope.newIncident) {
+        $scope.newIncident.setMap(null);
+        $scope.newIncident = false;
+        console.log(location);
+        $scope.newIncident = new google.maps.Marker({
+            animation: google.maps.Animation.DROP,
+            position: location,
+            map: $scope.map,
+            icon: {
+              url: "./img/other.png",
+              size: new google.maps.Size(25, 25)
+            }
+          });
+        $scope.revealConfirmCancel();
+        $scope.userIncident.longitude = location.lng();
+        $scope.userIncident.latitude = location.lat();
       }
     };
 
@@ -183,7 +220,7 @@ angular.module('watchly.controllers', ['watchly.services'])
 
     $scope.submitIncident = function () {
       console.log("heard incident submit");
-      $scope.hideConfirmCancel();
+      $scope.removeIncident();
     }
 
     $scope.centerMapOnUser = function () {
@@ -203,6 +240,7 @@ angular.module('watchly.controllers', ['watchly.services'])
             alert('Unable to get location: ' + error.message);
           });
       };
+
 
     $ionicModal.fromTemplateUrl('templates/signin.html', {
       scope: $scope,
