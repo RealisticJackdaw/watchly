@@ -43,8 +43,8 @@
         <label class="incidentReportTitle">Report New Incident</label>
         <label class="incidentReportFormLabel item item-input item-select">
             <div class="input-label">Incident Type: </div>
-            <select>
-                <option ng-repeat="incidentType in incidentTypes" ng-model="newIncident.type">{{ incidentType.type }}</option>
+            <select ng-model="newIncident.type" ng-change="newIncidentType = newIncident.type">
+                <option ng-repeat="incidentType in incidentTypes">{{incidentType.type}}</option>
             </select>
         </label>
         <label class="item item-input">
