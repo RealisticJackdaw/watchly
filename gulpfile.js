@@ -8,6 +8,8 @@ var rename = require('gulp-rename');
 var sh = require('shelljs');
 var clean = require('gulp-clean');
 var jshint = require('gulp-jshint');
+var del = require('del');
+
 
 var paths = {
   sass: ['./scss/**/*.scss']
@@ -96,3 +98,44 @@ gulp.task('install', ['git-check'], function() {
 });
 
 gulp.task('default', ['lint', 'sass', 'move_lib']);
+
+// gulp.task('clean_public', function(){
+//   return gulp.src(['./public/**/*.*'], {read:false})
+//   .pipe(clean());
+// });
+
+// gulp.task('clean_public',function(){
+//     var PATH_TO_CLEAN = './public/**/*.*';
+//     // if(argv.path != null)
+//         // PATH_TO_CLEAN = '../app/'+argv.path+'/**';
+
+//     del([PATH_TO_CLEAN], {force: true});
+// });
+
+gulp.task('clean_public', function () {
+  del([
+    './public/**/*'
+  ]);
+})
+
+gulp.task('move_to_public', ['clean_public'], function(){
+  gulp.src(['!./public', '!./versions', '!./server/config/knex-config.js', './**/*.*'])
+    .pipe(gulp.dest('./public/'));
+});
+
+gulp.task('move_config_file', ['move_to_public'], function() {
+  gulp.src(['./knex-config.js'])
+    .pipe(gulp.dest('./public/server/config/'));
+});
+
+gulp.task('public', ['move_config_file']);
+
+
+
+
+
+
+
+
+
+

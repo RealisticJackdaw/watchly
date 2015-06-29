@@ -1,6 +1,6 @@
 var knex = require('../config/knex-config.js')
-var Message = require('../db/models/Message');
-var Messages = require('../db/collections/Messages');
+var Message = require('../db/models/message');
+var Messages = require('../db/collections/messages');
 
 module.exports = {
   getMessagesForIncident: function (req, res) {
