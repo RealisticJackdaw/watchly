@@ -3,7 +3,7 @@ var knex = require('knex')({
   connection: {
     user: 'root',
     host: '127.0.0.1',
-    password: 'brian',
+    // password: 'brian',
     database: 'watchly',
     charset: 'utf8'
   }
