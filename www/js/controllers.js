@@ -140,9 +140,7 @@ angular.module('watchly.controllers', ['watchly.services'])
     $scope.setDateAndTime = function () {
       var incidentDate = document.getElementsByClassName('incidentDate')[0];
       var incidentTime = document.getElementsByClassName('incidentTime')[0];
-      // incidentDate.value = $scope.newIncident.curDate;
       incidentDate.value = $filter("date")(Date.now(), 'yyyy-MM-dd');
-      // incidentTime.value = $scope.newIncident.curTime;
       incidentTime.value = $filter("date")(Date.now(), 'HH:mm');
     };
 
@@ -150,7 +148,7 @@ angular.module('watchly.controllers', ['watchly.services'])
     // var today = new Date();
     $scope.newIncident = {};
     $scope.newIncident.curDate = "";
-    $scope.newIncident.curTime = 
+    $scope.newIncident.curTime = "";
     $scope.newIncidentType;
 
     $scope.incidentReportForm = {
@@ -247,6 +245,13 @@ angular.module('watchly.controllers', ['watchly.services'])
       // $scope.removeIncident();
       dbIncident.description = incident.description;
       dbIncident.incidentTypeId = $scope.incidentTypeNames[$scope.newIncidentType];
+
+      if (incident.curDate === "") {
+        incident.curDate = new Date();
+      }
+      if (incident.curTime === "") {
+        incident.curTime = new Date();
+      }
       dbIncident.occurred_at = incident.curDate.toISOString().slice(0,10) + " " + incident.curTime.toTimeString().slice(0,8);
       dbIncident.latitude = $scope.userIncident.latitude;
       dbIncident.longitude = $scope.userIncident.longitude;
