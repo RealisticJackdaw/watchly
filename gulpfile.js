@@ -29,7 +29,9 @@ var libFilesToMove = [
         './bower_components/ionic/js/ionic-angular.min.js',
         './bower_components/ionic/js/ionic.bundle.min.js',
         './bower_components/ionicons/css/ionicons.min.css',
-        './manifest.json'
+        './manifest.json',
+        './bower_components/firebase/firebase.js',
+        './bower_components/angularfire/dist/angularfire.min.js'
     ];
 
 
