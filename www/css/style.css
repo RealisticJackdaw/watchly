@@ -20,3 +20,30 @@
 .incidentReportFormLabel {
   min-width: 300px;
 }
+
+.mainLogo {
+  height:auto; 
+  width:auto; 
+  max-width:300px; 
+  max-height:45px;
+}
+
+.signInWindow {
+  max-width: 300px;
+  max-height: 320px;
+}
+
+.signUpWindow {
+  height: 420px;
+  max-width: 400px;
+}
+
+.forgotPasswordWindow {
+  max-height: 180px;
+  max-width: 320px;
+}
+
+.profileWindow {
+  height: 425px;
+  max-width: 320px;
+}

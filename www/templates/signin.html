@@ -1,5 +1,5 @@
-<ion-modal-view>
-  <ion-header-bar class="bar bar-header bar-positive">
+<ion-modal-view class="signInWindow">
+  <ion-header-bar class="bar bar-header bar-calm">
     <h1 class="title">Sign In</h1>
   </ion-header-bar>
   <ion-content>
@@ -14,14 +14,12 @@
       </label>
     </div>
     <div class="padding">
-      <button class="button button-block button-positive" ng-click="signIn(user)">
+      <p class="text-center">
+      <button class="button button-block button-calm" ng-click="signIn(user)">
         Sign In
       </button>
-      <p class="text-center">
-        <button class="button button-positive" ng-click="closeSignInModal(); openForgotPasswordModal()">Forgot Password</button>
-      </p>
-      <p class="text-center">
-        <button class="button button-positive" ng-click="closeSignInModal(); openSignUpModal()">Sign Up</button>
+        <button class="button button-small button-block button-calm" ng-click="closeSignInModal(); openForgotPasswordModal()">Forgot Password</button>
+        <button class="button button-small button-block button-calm" ng-click="closeSignInModal(); openSignUpModal()">Sign Up</button>
       </p>
     </div>
   </ion-content>

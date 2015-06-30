@@ -29,7 +29,7 @@
   <body ng-app="watchly" ng-controller="MapCtrl">
     
     <ion-header-bar class="bar-calm">
-      <h1 class="title">Watchly</h1>
+      <h1 class="title"><img class="mainLogo" src="./img/watchlylogo.png"></h1>
       <a ng-click="centerMapOnUser()" class="button button-icon icon ion-pinpoint"></a>
       <!-- <a ng-click="testAlertForum()" class="button button-icon icon ion-navicon-round"></a> -->
       <a ng-click="profileActivate()" class="button button-icon icon ion-ios-contact-outline"></a>
@@ -62,7 +62,7 @@
     </div>
 
     <ion-footer-bar class="bar-stable">
-    <h4 class="title">Virtual Town Watch</h4>
+    <h4 class="title">Watchly: Virtual Town Watch</h4>
       <button ng-click="confirmIncidentCreate()" class="createIncident button button-calm" ng-hide="createIncidentButton.hidden"><a class="icon ion-edit"></a></button>
       <button ng-click="removeIncident()" class="cancelIncident button button-assertive" ng-hide="cancelIncidentButton.hidden"><a class="icon ion-close"></a></button>
     </ion-footer-bar>

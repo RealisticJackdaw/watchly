@@ -16,7 +16,7 @@ angular.module('watchly.controllers', ['watchly.services'])
           zoomControl: true,
           zoomControlOptions: {
             // .SMALL, .LARGE, .DEFAULT
-            style: google.maps.ZoomControlStyle.SMALL,
+            style: google.maps.ZoomControlStyle.DEFAULT,
             // .LEFT_BOTTOM, .RIGHT_CENTER etc.
             position: google.maps.ControlPosition.TOP_RIGHT
           },
