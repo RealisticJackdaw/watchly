@@ -1,11 +1,11 @@
-<ion-modal-view>
-  <ion-header-bar class="bar bar-header bar-positive">
+<ion-modal-view class="signUpWindow">
+  <ion-header-bar class="bar bar-header bar-calm">
     <h1 class="title">Sign Up</h1>
   </ion-header-bar>
   <ion-content>
     <div class="list">
       <label class="item item-input">
-        <span class="input-label">First Name</span>
+        <span class="input-label" style="max-height:30px;">First Name</span>
         <input type="text" ng-model="user.firstName">
       </label>
       <label class="item item-input">
@@ -30,7 +30,7 @@
       </label>
     </div>
     <div class="padding">
-      <button class="button button-block button-positive" ng-click="signUp(user)">
+      <button class="button button-block button-calm" ng-click="signUp(user)">
         Sign Up
       </button>
     </div>
