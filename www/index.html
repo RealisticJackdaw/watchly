@@ -16,8 +16,9 @@
     <script src="lib/ionic.bundle.min.js"></script>
     <script src="lib/ng-file-upload.min.js"></script> 
     <!-- google maps api -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es&sensor=true"></script>
-    <!-- jquery -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es&amp;sensor=true"></script>
+    <!-- cordova plugin to use camera -->
+    <script src="js/ng-cordova.min.js"></script>
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
@@ -34,6 +35,7 @@
       <a ng-click="centerMapOnUser()" class="button button-icon icon ion-pinpoint"></a>
       <!-- <a ng-click="testAlertForum()" class="button button-icon icon ion-navicon-round"></a> -->
       <a ng-click="profileActivate()" class="button button-icon icon ion-ios-contact-outline"></a>
+      <a ng-click="takePicture()" class="button button-icon icon ion-camera"></a>
     </ion-header-bar>
 
     <ion-content scroll="false">
@@ -57,7 +59,7 @@
             <input class="incidentTime" type="time" ng-model="newIncident.curTime">
         </label>
         <label class="item item-input">
-            <input class="incidentDescription" type="text" ng-model="newIncident.description"placeholder="Incident Description" required>
+            <input class="incidentDescription" type="text" ng-model="newIncident.description" placeholder="Incident Description" required>
         </label>
         <label class="item item-input">
             <span class="input-label">Incident Image: </span>
