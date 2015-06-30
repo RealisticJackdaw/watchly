@@ -14,6 +14,7 @@
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic.bundle.min.js"></script>
+    <script src="lib/ng-file-upload.min.js"></script> 
     <!-- google maps api -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB16sGmIekuGIvYOfNoW9T44377IU2d2Es&sensor=true"></script>
     <!-- jquery -->
@@ -57,6 +58,10 @@
         </label>
         <label class="item item-input">
             <input class="incidentDescription" type="text" ng-model="newIncident.description"placeholder="Incident Description" required>
+        </label>
+        <label class="item item-input">
+            <span class="input-label">Incident Image: </span>
+            <input type="file" ngf-select="" ng-model="newIncident.picFile" name="file" accept="image/*">
         </label>
         <button ng-click="submitIncident(newIncident)" class="button button-block button-calm">Submit Incident</button>
     </div>
