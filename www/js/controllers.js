@@ -1,6 +1,6 @@
 angular.module('watchly.controllers', ['watchly.services'])
 
-  .controller('MapCtrl', function ($scope, $http, $ionicModal, $ionicLoading, $ionicSideMenuDelegate, $compile, Auth, Incidents, Messages) {
+  .controller('MapCtrl', function ($scope, $http, $ionicModal, $ionicLoading, $ionicSideMenuDelegate, $compile, $filter, Auth, Incidents, Messages) {
 
     function initialize() {
         $scope.geoCoder = new google.maps.Geocoder();
@@ -110,9 +110,9 @@ angular.module('watchly.controllers', ['watchly.services'])
         icon: incidentIcon
       });
 
-      var incidentInfoWindowContent = '<div class="incidentInfoTitle"> ' + incidentObj.type + ' on ' + incidentObj.fuzzyAddress + ' </div>' + 
-      '<div class="incidentInfoDescription"> ' + 'User Description: ' + incidentObj.description + ' </div>' + 
-      '<div class="incidnetInfoUsername"> ' + 'Reported by: ' + incidentObj.username + ' to have occured on ' + incidentObj.occurred_at + '</div>';
+      var incidentInfoWindowContent = '<div class="incidentInfoTitle"> <strong>' + incidentObj.type + '</strong> on ' + incidentObj.fuzzyAddress + ' </div>' + 
+      '<div class="incidentInfoDescription"> ' + 'User Description: <strong>' + incidentObj.description + '</strong> </div>' + 
+      '<div class="incidnetInfoUsername"> ' + 'Reported by <strong>' + incidentObj.username + '</strong> to have occured on <strong>' + incidentObj.occurred_at.slice(0,10) + "</strong> at " +  incidentObj.occurred_at.slice(11,19) + '</div>';
 
       var incidentInfoWindow;
 
@@ -140,15 +140,17 @@ angular.module('watchly.controllers', ['watchly.services'])
     $scope.setDateAndTime = function () {
       var incidentDate = document.getElementsByClassName('incidentDate')[0];
       var incidentTime = document.getElementsByClassName('incidentTime')[0];
-      incidentDate.value = $scope.newIncident.curDate;
-      incidentTime.value = $scope.newIncident.curTime;
+      // incidentDate.value = $scope.newIncident.curDate;
+      incidentDate.value = $filter("date")(Date.now(), 'yyyy-MM-dd');
+      // incidentTime.value = $scope.newIncident.curTime;
+      incidentTime.value = $filter("date")(Date.now(), 'HH:mm');
     };
 
     // TODO Change this to current time rather than being hard coded
     // var today = new Date();
     $scope.newIncident = {};
     $scope.newIncident.curDate = "";
-    $scope.newIncident.curTime = "";
+    $scope.newIncident.curTime = 
     $scope.newIncidentType;
 
     $scope.incidentReportForm = {
@@ -253,11 +255,12 @@ angular.module('watchly.controllers', ['watchly.services'])
         // TODO Figure out if we can reverseGeo the real address...placeholder for now.
         dbIncident.address = $scope.userIncident.fuzzyAddress;
         dbIncident.fuzzyAddress = $scope.userIncident.fuzzyAddress;
-        Incidents.createNewIncident(dbIncident);
-        $scope.removeIncident();
-        $scope.getIncidents();
-        $scope.renderAllIncidents();
-        $scope.loading.hide(); 
+        Incidents.createNewIncident(dbIncident).then(function () {
+          $scope.removeIncident();
+          $scope.getIncidents();
+          $scope.renderAllIncidents();
+          $scope.loading.hide(); 
+        });
       });
     };
 
