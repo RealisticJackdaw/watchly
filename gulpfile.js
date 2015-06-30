@@ -24,6 +24,7 @@ var libFilesToMove = [
         './bower_components/angular-sanitize/angular-sanitize.min.js.map',
         './bower_components/angular-animate/angular-animate.min.js',
         './bower_components/angular-animate/angular-animate.min.js.map',
+        './bower_components/ng-file-upload/ng-file-upload.min.js',
         './bower_components/ionic/css/ionic.min.css',
         './bower_components/ionic/js/ionic-angular.min.js',
         './bower_components/ionic/js/ionic.bundle.min.js',
