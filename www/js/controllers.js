@@ -210,6 +210,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
           });
       });
 
+
       console.log($scope.currentIncident);
        $scope.infoWindows.forEach(function(window) {
          window.close();
