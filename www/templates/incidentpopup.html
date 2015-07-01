@@ -1,38 +1,39 @@
-<ion-modal-view class="signUpWindow">
+<ion-modal-view class="incidentPopupWindow">
   <ion-header-bar class="bar bar-header bar-calm">
-    <h1 class="title">Sign Up</h1>
+    <h1 class="title">Incident</h1>
   </ion-header-bar>
   <ion-content>
-    <div class="list">
-      <label class="item item-input">
-        <span class="input-label" style="max-height:30px;">First Name</span>
-        <input type="text" ng-model="user.firstName">
-      </label>
-      <label class="item item-input">
-        <span class="input-label">Last Name</span>
-        <input type="text" ng-model="user.lastName">
-      </label>
-      <label class="item item-input">
-        <span class="input-label">Email</span>
-        <input type="text" ng-style="myStyle2" ng-change="myStyle2 = isValidEmail( user.email ) ? { 'background-color': 'none' } : { 'background-color': 'pink' };" ng-model="user.email" required>
-      </label>
-      <label class="item item-input">
-        <span class="input-label">Contact Number</span>
-        <input type="text" ng-style="myStyle1" ng-change="myStyle1 = isValidPhoneNumber( user.phone ) ? { 'background-color': 'none' } : { 'background-color': 'pink' };" ng-model="user.phone">
-      </label>
-      <label class="item item-input">
-        <span class="input-label">Username</span>
-        <input type="text" ng-model="user.username" required>
-      </label>
-      <label class="item item-input">
-        <span class="input-label">Password</span>
-        <input type="password" ng-model="user.password" required>
-      </label>
-    </div>
-    <div class="padding">
-      <button class="button button-block button-calm" ng-click="signUp(user)">
-        Sign Up
-      </button>
+    <div class="list card">
+      <div class="item item-body">
+        <ion-slide-box ng-repeat="picture in incident.pictures" on-slide-changed="slideHasChanged($index)">
+          <ion-slide><img src="picture"></ion-slide>
+        </ion-slide-box>
+      </div>
+
+      <p>
+        <strong>{{ incident.type }}</strong> on {{ incident.fuzzyAddress }}. User Description:<strong> {{ incident.description }}.</strong> Reported by<strong> {{ incident.username }}</strong> to have occured on <strong> incident.occured_at.slice(0,10) </strong> at incident.occured_at.slice(11,19).
+      </p>
+
+      <p>
+        <a href="#" class="subdued">1 Like</a>
+        <a href="#" class="subdued">5 Comments</a>
+      </p>
+
+      <div class="item tabs tabs-secondary tabs-icon-left">
+        <a class="tab-item" href="#">
+          <i class="icon ion-thumbsup"></i>
+          Like
+        </a>
+        <a class="tab-item" href="#">
+          <i class="icon ion-chatbox"></i>
+          Comment
+        </a>
+        <a class="tab-item" href="#">
+          <i class="icon ion-share"></i>
+          Share
+        </a>
+      </div>
+
     </div>
   </ion-content>
 </ion-modal-view>
