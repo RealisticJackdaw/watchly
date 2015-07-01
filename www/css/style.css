@@ -49,9 +49,30 @@
 }
 
 .incidentPopupWindow {
-  position: absolute;
-  top:0px;
-  left: 40px;
-  height: 100%;
-  width: 100%;
+  position: absolute !important;
+  top: 10% !important;
+  left: 10% !important;
+  height: 80%;
+  width: 80% !important;
+}
+
+.incident-box-margin {
+  margin: 13px;
+}
+
+.incident-image {
+  margin: 0 auto;
+  width: auto;
+  display: table;
+}
+
+.list {
+  float: left;
+  width: 45%;
+}
+
+.list-right{
+  float: right;
+  width: 45%;
+  left: 50%;
 }
