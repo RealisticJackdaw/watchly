@@ -198,11 +198,12 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
        $scope.infoWindows.forEach(function(window) {
          window.close();
        });
-       incidentInfoWindow = new google.maps.InfoWindow({
-         content: incidentInfoWindowContent
-       });
-       $scope.infoWindows.push(incidentInfoWindow);
-       incidentInfoWindow.open($scope.map,incident);
+       // incidentInfoWindow = new google.maps.InfoWindow({
+       //   content: incidentInfoWindowContent
+       // });
+       // $scope.infoWindows.push(incidentInfoWindow);
+       // incidentInfoWindow.open($scope.map,incident);
+       $scope.incidentPopupModal.show();
      });
   };
 
@@ -442,6 +443,13 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     animation: 'slide-in-up',
   }).then(function(modal) {
     $scope.profileModal = modal;
+  });
+
+  $ionicModal.fromTemplateUrl('templates/incidentpopup.html', {
+    scope: $scope,
+    animation: 'slide-in-up',
+  }).then(function(modal) {
+    $scope.incidentPopupModal = modal;
   });
 
   $scope.profileActivate = function() {
