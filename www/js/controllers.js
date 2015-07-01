@@ -308,8 +308,9 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     dbIncident.latitude = $scope.userIncident.latitude;
     dbIncident.longitude = $scope.userIncident.longitude;
     dbIncident.description = incident.description;
-    var picFile = incident.picFile[0];
-    console.log(picFile);
+    if (incident.picFile){
+      var picFile = incident.picFile[0];
+    }
 
     $scope.reverseGeo($scope.userIncident.location, function() {
       // TODO Figure out if we can reverseGeo the real address...placeholder for now.
@@ -319,7 +320,10 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
         //upload to firebase
         console.log('incident obj', newIncident);
         var incidentID = newIncident.id;
-        $scope.uploadImage(picFile, '1');
+
+        if(picFile){
+          $scope.uploadImage(picFile, '1');
+        }
 
         $scope.removeIncident();
         $scope.getIncidents();
