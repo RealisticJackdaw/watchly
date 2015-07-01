@@ -31,7 +31,7 @@
   </head>
 
   <body ng-app="watchly" ng-controller="MapCtrl">
-    
+
     <ion-header-bar class="bar-calm">
       <h1 class="title"><img class="mainLogo" src="./img/watchlylogo.png"></h1>
       <a ng-click="centerMapOnUser()" class="button button-icon icon ion-pinpoint"></a>
@@ -65,7 +65,7 @@
         </label>
         <label class="item item-input">
             <span class="input-label">Incident Image: </span>
-            <input type="file" ngf-select="" ng-model="newIncident.picFile" name="file" accept="image/*">
+            <input type="file" ngf-select ng-model="newIncident.picFile" name="file" accept="image/*">
         </label>
         <button ng-click="submitIncident(newIncident)" class="button button-block button-calm">Submit Incident</button>
     </div>
