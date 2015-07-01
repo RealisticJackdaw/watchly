@@ -2,19 +2,19 @@
   <ion-content>
     <div class="item item-avatar">
       <!-- <img src="neighborhood.jpg> -->
-      <h2>Incident Report</h2>
+      <h1>Incident Report</h1>
       <!-- <p>Neighborhood name</p> -->
     </div>
 
     <div class="list card">
       <div class="item item-body">
-        <ion-slide-box ng-repeat="picture in incident.pictures" on-slide-changed="slideHasChanged($index)">
-          <ion-slide><img src="picture"></ion-slide>
+        <ion-slide-box on-slide-changed="slideHasChanged($index)">
+          <ion-slide ng-repeat="picture in currentIncident.pictures"><img src="{{picture}}"></ion-slide>
         </ion-slide-box>
       </div>
 
       <p>
-        <strong>{{ incident.type }}</strong> on {{ incident.fuzzyAddress }}. User Description:<strong> {{ incident.description }}.</strong> Reported by<strong> {{ incident.username }}</strong> to have occured on <strong> incident.occured_at.slice(0,10) </strong> at incident.occured_at.slice(11,19).
+        <strong>{{ currentIncident.type }}</strong> on {{ currentIncident.fuzzyAddress }}. User Description:<strong> {{ currentIncident.description }}.</strong> Reported by<strong> {{ currentIncident.username }}</strong> to have occured on <strong> {{ currentIncident.date }} </strong> at {{ currentIncident.time }}.
       </p>
 
       <p>
