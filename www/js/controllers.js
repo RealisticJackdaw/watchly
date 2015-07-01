@@ -110,9 +110,26 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     google.maps.event.addListener(map, 'drag', function(event) {
       clearTimeout($scope.downTimer);
     });
-
-
   }
+  
+  google.maps.event.addDomListener(window, 'load', initialize);
+
+  $scope.incidentTypes = [];
+  $scope.incidentTypeNames = {};
+  $scope.incidents = {};
+  $scope.renderedIncidents = {};
+  $scope.mapBounds = {};
+  $scope.newMessage = '';
+
+  $scope.setMapBounds = function () {
+    var bounds = $scope.map.getBounds();
+    var northEastBound = bounds.getNorthEast();
+    var southWestBound = bounds.getSouthWest();
+    $scope.mapBounds.minLat = southWestBound.A;
+    $scope.mapBounds.maxLat = northEastBound.A;
+    $scope.mapBounds.minLon = southWestBound.F;
+    $scope.mapBounds.maxLon = northEastBound.F;
+  };
 
   google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -149,6 +166,63 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
         $scope.renderedIncidents[keys[i]] = true;
       }
     }
+  };
+
+  $scope.renderAllIncidents = function() {
+    var keys = Object.keys($scope.incidents);
+    for (var i = 0; i < keys.length; i++) {
+      if ($scope.renderedIncidents[keys[i]] === undefined) {
+        $scope.renderIncident($scope.incidents[keys[i]],keys[i]);
+        $scope.renderedIncidents[keys[i]] = true;
+      }
+    }
+  };
+
+  $scope.infoWindows = [];
+
+  $scope.postMessage = function(message) {
+    console.log(message);
+  }
+
+  $scope.renderIncident = function(incidentObj, ki) {
+    var incidentPos = new google.maps.LatLng(incidentObj.latitude, incidentObj.longitude);
+    var incidentIcon = "./img/" + incidentObj.iconFilename;
+    var incident = new google.maps.Marker({
+      position: incidentPos,
+      map: $scope.map,
+      icon: incidentIcon
+    });
+
+    var incidentInfoWindowContent = '<div class="incidentInfoTitle"> <strong>' + incidentObj.type + '</strong> on ' + incidentObj.fuzzyAddress + ' </div>' + 
+    '<div class="incidentInfoDescription"> ' + 'User Description: <strong>' + incidentObj.description + '</strong> </div>' + 
+    '<div class="incidnetInfoUsername"> ' + 'Reported by <strong>' + incidentObj.username + '</strong> to have occured on <strong>' + incidentObj.occurred_at.slice(0,10) + "</strong> at " +  incidentObj.occurred_at.slice(11,19) + '</div>' +
+    '<div class="incidentInfoComments">';
+
+    for (var comment in incidentObj.comments) incidentInfoWindowContent += '<div class="incidentInfoComment"' + incidentObj.comments[comment] + '</div>';
+    incidentInfoWindowContent += '</div><input class="incidentInfoToComment" type="text" ng-model="newMessage" placeholder="Shiet!">' + 
+                                 '<button ng-click="postMessage(newMessage)" class="button button-block button-calm">Comment</button>';
+
+    var incidentInfoWindow;
+
+    google.maps.event.addListener(incident, 'click', function() {
+       $scope.infoWindows.forEach(function(window) {
+         window.close();
+       });
+       incidentInfoWindow = new google.maps.InfoWindow({
+         content: incidentInfoWindowContent
+       });
+       $scope.infoWindows.push(incidentInfoWindow);
+       incidentInfoWindow.open($scope.map,incident);
+     });
+  };
+
+  $scope.populateIncidentTypes = function () {
+    Incidents.getIncidentTypes().then(function (result) {
+      $scope.incidentTypes = result;
+      result.forEach(function (incidentType) {
+        $scope.incidentTypeNames[incidentType.type] = incidentType.id;
+      });
+    });
   };
 
   $scope.infoWindows = [];
