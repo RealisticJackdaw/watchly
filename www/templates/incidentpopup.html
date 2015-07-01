@@ -1,8 +1,11 @@
 <ion-modal-view class="incidentPopupWindow">
-  <ion-header-bar class="bar bar-header bar-calm">
-    <h1 class="title">Incident</h1>
-  </ion-header-bar>
   <ion-content>
+    <div class="item item-avatar">
+      <!-- <img src="neighborhood.jpg> -->
+      <h2>Incident Report</h2>
+      <!-- <p>Neighborhood name</p> -->
+    </div>
+
     <div class="list card">
       <div class="item item-body">
         <ion-slide-box ng-repeat="picture in incident.pictures" on-slide-changed="slideHasChanged($index)">
