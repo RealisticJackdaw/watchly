@@ -15,7 +15,8 @@
     <div class="list card">
       <div class="item item-body incident-box-margin">
         <ion-slide-box on-slide-changed="slideHasChanged($index)">
-          <ion-slide ng-repeat="picture in currentIncident.pictures"><img src="{{picture}}" class="incident-image"></ion-slide>
+          <ion-slide ng-repeat="picture in currentIncident.pictures"><img src="{{picture.image}}" class="incident-image {{picture.oriClass}}"></ion-slide>
+
         </ion-slide-box>
       </div>
 
@@ -23,7 +24,7 @@
         <p>
           <strong>{{ currentIncident.type }}</strong> on {{ currentIncident.fuzzyAddress }}. User Description:<strong> {{ currentIncident.description }}.</strong> Reported by<strong> {{ currentIncident.username }}</strong> to have occured on <strong> {{ currentIncident.date }} </strong> at {{ currentIncident.time }}.
         </p>
-      
+
         <p>
           <a href="#" class="subdued">1 UpVote</a>
           <a href="#" class="subdued">5 Comments</a>
