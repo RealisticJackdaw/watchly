@@ -79,9 +79,9 @@ module.exports = {
   update : function (req, res, next) {
     var oldUsername = req.body.oldUsername;
     var info = req.body.user;
-    new User({ username: info.username }).fetch().then(function(exist) {
-      if (!exist) {
-        new User({username: oldUsername}).fetch().then(function(user){
+    new User({username: oldUsername}).fetch().then(function(exist){
+      if (exist) {
+        new User({ username: (info.username? info.username : oldUsername) }).fetch().then(function(user) {
           if( !user ){  
             res.status(401).send({error: "Unknown user"});
           }
