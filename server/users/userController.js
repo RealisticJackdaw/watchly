@@ -1,5 +1,6 @@
 var utils = require('../config/utility');
 var User = require('../db/models/user');
+var url = require('url')
 
 
 module.exports = {
@@ -93,15 +94,16 @@ module.exports = {
           }
         });
       } else {
-        console.log("Uknown user");
+        console.log("Unknown user");
         res.status(401).send({error: "Unknown user"});
       }
     });
   },
 
   getUsernameFromId: function(req, res, next) {
-    var userId = req.body.userId
-    new User({userId: userId}).fetch().then(function(user){
+    var uri = req.url;
+    var userId = (url.parse(uri).pathname).slice(1);
+    new User({id: userId}).fetch().then(function(user){
       if( !user ){  
         res.status(401).send({error: "Unknown user"});
       } else {

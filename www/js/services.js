@@ -111,7 +111,8 @@ angular.module('watchly.services',[])
     isAuthenticated: isAuthenticated,
     getUser: getUser,
     forgotpassword: forgotpassword,
-    updateUserProfile: updateUserProfile
+    updateUserProfile: updateUserProfile,
+    getUsernameFromId: getUsernameFromId
   };
 })
 .factory('Incidents', function($http){
