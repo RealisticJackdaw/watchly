@@ -4,7 +4,7 @@ module.exports = function (app) {
   // app.route('/')
   //   .post(messageController.newMessage);
 
-  app.route('/thread')
+  app.route('/')
     .post(messageController.newMessage);
 
   app.route('/')

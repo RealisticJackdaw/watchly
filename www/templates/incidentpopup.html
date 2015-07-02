@@ -45,11 +45,19 @@
           Comment
         </a>
 
-
-        <!-- IM GUNNA RENDER SOME COMMENTS HERE INSTEAD OF THIS -->
+        <label class="item item-input">
+          <span class="input-label">message</span>
+          <input type="text" ng-model="message">
+        </label>
+        <button class="button button-small button-block button-calm" ng-click="postMessage(message, currentIncident)">Submit Message</button>
+        <div ng-repeat="message in currentIncident.messages" class="item item-body">
           <p>
-            <strong>{{ currentIncident.type }}</strong> on {{ currentIncident.fuzzyAddress }}. User Description:<strong> {{ currentIncident.description }}.</strong> Reported by<strong> {{ currentIncident.username }}</strong> to have occured on <strong> {{ currentIncident.date }} </strong> at {{ currentIncident.time }}.
+            <strong>username</strong>
           </p>
+          <p>
+            {{message.description}}
+          </p>
+        </div>
 
       </div>
     </div>
