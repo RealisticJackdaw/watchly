@@ -193,12 +193,28 @@ angular.module('watchly.services',[])
     });
   };
 
+  var shareOnFacebook = function() {
+    FB.ui({
+      method: 'share',
+      href: 'http://watchlier.elasticbeanstalk.com/',
+    },
+    function(response) {
+      if (response && !response.error_code) {
+        console.log('Posting completed.');
+      } else {
+        console.log('Error while posting.');
+      }
+    }
+);
+  }
+
   return {
     getIncidentById: getIncidentById,
     getIncidentsByLocation: getIncidentsByLocation,
     getAllIncidents: getAllIncidents,
     getIncidentTypes: getIncidentTypes,
-    createNewIncident: createNewIncident 
+    createNewIncident: createNewIncident,
+    shareOnFacebook: shareOnFacebook 
   };
 })
 .factory('Messages', function($http){
