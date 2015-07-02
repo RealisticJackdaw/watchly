@@ -571,7 +571,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
   };
 
   $scope.updateUser = function() {
-    var data = {oldUsername: $scope.user.username, user: $scope.newUser};
+    var data = JSON.stringify({oldUsername: $scope.user.username, user: $scope.newUser});
     console.log(data);
     Auth.updateUserProfile(data, function() {
       $scope.editProfileModal.hide();

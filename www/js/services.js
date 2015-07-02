@@ -61,7 +61,7 @@ angular.module('watchly.services',[])
       method: 'POST',
       url: '/api/users/update',
       data: data
-    }).then(function() {
+    }).then(function(res) {
       if (res.status === 200) {
         cb();
       } else {
