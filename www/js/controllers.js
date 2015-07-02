@@ -239,12 +239,19 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
              console.log('orientation: ',orientation);
              var oriClass = '';
              switch(orientation) {
-               case 2:
+              //home button up
+               case 8:
                  oriClass = 'rotate270';
                  break;
-               case 4:
+               //home button right
+                case 1:
+                  oriClass = '';
+                  break;
+              //home button left
+               case 3:
                  oriClass = 'rotate180';
                  break;
+              //home button down
                case 6:
                  oriClass = 'rotate90';
                  break;
