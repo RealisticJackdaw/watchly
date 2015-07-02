@@ -31,7 +31,8 @@ var libFilesToMove = [
         './bower_components/ionicons/css/ionicons.min.css',
         './manifest.json',
         './bower_components/firebase/firebase.js',
-        './bower_components/angularfire/dist/angularfire.min.js'
+        './bower_components/angularfire/dist/angularfire.min.js',
+        './bower_components/blueimp-load-image/js/load-image.all.min.js'
     ];
 
 

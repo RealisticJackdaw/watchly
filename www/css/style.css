@@ -22,9 +22,9 @@
 }
 
 .mainLogo {
-  height:auto; 
-  width:auto; 
-  max-width:300px; 
+  height:auto;
+  width:auto;
+  max-width:300px;
   max-height:45px;
 }
 
@@ -47,3 +47,44 @@
   height: 425px;
   max-width: 320px;
 }
+
+.incidentPopupWindow {
+  position: absolute !important;
+  top: 10% !important;
+  left: 10% !important;
+  height: 80%;
+  width: 80% !important;
+}
+
+.incident-box-margin {
+  margin: 13px;
+}
+
+.slider-slides, .slider-slide {
+  width: 100% !important;
+}
+
+.incident-image {
+  margin: 0 auto;
+  width: auto;
+  display: table;
+  max-width: 100%;
+  max-height: 400px;
+}
+
+.rotate90 {
+    transform: rotate(90deg) translateY(0);
+    -webkit-transform: rotate(90deg) translateY(0);
+    -ms-transform: rotate(90deg) translateY(0);
+}
+.rotate180 {
+    transform: rotate(180deg) translate(0);
+    -webkit-transform: rotate(180deg) translate(0);
+    -ms-transform: rotate(180deg) translateX(0);
+}
+.rotate270 {
+    transform: rotate(270deg) translateX(0);
+    -webkit-transform: rotate(270deg) translateX(0);
+    -ms-transform: rotate(270deg) translateX(0);
+}
+
