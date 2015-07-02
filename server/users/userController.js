@@ -86,7 +86,7 @@ module.exports = {
             res.status(401).send({error: "Unknown user"});
           }
           else {
-            user.save(info).then(function(savedUser) {
+            exist.save(info).then(function(savedUser) {
               res.send(savedUser);
             });
           }
@@ -96,5 +96,17 @@ module.exports = {
         res.status(400).send({error: 'Username already exists'});
       }
     });
+  },
+
+  getUsernameFromId: function(req, res, next) {
+    var userId = req.body.userId
+    new User({userId: userId}).fetch().then(function(user){
+      if( !user ){  
+        res.status(401).send({error: "Unknown user"});
+      } else {
+        res.status(200).send(user);
+      }
+    });
   }
+
 };

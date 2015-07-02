@@ -216,7 +216,6 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     var incidentInfoWindow;
 
     google.maps.event.addListener(incident, 'click', function() {
-      console.log(incidentObj);
       $scope.currentIncident = incidentObj;
       $scope.currentIncident.date = $scope.currentIncident.occurred_at.slice(0,10);
       $scope.currentIncident.time = $scope.currentIncident.occurred_at.slice(11,19);
@@ -231,7 +230,6 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       syncArray.$loaded()
       .then(function(){
           angular.forEach(syncArray, function(image) {
-
             var orientation;
              if (image.orientation) {
                  orientation = image.orientation;
@@ -263,8 +261,6 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
              });
           });
       });
-
-      console.log($scope.currentIncident);
        $scope.infoWindows.forEach(function(window) {
          window.close();
        });
@@ -432,39 +428,27 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
 
   $scope.uploadImage = function(imageData, incidentID) {
     var FR = new FileReader();
-    loadImage.parseMetaData(imageData, function(data) {
-      var ori;
-      if (data.exif) {
-        if (data.exif.get('Orientation')) {
-          ori = data.exif.get('Orientation');
-        }
-      }
-      ori = ori || '';
+    FR.onload = function(e) {
+      var imageString = e.target.result;
 
-      FR.onload = function(e) {
-        var imageString = e.target.result;
+      var eventReference = fb.child("events/" + incidentID);
+      var syncArray = $firebaseArray(eventReference.child("images"));
 
-        var eventReference = fb.child("events/" + incidentID);
-        var syncArray = $firebaseArray(eventReference.child("images"));
+      $scope.user = Auth.getUser();
+      var username = $scope.user.username || '';
 
-        $scope.user = Auth.getUser();
-        var username = $scope.user.username || '';
+      var submitDate = new Date().toISOString().slice(0, 10);
 
-        var submitDate = new Date().toISOString().slice(0, 10);
-
-        syncArray.$add({
-            imageString: imageString,
-            username: username,
-            submitDate: submitDate,
-            orientation: ori
-          })
-          .then(function() {
-            console.log("Image has been uploaded");
-          });
-      };
-      FR.readAsDataURL(imageData);
-    });
-
+      syncArray.$add({
+          imageString: imageString,
+          username: username,
+          submitDate: submitDate
+        })
+        .then(function() {
+          console.log("Image has been uploaded");
+        });
+    };
+    FR.readAsDataURL(imageData);
 
   };
 
@@ -533,6 +517,13 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     $scope.profileModal = modal;
   });
 
+  $ionicModal.fromTemplateUrl('templates/profileEditor.html', {
+    scope: $scope,
+    animation: 'slide-in-up',
+  }).then(function(modal) {
+    $scope.editProfileModal = modal;
+  });
+
   $ionicModal.fromTemplateUrl('templates/incidentpopup.html', {
     scope: $scope,
     animation: 'slide-in-up',
@@ -548,6 +539,8 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       $scope.signInModal.show();
     }
   };
+
+  //$scope.userLastName = user.lastName;
 
   $scope.openSignInModal = function() {
     $scope.signInModal.show();
@@ -576,6 +569,21 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
   $scope.closeProfileModal = function() {
     $scope.profileModal.hide();
   };
+
+  $scope.updateUser = function() {
+    var data = JSON.stringify({oldUsername: $scope.user.username, user: $scope.newUser});
+    console.log(data);
+    Auth.updateUserProfile(data, function() {
+      $scope.editProfileModal.hide();
+    });
+  }
+
+  $scope.profileEditor = function() {
+    $scope.newUser = {};
+    $scope.profileModal.hide();
+    $scope.editProfileModal.show();
+
+  }
 
   $scope.signUp = function(user) {
     Auth.signup(user).then(function(res) {
@@ -609,18 +617,15 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       destinationType: Camera.DestinationType.DATA_URL,
       sourceType: Camera.PictureSourceType.CAMERA,
       allowEdit: true,
-      encodingType:  Camera.EncodingType.PNG,
+      encodingType: Camera.EncodingType.JPEG,
       targetWidth: 300,
       targetHeight: 300,
       popoverOptions: CameraPopoverOptions,
-      saveToPhotoAlbum: false,
-      correctOrientation: true
-
+      saveToPhotoAlbum: false
     };
 
     $cordovaCamera.getPicture(options).then(function(imageData) {
-      console.log(imageData)
-      $scope.imgURI = imageData;
+      $scope.imgURI = "data:image/jpeg;base64," + imageData;
     }, function(err) {
       // An error occured. Show a message to the user
       alert('error');
