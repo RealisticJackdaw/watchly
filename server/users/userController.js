@@ -81,9 +81,10 @@ module.exports = {
     var info = req.body.user;
     new User({username: oldUsername}).fetch().then(function(exist){
       if (exist) {
-        new User({ username: (info.username? info.username : oldUsername) }).fetch().then(function(user) {
-          if( !user ){  
-            res.status(401).send({error: "Unknown user"});
+        new User({ username: info.username }).fetch().then(function(user) {
+          if(user){  
+            console.log('Username already exists');
+            res.status(400).send({error: 'Username already exists'});
           }
           else {
             exist.save(info).then(function(savedUser) {
@@ -92,8 +93,8 @@ module.exports = {
           }
         });
       } else {
-        console.log('Username already exists');
-        res.status(400).send({error: 'Username already exists'});
+        console.log("Uknown user");
+        res.status(401).send({error: "Unknown user"});
       }
     });
   },
