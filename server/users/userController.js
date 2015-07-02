@@ -95,5 +95,6 @@ module.exports = {
         console.log('Username already exists');
         res.status(400).send({error: 'Username already exists'});
       }
+    });
   }
 };

@@ -4,10 +4,9 @@ var Messages = require('../db/collections/messages');
 
 module.exports = {
   getMessagesForIncident: function (req, res) {
-    console.log('in message controller')
-    var incidentsId = req.body.incidentsId;
-
-    knex('messages').where({'incidentsId': '1' })
+    var incidentsId = (url.parse(uri).pathname).slice(1);
+    console.log('incident: ', incidentsId)
+    knex('messages').where({'incidentsId': incidentsId })
       .then(function (rows) {
         console.log(rows);
         res.send(rows);
