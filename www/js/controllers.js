@@ -517,6 +517,13 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     $scope.profileModal = modal;
   });
 
+  $ionicModal.fromTemplateUrl('templates/profileEditor.html', {
+    scope: $scope,
+    animation: 'slide-in-up',
+  }).then(function(modal) {
+    $scope.editProfileModal = modal;
+  });
+
   $ionicModal.fromTemplateUrl('templates/incidentpopup.html', {
     scope: $scope,
     animation: 'slide-in-up',
@@ -532,6 +539,8 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       $scope.signInModal.show();
     }
   };
+
+  //$scope.userLastName = user.lastName;
 
   $scope.openSignInModal = function() {
     $scope.signInModal.show();
@@ -560,6 +569,21 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
   $scope.closeProfileModal = function() {
     $scope.profileModal.hide();
   };
+
+  $scope.updateUser = function() {
+    var data = JSON.stringify({oldUsername: $scope.user.username, user: $scope.newUser});
+    console.log(data);
+    Auth.updateUserProfile(data, function() {
+      $scope.editProfileModal.hide();
+    });
+  }
+
+  $scope.profileEditor = function() {
+    $scope.newUser = {};
+    $scope.profileModal.hide();
+    $scope.editProfileModal.show();
+
+  }
 
   $scope.signUp = function(user) {
     Auth.signup(user).then(function(res) {

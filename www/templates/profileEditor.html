@@ -1,0 +1,38 @@
+<ion-modal-view class="profileWindow">
+  <ion-header-bar class="bar bar-header bar-calm">
+    <h1 class="title">Edit Profile</h1>
+  </ion-header-bar>
+  <ion-content>
+    <div class="list">
+      <label class="item item-input">
+        <span class="input-label">First Name</span>
+        <input type="text" placeholder={{user.firstName}} ng-model="newUser.firstName">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Last Name</span>
+        <input type="text" placeholder={{user.lastName}} ng-model="newUser.lastName">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Email</span>
+        <input type="text" ng-style="myStyle2" ng-change="myStyle2 = isValidEmail( newUser.email ) ? { 'background-color': 'none' } : { 'background-color': 'pink' };" ng-model="newUser.email" required placeholder={{user.email}}>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Contact Number</span>
+        <input type="text" ng-style="myStyle1" ng-change="myStyle1 = isValidPhoneNumber( newUser.phone ) ? { 'background-color': 'none' } : { 'background-color': 'pink' };" ng-model="newUser.phone" placeholder={{user.phone}}>
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Username</span>
+        <input type="text" placeholder={{user.username}} ng-model="newUser.username">
+      </label>
+    </div>
+    
+    <div class="padding">
+      <button class="button button-block button-calm" ng-click="updateUser()">
+        Update
+      </button>
+      <!-- <button class="button button-block button-calm" ng-click="signOut()">
+        Sign Out
+      </button> -->
+    </div>
+  </ion-content>
+</ion-modal-view>
