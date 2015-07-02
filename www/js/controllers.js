@@ -575,6 +575,13 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     console.log(data);
     Auth.updateUserProfile(data, function() {
       $scope.editProfileModal.hide();
+      $scope.user.firstName = $scope.newUser.firstName || $scope.user.firstName;
+      $scope.user.lastName = $scope.newUser.lastName || $scope.user.lastName;
+      $scope.user.username = $scope.newUser.username || $scope.user.username;
+      $scope.user.email = $scope.newUser.email || $scope.user.email;
+      $scope.user.phone = $scope.newUser.phone || $scope.user.phone;
+      
+      //$scope.profileActivate();
     });
   }
 
