@@ -21,8 +21,7 @@ var User = db.Model.extend({
   },
   createPassword: function() {
     this.generateSalt();
-      this.hashPassword();
-    
+    this.hashPassword();   
   }
 });
 
