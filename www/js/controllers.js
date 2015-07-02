@@ -205,7 +205,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       $scope.currentIncident.date = $scope.currentIncident.occurred_at.slice(0,10);
       $scope.currentIncident.time = $scope.currentIncident.occurred_at.slice(11,19);
       $scope.currentIncident.pictures = [];
-      Messages.getMessageByIncident(JSON.stringify({incidentId: $scope.currentIncident.id})).then(function(messages){
+      Messages.getMessageByIncident(JSON.stringify($scope.currentIncident.id)).then(function(messages){
         console.log('in async call, ', messages)
         $scope.currentIncident.messages = messages;
       })

@@ -4,9 +4,9 @@ module.exports = function (app) {
   // app.route('/')
   //   .post(messageController.newMessage);
 
-  app.route('/:incidentId')
+  app.route('/')
     .post(messageController.newMessage);
 
-  app.route('/')
+  app.route('/:incidentId')
     .get(messageController.getMessagesForIncident);
 };

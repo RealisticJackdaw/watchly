@@ -1,9 +1,12 @@
 var knex = require('../config/knex-config.js')
 var Message = require('../db/models/message');
 var Messages = require('../db/collections/messages');
+var url = require('url')
 
 module.exports = {
   getMessagesForIncident: function (req, res) {
+    var uri = req.url;
+    console.log(req.url)
     var incidentsId = (url.parse(uri).pathname).slice(1);
     console.log('incident: ', incidentsId)
     knex('messages').where({'incidentsId': incidentsId })

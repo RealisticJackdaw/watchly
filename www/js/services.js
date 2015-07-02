@@ -167,10 +167,10 @@ angular.module('watchly.services',[])
 })
 .factory('Messages', function($http){
   var getMessageByIncident  = function (incident) {
-    console.log(incident)
+    var eventUrl = '/api/messages/' + incident;
     return $http({
       method: 'GET',
-      url: '/api/messages',
+      url: eventUrl,
       data: incident
     })
     .then(function (res) {
