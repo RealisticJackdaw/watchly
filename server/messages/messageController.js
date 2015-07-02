@@ -6,7 +6,6 @@ var url = require('url')
 module.exports = {
   getMessagesForIncident: function (req, res) {
     var uri = req.url;
-    console.log(req.url)
     var incidentsId = (url.parse(uri).pathname).slice(1);
     console.log('incident: ', incidentsId)
     knex('messages').where({'incidentsId': incidentsId })
@@ -16,7 +15,6 @@ module.exports = {
       });
   },
   newMessage: function (req, res) {
-    console.log('in message controller')
     var messageData = {
       description: req.body.description,
       userId: req.body.userId,

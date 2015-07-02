@@ -70,13 +70,31 @@ angular.module('watchly.services',[])
     });
   };
 
+  var getUsernameFromId = function(userId){
+    var userUrl = '/api/users/' + userId;
+    return $http({
+      method: 'GET',
+      url: userUrl,
+      data: {userId: userId}
+    })
+    .then(function(res){
+      if (res.status === 200) {
+      }
+      else {
+        console.log(res.data.error);
+      }
+      return res.data;
+    });
+  };
+
   return {
     signin: signin,
     signup: signup,
     signout: signout,
     isAuthenticated: isAuthenticated,
     getUser: getUser,
-    forgotpassword: forgotpassword
+    forgotpassword: forgotpassword,
+    getUsernameFromId: getUsernameFromId
   };
 })
 .factory('Incidents', function($http){

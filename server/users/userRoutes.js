@@ -10,5 +10,6 @@ module.exports = function (app) {
   app.get('/signout', userController.signout);
   app.post('/forgotpassword', userController.forgotpassword);
   app.post('/update', userController.update);
+  app.get('/:userId', userController.getUsernameFromId);
   // app.get('/signedin', userController.checkAuth);
 };
