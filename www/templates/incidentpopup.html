@@ -52,7 +52,7 @@
       <div class="list">
         <div ng-repeat="message in currentIncident.messages | orderBy:'created_at':true" class="item item-body">
           <p>
-            <strong>username</strong>
+            <strong>{{message.userName}}</strong>
           </p>
           <p>
             {{message.description}}

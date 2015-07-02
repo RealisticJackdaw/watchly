@@ -221,9 +221,16 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       $scope.currentIncident.time = $scope.currentIncident.occurred_at.slice(11,19);
       $scope.currentIncident.pictures = [];
       Messages.getMessageByIncident(JSON.stringify($scope.currentIncident.id)).then(function(messages){
-        console.log('in async call, ', messages)
+        messages.forEach(function(message){
+          console.log('in the for each with ', message.userId)
+          Auth.getUsernameFromId(JSON.stringify(message.userId)).then(function(userName){
+            message.userName = userName.username;
+            console.log("username: ", message.userName)
+          })
+        })
         $scope.currentIncident.messages = messages;
       })
+
 
       var eventReference = fb.child("events/" + $scope.currentIncident.id);
       var syncArray = $firebaseArray(eventReference.child("images"));
