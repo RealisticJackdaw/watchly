@@ -1,5 +1,9 @@
 <ion-modal-view class="incidentPopupWindow">
-  <ion-content>
+  <ion-content ng-controller:'watchly.controllers'>
+    <ion-refresher
+        pulling-text="Pull to refresh..."
+        on-refresh="doRefresh()">
+    </ion-refresher>
     <div class="item item-avatar">
       <!-- <img src="neighborhood.jpg> -->
       <ion-header-bar class="bar bar-header bar-calm">
@@ -50,7 +54,7 @@
           <input type="text" ng-model="message">
         </label>
         <button class="button button-small button-block button-calm" ng-click="postMessage(message, currentIncident)">Submit Message</button>
-        <div ng-repeat="message in currentIncident.messages" class="item item-body">
+        <div ng-repeat="message in currentIncident.messages | orderBy:'created_at':true" class="item item-body">
           <p>
             <strong>username</strong>
           </p>

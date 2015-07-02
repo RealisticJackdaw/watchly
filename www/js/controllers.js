@@ -176,8 +176,24 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
         description: message,
         userId: currentIncident.userId,
         incidentsId: currentIncident.id
-     }))
+     })).then(function(){
+      Messages.getMessageByIncident(JSON.stringify($scope.currentIncident.id)).then(function(messages){
+        console.log('in async call, ', messages)
+        $scope.currentIncident.messages = messages;
+      })
+    })
   }
+
+  $scope.doRefresh = function() {
+    Messages.getMessageByIncident(JSON.stringify($scope.currentIncident.id))
+     .then(function(messages) {
+       $scope.currentIncident.messages = messages;
+     })
+     .finally(function() {
+       // Stop the ion-refresher from spinning
+       $scope.$broadcast('scroll.refreshComplete');
+     });
+  };
 
   $scope.renderIncident = function(incidentObj, ki) {
     var incidentPos = new google.maps.LatLng(incidentObj.latitude, incidentObj.longitude);
