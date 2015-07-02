@@ -54,6 +54,23 @@ angular.module('watchly.services',[])
     return authenticatedUser;
   };
 
+  //pass in new values
+  var updateUserProfile = function(data, cb) {
+
+    return $http({
+      method: 'POST',
+      url: '/api/users/update',
+      data: data
+    }).then(function() {
+      if (res.status === 200) {
+        cb();
+      } else {
+        console.log(res.data.error);
+      }
+    });
+
+  };
+
   var forgotpassword = function(email) {
     return $http({
       method: 'POST',
@@ -94,7 +111,7 @@ angular.module('watchly.services',[])
     isAuthenticated: isAuthenticated,
     getUser: getUser,
     forgotpassword: forgotpassword,
-    getUsernameFromId: getUsernameFromId
+    updateUserProfile: updateUserProfile
   };
 })
 .factory('Incidents', function($http){
