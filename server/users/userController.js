@@ -83,12 +83,12 @@ module.exports = {
       if (exist) {
         new User({ username: (info.username? info.username : oldUsername) }).fetch().then(function(user) {
           if( !user ){  
+            res.status(401).send({error: "Unknown user"});
+          }
+          else {
             exist.save(info).then(function(savedUser) {
               res.send(savedUser);
             });
-          }
-          else {
-            res.status(401).send({error: "Unknown user"});
           }
         });
       } else {
