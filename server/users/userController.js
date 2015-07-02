@@ -81,7 +81,7 @@ module.exports = {
     var info = req.body.user;
     new User({username: oldUsername}).fetch().then(function(exist){
       if (exist) {
-        new User({ username: info.username) }).fetch().then(function(user) {
+        new User({ username: info.username }).fetch().then(function(user) {
           if(user){  
             console.log('Username already exists');
             res.status(400).send({error: 'Username already exists'});
