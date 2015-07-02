@@ -9,6 +9,7 @@ module.exports = function (app) {
   app.post('/signup', userController.signup);
   app.get('/signout', userController.signout);
   app.post('/forgotpassword', userController.forgotpassword);
-  app.get('/update', userController.update);
+  app.post('/update', userController.update);
+  app.get('/:userId', userController.getUsernameFromId);
   // app.get('/signedin', userController.checkAuth);
 };

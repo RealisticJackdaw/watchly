@@ -43,27 +43,21 @@
       </div>
 
     </div>
-    <div class="list-right">
-      <div class="item item-body incident-box-margin">
-        <a class="tab-item" href="#">
-          <i class="icon ion-chatbox"></i>
-          Comment
-        </a>
-
+    <div class="list card">
         <label class="item item-input">
-          <span class="input-label">message</span>
+          <span class="input-label">Message:</span>
           <input type="text" ng-model="message">
         </label>
-        <button class="button button-small button-block button-calm" ng-click="postMessage(message, currentIncident)">Submit Message</button>
+      <button class="button button-small button-block button-calm" ng-click="postMessage(message, currentIncident)">Submit Message</button>
+      <div class="list">
         <div ng-repeat="message in currentIncident.messages | orderBy:'created_at':true" class="item item-body">
           <p>
-            <strong>username</strong>
+            <strong>{{message.userName}}</strong>
           </p>
           <p>
             {{message.description}}
           </p>
         </div>
-
       </div>
     </div>
   </ion-content>

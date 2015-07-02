@@ -1,5 +1,6 @@
 var utils = require('../config/utility');
 var User = require('../db/models/user');
+var url = require('url')
 
 
 module.exports = {
@@ -79,22 +80,36 @@ module.exports = {
   update : function (req, res, next) {
     var oldUsername = req.body.oldUsername;
     var info = req.body.user;
-    new User({ username: info.username }).fetch().then(function(exist) {
-      if (!exist) {
-        new User({username: oldUsername}).fetch().then(function(user){
-          if( !user ){  
-            res.status(401).send({error: "Unknown user"});
+    new User({username: oldUsername}).fetch().then(function(exist){
+      if (exist) {
+        new User({ username: info.username }).fetch().then(function(user) {
+          if(user){  
+            console.log('Username already exists');
+            res.status(400).send({error: 'Username already exists'});
           }
           else {
-            user.save(info).then(function(savedUser) {
+            exist.save(info).then(function(savedUser) {
               res.send(savedUser);
             });
           }
         });
       } else {
-        console.log('Username already exists');
-        res.status(400).send({error: 'Username already exists'});
+        console.log("Unknown user");
+        res.status(401).send({error: "Unknown user"});
+      }
+    });
+  },
+
+  getUsernameFromId: function(req, res, next) {
+    var uri = req.url;
+    var userId = (url.parse(uri).pathname).slice(1);
+    new User({id: userId}).fetch().then(function(user){
+      if( !user ){  
+        res.status(401).send({error: "Unknown user"});
+      } else {
+        res.status(200).send(user);
       }
     });
   }
+
 };

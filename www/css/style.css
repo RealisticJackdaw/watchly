@@ -51,9 +51,9 @@
 .incidentPopupWindow {
   position: absolute !important;
   top: 10% !important;
-  left: 10% !important;
+  left: 20% !important;
   height: 80%;
-  width: 80% !important;
+  width: 60% !important;
 }
 
 .incident-box-margin {
