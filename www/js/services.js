@@ -167,13 +167,15 @@ angular.module('watchly.services',[])
 })
 .factory('Messages', function($http){
   var getMessageByIncident  = function (incident) {
+    var eventUrl = '/api/messages/' + incident;
     return $http({
       method: 'GET',
-      url: '/api/incidents',
+      url: eventUrl,
       data: incident
     })
     .then(function (res) {
       if (res.status === 200) {
+        console.log('got messages: ', res.data)
       }
       else {
         console.log(res.data.error);
@@ -183,6 +185,7 @@ angular.module('watchly.services',[])
   };
 
   var createNewMessage  = function (message) {
+    console.log('in services, uploading message: ', message)
     return $http({
       method: 'POST',
       url: '/api/messages',
@@ -190,6 +193,7 @@ angular.module('watchly.services',[])
     })
     .then(function (res) {
       if (res.status === 200) {
+        console.log('message saved')
       }
       else {
         console.log(res.data.error);

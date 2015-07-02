@@ -171,8 +171,12 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
 
   $scope.infoWindows = [];
 
-  $scope.postMessage = function(message) {
-    console.log(message);
+  $scope.postMessage = function(message, currentIncident) {
+    Messages.createNewMessage(JSON.stringify({
+        description: message,
+        userId: currentIncident.userId,
+        incidentsId: currentIncident.id
+     }))
   }
 
   $scope.renderIncident = function(incidentObj, ki) {
@@ -196,10 +200,15 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     var incidentInfoWindow;
 
     google.maps.event.addListener(incident, 'click', function() {
+      console.log(incidentObj);
       $scope.currentIncident = incidentObj;
       $scope.currentIncident.date = $scope.currentIncident.occurred_at.slice(0,10);
       $scope.currentIncident.time = $scope.currentIncident.occurred_at.slice(11,19);
       $scope.currentIncident.pictures = [];
+      Messages.getMessageByIncident(JSON.stringify($scope.currentIncident.id)).then(function(messages){
+        console.log('in async call, ', messages)
+        $scope.currentIncident.messages = messages;
+      })
 
       var eventReference = fb.child("events/" + $scope.currentIncident.id);
       var syncArray = $firebaseArray(eventReference.child("images"));
@@ -209,7 +218,6 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
             $scope.currentIncident.pictures.push(image.imageString);
           });
       });
-
 
       console.log($scope.currentIncident);
        $scope.infoWindows.forEach(function(window) {
