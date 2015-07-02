@@ -33,10 +33,14 @@
 
       <div class="item tabs tabs-secondary tabs-icon-left">
         <a class="tab-item" href="#">
-          <i class="icon ion-arrow-up-a"></i>
+          <i class="icon ion-arrow-up-a" ng-click="upvote()"></i>
           UpVote
         </a>
-        <a class="tab-item" href="#">
+        <a class="tab-item" href="#" ng-click="downvote()">
+          <i class="icon ion-arrow-down-a"></i>
+          DownVote
+        </a>
+        <a class="tab-item" href="#" ng-click="shareOnFacebook()">
           <i class="icon ion-share"></i>
           Share
         </a>

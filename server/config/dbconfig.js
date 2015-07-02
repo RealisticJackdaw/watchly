@@ -53,6 +53,7 @@ async.parallel([
           incident.increments('id').primary().unsigned();
           incident.integer('userId', 11).references('id').inTable('users').unsigned();
           incident.integer('incidentTypeId', 11).references('id').inTable('incidentTypes').unsigned();
+          incident.integer('votes', 0);
           incident.string('description', 255);
           incident.float('latitude', 10, 6);
           incident.float('longitude', 10, 6);

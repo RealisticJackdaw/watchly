@@ -623,6 +623,10 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     });
   };
 
+  $scope.shareOnFacebook = function(){
+    Incidents.shareOnFacebook();
+  }
+
   // camera functions going here
 
   $scope.takePicture = function() {
