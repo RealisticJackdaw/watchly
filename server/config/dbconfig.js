@@ -46,8 +46,8 @@ async.parallel([
         callback();
       }
     });
-  }
-  ,
+  },
+
   function(callback) {
     bookshelf.knex.schema.hasTable('incidents').then(function(exists) {
       if (!exists) {
@@ -71,8 +71,8 @@ async.parallel([
         callback();
       }
     });
-  }
-  ,
+  },
+  
   function(callback) {
     bookshelf.knex.schema.hasTable('messages').then(function(exists) {
       if (!exists) {

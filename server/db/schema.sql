@@ -53,6 +53,3 @@ CREATE TABLE IF NOT EXISTS messages (
   FOREIGN KEY fk_uid(userId) REFERENCES users(id),
   FOREIGN KEY fk_iid(incidentsId) REFERENCES incidents(id)
 ) ENGINE=InnoDB;
-
--- ALTER TABLE incidents add messagesId int(11);
--- ALTER TABLE incidents add FOREIGN KEY fk_mid(messagesId) REFERENCES messages(id);

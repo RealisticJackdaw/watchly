@@ -20,10 +20,9 @@ module.exports = {
   },
 
   allIncidents: function (req, res, next) {
-    console.log('all incidents controller helper fired');
     var query = 'select users.username, incidents.*, incidentTypes.type, incidentTypes.iconFilename from incidents, users,incidentTypes where incidents.userid = users.id and incidents.incidentTypeId = incidentTypes.id';
     knex.raw(query)
-    // knex.select('*').from('incidents')
+
       .then(function (rows) {
         res.send(rows);
       });
@@ -56,11 +55,8 @@ module.exports = {
     knex('incidents').where({id: req.body.id})
       .then(function(rows){
         var thisIncident = rows[0]
-        console.log("this Incident ", thisIncident)
         thisIncident.votes--;
         new Incident(thisIncident).save().then(function(newIncident){
-          // console.log('making new incident: ', thisIncident)
-          // Incidents.add(newIncident);
           res.send(newIncident);
         })
       });
@@ -70,11 +66,8 @@ module.exports = {
     knex('incidents').where({id: req.body.id})
       .then(function(rows){
         var thisIncident = rows[0]
-        console.log("this Incident ", thisIncident)
         thisIncident.votes++;
         new Incident(thisIncident).save().then(function(newIncident){
-          // console.log('making new incident: ', thisIncident)
-          // Incidents.add(newIncident);
           res.send(newIncident);
         })
       });
