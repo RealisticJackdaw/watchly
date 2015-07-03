@@ -197,6 +197,14 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
      });
   };
 
+  $scope.upvote = function(currentIncident){
+    Incidents.upvote(currentIncident);
+  };
+
+  $scope.downvote = function(currentIncident){
+    Incidents.downvote(currentIncident);
+  };
+
   $scope.renderIncident = function(incidentObj, ki) {
     var incidentPos = new google.maps.LatLng(incidentObj.latitude, incidentObj.longitude);
     var incidentIcon = "./img/" + incidentObj.iconFilename;

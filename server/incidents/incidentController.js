@@ -50,6 +50,16 @@ module.exports = {
       .then(function (rows) {
         res.send(rows);
       });
+  },
+
+  downvoteIncident: function(req, res, next){
+    console.log(req.body)
+    res.send(req.body)
+  },
+
+  upvoteIncident: function(req, res, next){
+    console.log(req.body)
+    res.send(req.body)
   }
 
 };
