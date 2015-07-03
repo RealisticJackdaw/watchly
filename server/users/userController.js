@@ -117,7 +117,7 @@ module.exports = {
       console.log(req.session.userId);
       new User({id: req.session.userId}).fetch().then(function(user) {
         if (user) {
-          utils.createSession(req, res, user);
+          // utils.createSession(req, res, user);
           console.log(user);
           res.status(200).send(user);
         } else {
