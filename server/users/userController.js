@@ -110,6 +110,24 @@ module.exports = {
         res.status(200).send(user);
       }
     });
+  },
+
+  loggedIn: function(req, res) {
+    if (req.session.userId) {
+      console.log(req.session.userId);
+      new User({id: req.session.userId}).fetch().then(function(user) {
+        if (user) {
+          utils.createSession(req, res, user);
+          console.log(user);
+          res.status(200).send(user);
+        } else {
+          res.status(200).send('');
+        }
+      })
+    } else {
+      console.log('not signed in');
+      res.status(200).send('');
+    }
   }
 
 };
