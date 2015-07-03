@@ -50,6 +50,34 @@ module.exports = {
       .then(function (rows) {
         res.send(rows);
       });
+  },
+
+  downvoteIncident: function(req, res, next){
+    knex('incidents').where({id: req.body.id})
+      .then(function(rows){
+        var thisIncident = rows[0]
+        console.log("this Incident ", thisIncident)
+        thisIncident.votes--;
+        new Incident(thisIncident).save().then(function(newIncident){
+          console.log('making new incident: ', thisIncident)
+          Incidents.add(newIncident);
+          res.send(newIncident);
+        })
+      });
+  },
+
+  upvoteIncident: function(req, res, next){
+    knex('incidents').where({id: req.body.id})
+      .then(function(rows){
+        var thisIncident = rows[0]
+        console.log("this Incident ", thisIncident)
+        thisIncident.votes++;
+        new Incident(thisIncident).save().then(function(newIncident){
+          console.log('making new incident: ', thisIncident)
+          Incidents.add(newIncident);
+          res.send(newIncident);
+        })
+      });
   }
 
 };

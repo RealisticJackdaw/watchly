@@ -215,9 +215,42 @@ angular.module('watchly.services',[])
       } else {
         console.log('Error while posting.');
       }
-    }
-);
-  }
+    });
+  };
+
+  var upvote = function(currentIncident) {
+    var incidentId = {id: currentIncident.id}
+    return $http({
+      method: 'POST',
+      url: '/api/incidents/upvote',
+      data: JSON.stringify(incidentId)
+    })
+    .then(function (res) {
+      if (res.status === 200) {
+      }
+      else {
+        console.log(res.data.error);
+      }
+      return res.data;
+    });
+  };
+
+  var downvote = function(currentIncident) {
+    var incidentId = {id: currentIncident.id}
+    return $http({
+      method: 'POST',
+      url: '/api/incidents/downvote',
+      data: JSON.stringify(incidentId)
+    })
+    .then(function (res) {
+      if (res.status === 200) {
+      }
+      else {
+        console.log(res.data.error);
+      }
+      return res.data;
+    });
+  };
 
   return {
     getIncidentById: getIncidentById,
@@ -225,7 +258,9 @@ angular.module('watchly.services',[])
     getAllIncidents: getAllIncidents,
     getIncidentTypes: getIncidentTypes,
     createNewIncident: createNewIncident,
-    shareOnFacebook: shareOnFacebook
+    shareOnFacebook: shareOnFacebook, 
+    upvote: upvote,
+    downvote: downvote
   };
 })
 .factory('Messages', function($http){

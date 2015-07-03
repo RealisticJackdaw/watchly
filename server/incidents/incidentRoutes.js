@@ -13,4 +13,10 @@ module.exports = function (app) {
   app.route('/incidentType')
     .get(incidentController.getIncidentTypes);
 
+  app.route('/upvote')
+    .post(incidentController.upvoteIncident);
+
+  app.route('/downvote')
+    .post(incidentController.downvoteIncident);
+
 };
