@@ -180,7 +180,6 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
         incidentsId: currentIncident.id
      })).then(function(){
       Messages.getMessageByIncident(JSON.stringify($scope.currentIncident.id)).then(function(messages){
-        console.log('in async call, ', messages)
         $scope.currentIncident.messages = messages;
       })
     })
@@ -199,13 +198,13 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
 
   $scope.upvote = function(currentIncident){
     Incidents.upvote(currentIncident).then(function(newIncident){
-      $scope.currentIncident.votes = newIncident.votes
+      $scope.currentIncident.votes = newIncident.votes;
     });
   };
 
   $scope.downvote = function(currentIncident){
     Incidents.downvote(currentIncident).then(function(newIncident){
-      $scope.currentIncident.votes = newIncident.votes
+      $scope.currentIncident.votes = newIncident.votes;
     });
   };
 
@@ -218,15 +217,6 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       icon: incidentIcon
     });
 
-    // var incidentInfoWindowContent = '<div class="incidentInfoTitle"> <strong>' + incidentObj.type + '</strong> on ' + incidentObj.fuzzyAddress + ' </div>' +
-    // '<div class="incidentInfoDescription"> ' + 'User Description: <strong>' + incidentObj.description + '</strong> </div>' +
-    // '<div class="incidnetInfoUsername"> ' + 'Reported by <strong>' + incidentObj.username + '</strong> to have occured on <strong>' + incidentObj.occurred_at.slice(0,10) + "</strong> at " +  incidentObj.occurred_at.slice(11,19) + '</div>' +
-    // '<div class="incidentInfoComments">';
-
-    // for (var comment in incidentObj.comments) incidentInfoWindowContent += '<div class="incidentInfoComment"' + incidentObj.comments[comment] + '</div>';
-    // incidentInfoWindowContent += '</div><input class="incidentInfoToComment" type="text" ng-model="newMessage" placeholder="Shiet!">' +
-    //                              '<button ng-click="postMessage(newMessage)" class="button button-block button-calm">Comment</button>';
-
     var incidentInfoWindow;
 
     google.maps.event.addListener(incident, 'click', function() {
@@ -236,10 +226,8 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       $scope.currentIncident.pictures = [];
       Messages.getMessageByIncident(JSON.stringify($scope.currentIncident.id)).then(function(messages){
         messages.forEach(function(message){
-          console.log('in the for each with ', message.userId)
           Auth.getUsernameFromId(JSON.stringify(message.userId)).then(function(userName){
             message.userName = userName.username;
-            console.log("username: ", message.userName)
           })
         })
         $scope.currentIncident.messages = messages;
@@ -250,13 +238,11 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       var syncArray = $firebaseArray(eventReference.child("images"));
       syncArray.$loaded()
       .then(function(){
-          console.log('image count: ',syncArray.length);
           angular.forEach(syncArray, function(image) {
             var orientation;
              if (image.orientation) {
                  orientation = image.orientation;
              }
-             console.log('orientation: ',orientation);
              var oriClass = '';
              switch(orientation) {
               //home button up
@@ -276,7 +262,6 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
                  oriClass = 'rotate90';
                  break;
              }
-             console.log('rotateClass: ',oriClass);
              $scope.currentIncident.pictures.push({
                image:image.imageString,
                oriClass: oriClass
@@ -287,11 +272,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
        $scope.infoWindows.forEach(function(window) {
          window.close();
        });
-       // incidentInfoWindow = new google.maps.InfoWindow({
-       //   content: incidentInfoWindowContent
-       // });
-       // $scope.infoWindows.push(incidentInfoWindow);
-       // incidentInfoWindow.open($scope.map,incident);
+
        $scope.incidentPopupModal.show();
      });
   };
@@ -312,8 +293,6 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     incidentTime.value = $filter("date")(Date.now(), 'HH:mm');
   };
 
-  // TODO Change this to current time rather than being hard coded
-  // var today = new Date();
   $scope.newIncident = {};
   $scope.newIncident.curDate = "";
   $scope.newIncident.curTime = "";
@@ -405,13 +384,11 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
   };
 
   $scope.submitIncident = function(incident) {
-    console.log('submitting incident: ', incident);
     $scope.loading = $ionicLoading.show({
       content: 'Submitting New Incident...',
       showBackdrop: false
     });
     var dbIncident = {};
-    // $scope.removeIncident();
     dbIncident.votes = 0;
     dbIncident.description = incident.description;
     dbIncident.incidentTypeId = $scope.incidentTypeNames[incident.type];
@@ -434,23 +411,19 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       dbIncident.fuzzyAddress = $scope.userIncident.fuzzyAddress;
       Incidents.createNewIncident(dbIncident).then(function(newIncident) {
         //upload to firebase
-        console.log('incident obj', newIncident);
         var incidentID = newIncident.id;
 
         if (incident.picFile) {
-          console.log('image count: ',incident.picFile.length);
           for (var i = 0; i < incident.picFile.length; i++) {
             $scope.uploadImage(incident.picFile[i], incidentID);
           }
         }
 
-        console.log('before clear: ',$scope.newIncident);
         for(var index in $scope.newIncident) {
            if ($scope.newIncident.hasOwnProperty(index)) {
                $scope.newIncident[index] = null;
            }
         }
-        console.log('after clear: ',$scope.newIncident);
 
         $scope.removeIncident();
 
@@ -582,8 +555,6 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     }
   };
 
-  //$scope.userLastName = user.lastName;
-
   // Execute action on hide modal
   $scope.$on('modal.hidden', function() {
       // Execute action
@@ -635,7 +606,6 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
 
   $scope.updateUser = function() {
     var data = JSON.stringify({oldUsername: $scope.user.username, user: $scope.newUser});
-    console.log(data);
     Auth.updateUserProfile(data, function() {
       $scope.editProfileModal.hide();
       $scope.user.firstName = $scope.newUser.firstName || $scope.user.firstName;
@@ -643,17 +613,14 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       $scope.user.username = $scope.newUser.username || $scope.user.username;
       $scope.user.email = $scope.newUser.email || $scope.user.email;
       $scope.user.phone = $scope.newUser.phone || $scope.user.phone;
-
-      //$scope.profileActivate();
     });
-  }
+  };
 
   $scope.profileEditor = function() {
     $scope.newUser = {};
     $scope.profileModal.hide();
     $scope.editProfileModal.show();
-
-  }
+  };
 
   $scope.signUp = function(user) {
     Auth.signup(user).then(function(res) {
