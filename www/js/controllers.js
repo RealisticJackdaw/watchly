@@ -123,7 +123,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
   $scope.mapBounds = {};
   $scope.newMessage = '';
 
-  $scope.setMapBounds = function () {
+  $scope.setMapBounds = function() {
     var bounds = $scope.map.getBounds();
     var northEastBound = bounds.getNorthEast();
     var southWestBound = bounds.getSouthWest();
@@ -165,7 +165,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     var keys = Object.keys($scope.incidents);
     for (var i = 0; i < keys.length; i++) {
       if ($scope.renderedIncidents[keys[i]] === undefined) {
-        $scope.renderIncident($scope.incidents[keys[i]],keys[i]);
+        $scope.renderIncident($scope.incidents[keys[i]], keys[i]);
         $scope.renderedIncidents[keys[i]] = true;
       }
     }
@@ -187,13 +187,13 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
 
   $scope.doRefresh = function() {
     Messages.getMessageByIncident(JSON.stringify($scope.currentIncident.id))
-     .then(function(messages) {
-       $scope.currentIncident.messages = messages;
-     })
-     .finally(function() {
-       // Stop the ion-refresher from spinning
-       $scope.$broadcast('scroll.refreshComplete');
-     });
+      .then(function(messages) {
+        $scope.currentIncident.messages = messages;
+      })
+      .finally(function() {
+        // Stop the ion-refresher from spinning
+        $scope.$broadcast('scroll.refreshComplete');
+      });
   };
 
   $scope.upvote = function(currentIncident){
@@ -221,8 +221,8 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
 
     google.maps.event.addListener(incident, 'click', function() {
       $scope.currentIncident = incidentObj;
-      $scope.currentIncident.date = $scope.currentIncident.occurred_at.slice(0,10);
-      $scope.currentIncident.time = $scope.currentIncident.occurred_at.slice(11,19);
+      $scope.currentIncident.date = $scope.currentIncident.occurred_at.slice(0, 10);
+      $scope.currentIncident.time = $scope.currentIncident.occurred_at.slice(11, 19);
       $scope.currentIncident.pictures = [];
       Messages.getMessageByIncident(JSON.stringify($scope.currentIncident.id)).then(function(messages){
         messages.forEach(function(message){
@@ -266,8 +266,12 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
                image:image.imageString,
                oriClass: oriClass
              });
+
           });
           $ionicSlideBoxDelegate.update();
+        });
+      $scope.infoWindows.forEach(function(window) {
+        window.close();
       });
        $scope.infoWindows.forEach(function(window) {
          window.close();
@@ -280,7 +284,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
   $scope.populateIncidentTypes = function () {
     Incidents.getIncidentTypes().then(function (result) {
       $scope.incidentTypes = result;
-      result.forEach(function (incidentType) {
+      result.forEach(function(incidentType) {
         $scope.incidentTypeNames[incidentType.type] = incidentType.id;
       });
     });
@@ -435,29 +439,65 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
   };
 
   $scope.uploadImage = function(imageData, incidentID) {
-    var FR = new FileReader();
-    FR.onload = function(e) {
-      var imageString = e.target.result;
+    loadImage.parseMetaData(
+      imageData,
+      function(data) {
+        var orientation;
+        if (data.exif) {
+          orientation = data.exif.get('Orientation');
+        } else {
+          orientation = null;
+        }
+        console.log('image orientation: ',orientation);
 
-      var eventReference = fb.child("events/" + incidentID);
-      var syncArray = $firebaseArray(eventReference.child("images"));
+        var FR = new FileReader();
+        FR.onload = function(e) {
+          var imageString = e.target.result;
+          var image = new Image();
+          image.onload = function(imageEvent) {
+            var canvas = document.createElement('canvas'),
+              max_size = 800, // TODO : pull max size from a site config
+              width = image.width,
+              height = image.height;
+            if (width > height) {
+              if (width > max_size) {
+                height *= max_size / width;
+                width = max_size;
+              }
+            } else {
+              if (height > max_size) {
+                width *= max_size / height;
+                height = max_size;
+              }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+            var dataUrl = canvas.toDataURL('image/jpeg');
 
-      $scope.user = Auth.getUser();
-      var username = $scope.user.username || '';
+            var eventReference = fb.child("events/" + incidentID);
+            var syncArray = $firebaseArray(eventReference.child("images"));
 
-      var submitDate = new Date().toISOString().slice(0, 10);
+            $scope.user = Auth.getUser();
+            var username = $scope.user.username || '';
 
-      syncArray.$add({
-          imageString: imageString,
-          username: username,
-          submitDate: submitDate
-        })
-        .then(function() {
-          console.log("Image has been uploaded");
-        });
-    };
-    FR.readAsDataURL(imageData);
+            var submitDate = new Date().toISOString().slice(0, 10);
 
+            syncArray.$add({
+                imageString: dataUrl,
+                username: username,
+                submitDate: submitDate,
+                orientation: orientation
+              })
+              .then(function() {
+                console.log("Image has been uploaded");
+              });
+          };
+          image.src = e.target.result;
+        };
+        FR.readAsDataURL(imageData);
+      }, {}
+    );
   };
 
   $scope.reverseGeo = function(location, next) {
@@ -557,10 +597,10 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
 
   // Execute action on hide modal
   $scope.$on('modal.hidden', function() {
-      // Execute action
-      $scope.signInRejected = false;
+    // Execute action
+    $scope.signInRejected = false;
 
-    });
+  });
   // Execute action on remove modal
   $scope.$on('modal.removed', function() {
     // Execute action
@@ -606,6 +646,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
 
   $scope.updateUser = function() {
     var data = JSON.stringify({oldUsername: $scope.user.username, user: $scope.newUser});
+
     Auth.updateUserProfile(data, function() {
       $scope.editProfileModal.hide();
       $scope.user.firstName = $scope.newUser.firstName || $scope.user.firstName;
@@ -637,12 +678,12 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       $scope.openDatabaseResetModal();
     } else {
       Auth.signin(user).then(function(res) {
-        $scope.closeSignInModal();
-      })
-      .catch(function(err){
-        console.error('sign in error:',err);
-        $scope.signInRejected = true;
-      });
+          $scope.closeSignInModal();
+        })
+        .catch(function(err) {
+          console.error('sign in error:', err);
+          $scope.signInRejected = true;
+        });
     }
   };
 
@@ -655,8 +696,9 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
 
     var eventReference = fb.child("events");
     eventReference.remove(function(error) {
-      if (error) {console.error('firebase error: ',error);}
-      else {
+      if (error) {
+        console.error('firebase error: ', error);
+      } else {
         console.log('firebase events removed');
       }
     });
@@ -675,9 +717,9 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     });
   };
 
-  $scope.shareOnFacebook = function(){
+  $scope.shareOnFacebook = function() {
     Incidents.shareOnFacebook();
-  }
+  };
 
   // camera functions going here
 
@@ -700,7 +742,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       // An error occured. Show a message to the user
       alert('error');
     });
-  }
+  };
 
   // camera functions end
 
