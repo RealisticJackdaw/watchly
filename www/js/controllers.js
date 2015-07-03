@@ -1,6 +1,6 @@
 angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCordova', 'firebase'])
 
-.controller('MapCtrl', function($scope, $http, $ionicModal, $ionicLoading, $ionicSideMenuDelegate, $compile, $filter, Auth, Incidents, Messages, Upload, $firebaseArray, $cordovaCamera) {
+.controller('MapCtrl', function($scope, $http, $ionicModal, $ionicLoading, $ionicSideMenuDelegate, $compile, $filter, Auth, Incidents, Messages, Upload, $firebaseArray, $cordovaCamera, $ionicSlideBoxDelegate) {
 
   function initialize() {
     Auth.loggedIn();
@@ -250,6 +250,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       var syncArray = $firebaseArray(eventReference.child("images"));
       syncArray.$loaded()
       .then(function(){
+          console.log('image count: ',syncArray.length);
           angular.forEach(syncArray, function(image) {
             var orientation;
              if (image.orientation) {
@@ -281,6 +282,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
                oriClass: oriClass
              });
           });
+          $ionicSlideBoxDelegate.update();
       });
        $scope.infoWindows.forEach(function(window) {
          window.close();
@@ -403,6 +405,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
   };
 
   $scope.submitIncident = function(incident) {
+    console.log('submitting incident: ', incident);
     $scope.loading = $ionicLoading.show({
       content: 'Submitting New Incident...',
       showBackdrop: false
@@ -411,7 +414,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     // $scope.removeIncident();
     dbIncident.votes = 0;
     dbIncident.description = incident.description;
-    dbIncident.incidentTypeId = $scope.incidentTypeNames[$scope.newIncidentType];
+    dbIncident.incidentTypeId = $scope.incidentTypeNames[incident.type];
 
     if (incident.curDate === "") {
       incident.curDate = new Date();
@@ -423,9 +426,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     dbIncident.latitude = $scope.userIncident.latitude;
     dbIncident.longitude = $scope.userIncident.longitude;
     dbIncident.description = incident.description;
-    if (incident.picFile){
-      var picFile = incident.picFile[0];
-    }
+
 
     $scope.reverseGeo($scope.userIncident.location, function() {
       // TODO Figure out if we can reverseGeo the real address...placeholder for now.
@@ -436,11 +437,23 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
         console.log('incident obj', newIncident);
         var incidentID = newIncident.id;
 
-        if(picFile){
-          $scope.uploadImage(picFile, incidentID);
+        if (incident.picFile) {
+          console.log('image count: ',incident.picFile.length);
+          for (var i = 0; i < incident.picFile.length; i++) {
+            $scope.uploadImage(incident.picFile[i], incidentID);
+          }
         }
 
+        console.log('before clear: ',$scope.newIncident);
+        for(var index in $scope.newIncident) {
+           if ($scope.newIncident.hasOwnProperty(index)) {
+               $scope.newIncident[index] = null;
+           }
+        }
+        console.log('after clear: ',$scope.newIncident);
+
         $scope.removeIncident();
+
         $scope.getIncidents();
         $scope.renderAllIncidents();
         $scope.loading.hide();
@@ -506,6 +519,13 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     });
   };
 
+  $ionicModal.fromTemplateUrl('templates/databaseReset.html', {
+    scope: $scope,
+    animation: 'slide-in-up',
+    focusFirstInput: true,
+  }).then(function(modal) {
+    $scope.databaseResetModal = modal;
+  });
 
   $ionicModal.fromTemplateUrl('templates/signin.html', {
     scope: $scope,
@@ -564,6 +584,19 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
 
   //$scope.userLastName = user.lastName;
 
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+      // Execute action
+      $scope.signInRejected = false;
+
+    });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+    $scope.signInRejected = false;
+
+  });
+
   $scope.openSignInModal = function() {
     $scope.signInModal.show();
   };
@@ -578,6 +611,14 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
 
   $scope.closeSignUpModal = function() {
     $scope.signUpModal.hide();
+  };
+
+  $scope.openDatabaseResetModal = function() {
+    $scope.databaseResetModal.show();
+  };
+
+  $scope.closeDatabaseResetModal = function() {
+    $scope.databaseResetModal.hide();
   };
 
   $scope.openForgotPasswordModal = function() {
@@ -602,7 +643,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       $scope.user.username = $scope.newUser.username || $scope.user.username;
       $scope.user.email = $scope.newUser.email || $scope.user.email;
       $scope.user.phone = $scope.newUser.phone || $scope.user.phone;
-      
+
       //$scope.profileActivate();
     });
   }
@@ -621,8 +662,36 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
   };
 
   $scope.signIn = function(user) {
-    Auth.signin(user).then(function(res) {
+    $scope.signInRejected = false;
+
+    if (user && user.username === 'reset') {
+      $scope.resetDB();
       $scope.closeSignInModal();
+      $scope.openDatabaseResetModal();
+    } else {
+      Auth.signin(user).then(function(res) {
+        $scope.closeSignInModal();
+      })
+      .catch(function(err){
+        console.error('sign in error:',err);
+        $scope.signInRejected = true;
+      });
+    }
+  };
+
+  $scope.resetDB = function() {
+    Messages.resetMessageDB(function() {
+      Incidents.resetIncidentDB(function() {
+        Auth.resetUserDB();
+      });
+    });
+
+    var eventReference = fb.child("events");
+    eventReference.remove(function(error) {
+      if (error) {console.error('firebase error: ',error);}
+      else {
+        console.log('firebase events removed');
+      }
     });
   };
 

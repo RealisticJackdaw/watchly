@@ -28,6 +28,22 @@ angular.module('watchly.services',[])
     });
   };
 
+  var resetUserDB = function (callback) {
+    return $http({
+      method: 'DELETE',
+      url: '/api/users'
+    })
+    .then(function (res) {
+      if (res.status === 200) {
+        console.log(res.data);
+        if (callback) {callback();}
+      }
+      else {
+        console.log(res.data.error);
+      }
+    });
+  };
+
   var signup = function (user) {
     return $http({
       method: 'POST',
@@ -123,7 +139,8 @@ angular.module('watchly.services',[])
     forgotpassword: forgotpassword,
     updateUserProfile: updateUserProfile,
     getUsernameFromId: getUsernameFromId,
-    loggedIn: loggedIn
+    loggedIn: loggedIn,
+    resetUserDB: resetUserDB
   };
 })
 .factory('Incidents', function($http){
@@ -252,6 +269,22 @@ angular.module('watchly.services',[])
     });
   };
 
+  var resetIncidentDB = function (callback) {
+    return $http({
+      method: 'DELETE',
+      url: '/api/incidents'
+    })
+    .then(function (res) {
+      if (res.status === 200) {
+        console.log(res.data);
+        if (callback) {callback();}
+      }
+      else {
+        console.log(res.data.error);
+      }
+    });
+  };
+
   return {
     getIncidentById: getIncidentById,
     getIncidentsByLocation: getIncidentsByLocation,
@@ -260,7 +293,8 @@ angular.module('watchly.services',[])
     createNewIncident: createNewIncident,
     shareOnFacebook: shareOnFacebook, 
     upvote: upvote,
-    downvote: downvote
+    downvote: downvote,
+    resetIncidentDB:resetIncidentDB
   };
 })
 .factory('Messages', function($http){
@@ -300,8 +334,25 @@ angular.module('watchly.services',[])
     });
   };
 
+  var resetMessageDB = function (callback) {
+    return $http({
+      method: 'DELETE',
+      url: '/api/messages'
+    })
+    .then(function (res) {
+      if (res.status === 200) {
+        console.log(res.data);
+        if (callback) {callback();}
+      }
+      else {
+        console.log(res.data.error);
+      }
+    });
+  };
+
   return {
     getMessageByIncident: getMessageByIncident,
-    createNewMessage: createNewMessage
+    createNewMessage: createNewMessage,
+    resetMessageDB: resetMessageDB
   };
 });
