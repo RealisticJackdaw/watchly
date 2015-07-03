@@ -1,6 +1,16 @@
 angular.module('watchly.services',[])
 .factory('Auth', function ($http, $location) {
   var authenticatedUser;
+
+  var loggedIn = function() {
+    $http.post('/api/users/loggedIn', {message: 'hi'}).success(function(res) {
+      console.log('success?');
+      authenticatedUser = res;
+      console.log(authenticatedUser);
+      return res.status;
+    });
+  };
+
   var signin = function (user) {
     return $http({
       method: 'POST',
@@ -112,7 +122,8 @@ angular.module('watchly.services',[])
     getUser: getUser,
     forgotpassword: forgotpassword,
     updateUserProfile: updateUserProfile,
-    getUsernameFromId: getUsernameFromId
+    getUsernameFromId: getUsernameFromId,
+    loggedIn: loggedIn
   };
 })
 .factory('Incidents', function($http){
@@ -214,7 +225,7 @@ angular.module('watchly.services',[])
     getAllIncidents: getAllIncidents,
     getIncidentTypes: getIncidentTypes,
     createNewIncident: createNewIncident,
-    shareOnFacebook: shareOnFacebook 
+    shareOnFacebook: shareOnFacebook
   };
 })
 .factory('Messages', function($http){

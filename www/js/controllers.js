@@ -3,6 +3,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
 .controller('MapCtrl', function($scope, $http, $ionicModal, $ionicLoading, $ionicSideMenuDelegate, $compile, $filter, Auth, Incidents, Messages, Upload, $firebaseArray, $cordovaCamera) {
 
   function initialize() {
+    Auth.loggedIn();
     $scope.geoCoder = new google.maps.Geocoder();
     var mapOptions = {
       // Center on Hack Reactor
@@ -110,6 +111,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
     google.maps.event.addListener(map, 'drag', function(event) {
       clearTimeout($scope.downTimer);
     });
+
   }
 
   google.maps.event.addDomListener(window, 'load', initialize);
@@ -613,6 +615,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
 
   $scope.signOut = function() {
     Auth.signout().then(function(res) {
+      $scope.user = '';
       $scope.closeProfileModal();
     });
   };
