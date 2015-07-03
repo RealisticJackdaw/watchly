@@ -56,7 +56,7 @@ In the server/db/dev-support-assets directory, developers may access the followi
   1. testdata.sql file which is unused in production but may be useful for inserting sample data during development
 
 ### Setting up a development database environment
-1. Start mysql and sign in:
+1. Start mysql and sign in (we default to no password, remember to change this in server/config/knex-config.js if you do):
 ```sh
 mysql.server start
 mysql -u [your username] -p
@@ -68,7 +68,7 @@ Enter Password:  [your password]
 create database watchly;
 use watchly;
 ```
-When the app is started (node index.js), the schema will be created so long as this setup has been performed.
+When the app is started (node index.js, run nodemon index.js to auto restart on saving files server side), the schema will be created so long as this setup has been performed.
 
 ### Emulating in the browser
 1. Start server
@@ -155,10 +155,26 @@ $http.post('api/messages/', data);
 var data = { incidentsId: 1 };
 $http.post('api/messages/thread', data);
 ```
-   
+### Local Testing
 
+* Reseting your Databases
 
+```sh
+* Run the app localy at localhost:3000 in your browser
+* Click the Head Icon on the top Right
+* Enter Username 'reset' and click Sign In
+* An Ionic Modal popup should confirm a full database reset
+```
 
+## Project Notes (by LeftHandedWhisperers)
 
+### Legacy Features
 
-
+- Added pictures to incidents! Can now add and view pictures related (or unrelated) to the incident
+- Added comments on incidents! Can now visibly gasp in horror at all the crime around you
+- Added votes on incidents! Can now like or dislike criminal activity. -3 Votes and the incident is auto deleted
+- Added profile editing! Can now edit your profile by clicking on the Person Icon after signing in
+- Added sustained sessions! When you log in your session will last for an hour and reset/autologin on refreshing the page
+- Changed incident views! Incident views are Ionic Modals and not silly google maps popups
+- Changed mobile formating! It works now! What was GreenField doing?!?
+- Changed incident icons! Ours are better

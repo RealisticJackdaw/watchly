@@ -6,6 +6,7 @@
   },
   "description": "watchly: virtual townwatch",
   "dependencies": {
+    "angularfire": "^1.1.2",
     "async": "^1.2.1",
     "bcrypt-nodejs": "~0.0.3",
     "bluebird": "~2.9.30",
@@ -13,10 +14,12 @@
     "bookshelf": "~0.8.1",
     "express": "~4.13.0",
     "express-session": "~1.11.3",
+    "firebase": "^2.2.7",
     "knex": "~0.8.6",
     "morgan": "^1.6.0",
     "mysql": "~2.7.0",
-    "request": "^2.58.0"
+    "request": "^2.58.0",
+    "url": "^0.10.3"
   },
   "devDependencies": {
     "bower": "~1.4.1",

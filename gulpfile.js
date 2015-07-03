@@ -24,11 +24,15 @@ var libFilesToMove = [
         './bower_components/angular-sanitize/angular-sanitize.min.js.map',
         './bower_components/angular-animate/angular-animate.min.js',
         './bower_components/angular-animate/angular-animate.min.js.map',
+        './bower_components/ng-file-upload/ng-file-upload.min.js',
         './bower_components/ionic/css/ionic.min.css',
         './bower_components/ionic/js/ionic-angular.min.js',
         './bower_components/ionic/js/ionic.bundle.min.js',
         './bower_components/ionicons/css/ionicons.min.css',
-        './manifest.json'
+        './manifest.json',
+        './bower_components/firebase/firebase.js',
+        './bower_components/angularfire/dist/angularfire.min.js',
+        './bower_components/blueimp-load-image/js/load-image.all.min.js'
     ];
 
 
@@ -117,13 +121,4 @@ gulp.task('move_config_file', ['move_to_public'], function() {
 });
 
 gulp.task('public', ['move_config_file']);
-
-
-
-
-
-
-
-
-
 

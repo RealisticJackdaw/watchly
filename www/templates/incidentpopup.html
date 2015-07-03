@@ -1,0 +1,66 @@
+<ion-modal-view class="incidentPopupWindow">
+  <ion-content ng-controller:'watchly.controllers'>
+    <ion-refresher
+        pulling-text="Pull to refresh..."
+        on-refresh="doRefresh()">
+    </ion-refresher>
+    <div class="item item-avatar">
+      <ion-header-bar class="bar bar-header bar-calm">
+        <h1 class="title">Incident Report</h1>
+      </ion-header-bar>
+    </div>
+
+    <div class="list card">
+      <div class="item item-body incident-box-margin">
+        <ion-slide-box on-slide-changed="slideHasChanged($index)">
+          <ion-slide ng-repeat="picture in currentIncident.pictures"><img src="{{picture.image}}" class="incident-image {{picture.oriClass}}"></div></ion-slide>
+
+        </ion-slide-box>
+      </div>
+
+      <div class="incident-box-margin">
+        <p>
+          <strong>{{ currentIncident.type }}</strong> on {{ currentIncident.fuzzyAddress }}. User Description:<strong> {{ currentIncident.description }}.</strong> Reported by<strong> {{ currentIncident.username }}</strong> to have occured on <strong> {{ currentIncident.date }} </strong> at {{ currentIncident.time }}.
+        </p>
+
+        <p>
+          <a href="#" class="subdued">{{currentIncident.votes}} UpVote</a>
+          <a href="#" class="subdued">5 Comments</a>
+        </p>
+      </div>
+
+      <div class="item tabs tabs-secondary tabs-icon-left">
+        <a class="tab-item" href="#" ng-click="upvote(currentIncident)">
+          <i class="icon ion-arrow-up-a"></i>
+          UpVote
+        </a>
+        <a class="tab-item" href="#" ng-click="downvote(currentIncident)">
+          <i class="icon ion-arrow-down-a"></i>
+          DownVote
+        </a>
+        <a class="tab-item" href="#" ng-click="shareOnFacebook()">
+          <i class="icon ion-share"></i>
+          Share
+        </a>
+      </div>
+
+    </div>
+    <div class="list card">
+        <label class="item item-input">
+          <span class="input-label">Message:</span>
+          <input type="text" ng-model="message">
+        </label>
+      <button class="button button-small button-block button-calm" ng-click="postMessage(message, currentIncident)">Submit Message</button>
+      <div class="list">
+        <div ng-repeat="message in currentIncident.messages | orderBy:'created_at':true" class="item item-body">
+          <p>
+            <strong>{{message.userName}}</strong>
+          </p>
+          <p>
+            {{message.description}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-modal-view>
