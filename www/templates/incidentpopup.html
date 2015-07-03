@@ -15,7 +15,7 @@
     <div class="list card">
       <div class="item item-body incident-box-margin">
         <ion-slide-box on-slide-changed="slideHasChanged($index)">
-          <ion-slide ng-repeat="picture in currentIncident.pictures"><img src="{{picture.image}}" class="incident-image {{picture.oriClass}}"></ion-slide>
+          <ion-slide ng-repeat="picture in currentIncident.pictures"><img src="{{picture.image}}" class="incident-image {{picture.oriClass}}"></div></ion-slide>
 
         </ion-slide-box>
       </div>
@@ -26,17 +26,21 @@
         </p>
 
         <p>
-          <a href="#" class="subdued">1 UpVote</a>
+          <a href="#" class="subdued">{{currentIncident.votes}} UpVote</a>
           <a href="#" class="subdued">5 Comments</a>
         </p>
       </div>
 
       <div class="item tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" href="#">
+        <a class="tab-item" href="#" ng-click="upvote(currentIncident)">
           <i class="icon ion-arrow-up-a"></i>
           UpVote
         </a>
-        <a class="tab-item" href="#">
+        <a class="tab-item" href="#" ng-click="downvote(currentIncident)">
+          <i class="icon ion-arrow-down-a"></i>
+          DownVote
+        </a>
+        <a class="tab-item" href="#" ng-click="shareOnFacebook()">
           <i class="icon ion-share"></i>
           Share
         </a>
@@ -52,7 +56,7 @@
       <div class="list">
         <div ng-repeat="message in currentIncident.messages | orderBy:'created_at':true" class="item item-body">
           <p>
-            <strong>username</strong>
+            <strong>{{message.userName}}</strong>
           </p>
           <p>
             {{message.description}}

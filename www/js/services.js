@@ -1,6 +1,16 @@
 angular.module('watchly.services',[])
 .factory('Auth', function ($http, $location) {
   var authenticatedUser;
+
+  var loggedIn = function() {
+    $http.post('/api/users/loggedIn', {message: 'hi'}).success(function(res) {
+      console.log('success?');
+      authenticatedUser = res;
+      console.log(authenticatedUser);
+      return res.status;
+    });
+  };
+
   var signin = function (user) {
     return $http({
       method: 'POST',
@@ -15,6 +25,22 @@ angular.module('watchly.services',[])
         console.log(res.data.error);
       }
       return authenticatedUser;
+    });
+  };
+
+  var resetUserDB = function (callback) {
+    return $http({
+      method: 'DELETE',
+      url: '/api/users'
+    })
+    .then(function (res) {
+      if (res.status === 200) {
+        console.log(res.data);
+        if (callback) {callback();}
+      }
+      else {
+        console.log(res.data.error);
+      }
     });
   };
 
@@ -111,7 +137,10 @@ angular.module('watchly.services',[])
     isAuthenticated: isAuthenticated,
     getUser: getUser,
     forgotpassword: forgotpassword,
-    updateUserProfile: updateUserProfile
+    updateUserProfile: updateUserProfile,
+    getUsernameFromId: getUsernameFromId,
+    loggedIn: loggedIn,
+    resetUserDB: resetUserDB
   };
 })
 .factory('Incidents', function($http){
@@ -192,12 +221,80 @@ angular.module('watchly.services',[])
     });
   };
 
+  var shareOnFacebook = function() {
+    FB.ui({
+      method: 'share',
+      href: 'http://watchlier.elasticbeanstalk.com/',
+    },
+    function(response) {
+      if (response && !response.error_code) {
+        console.log('Posting completed.');
+      } else {
+        console.log('Error while posting.');
+      }
+    });
+  };
+
+  var upvote = function(currentIncident) {
+    var incidentId = {id: currentIncident.id}
+    return $http({
+      method: 'POST',
+      url: '/api/incidents/upvote',
+      data: JSON.stringify(incidentId)
+    })
+    .then(function (res) {
+      if (res.status === 200) {
+      }
+      else {
+        console.log(res.data.error);
+      }
+      return res.data;
+    });
+  };
+
+  var downvote = function(currentIncident) {
+    var incidentId = {id: currentIncident.id}
+    return $http({
+      method: 'POST',
+      url: '/api/incidents/downvote',
+      data: JSON.stringify(incidentId)
+    })
+    .then(function (res) {
+      if (res.status === 200) {
+      }
+      else {
+        console.log(res.data.error);
+      }
+      return res.data;
+    });
+  };
+
+  var resetIncidentDB = function (callback) {
+    return $http({
+      method: 'DELETE',
+      url: '/api/incidents'
+    })
+    .then(function (res) {
+      if (res.status === 200) {
+        console.log(res.data);
+        if (callback) {callback();}
+      }
+      else {
+        console.log(res.data.error);
+      }
+    });
+  };
+
   return {
     getIncidentById: getIncidentById,
     getIncidentsByLocation: getIncidentsByLocation,
     getAllIncidents: getAllIncidents,
     getIncidentTypes: getIncidentTypes,
-    createNewIncident: createNewIncident 
+    createNewIncident: createNewIncident,
+    shareOnFacebook: shareOnFacebook, 
+    upvote: upvote,
+    downvote: downvote,
+    resetIncidentDB:resetIncidentDB
   };
 })
 .factory('Messages', function($http){
@@ -237,8 +334,25 @@ angular.module('watchly.services',[])
     });
   };
 
+  var resetMessageDB = function (callback) {
+    return $http({
+      method: 'DELETE',
+      url: '/api/messages'
+    })
+    .then(function (res) {
+      if (res.status === 200) {
+        console.log(res.data);
+        if (callback) {callback();}
+      }
+      else {
+        console.log(res.data.error);
+      }
+    });
+  };
+
   return {
     getMessageByIncident: getMessageByIncident,
-    createNewMessage: createNewMessage
+    createNewMessage: createNewMessage,
+    resetMessageDB: resetMessageDB
   };
 });
