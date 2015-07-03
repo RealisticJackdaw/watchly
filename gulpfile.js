@@ -122,12 +122,3 @@ gulp.task('move_config_file', ['move_to_public'], function() {
 
 gulp.task('public', ['move_config_file']);
 
-
-
-
-
-
-
-
-
-
