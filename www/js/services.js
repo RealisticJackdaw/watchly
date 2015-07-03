@@ -258,13 +258,9 @@ angular.module('watchly.services',[])
     getAllIncidents: getAllIncidents,
     getIncidentTypes: getIncidentTypes,
     createNewIncident: createNewIncident,
-<<<<<<< HEAD
-    shareOnFacebook: shareOnFacebook
-=======
     shareOnFacebook: shareOnFacebook, 
     upvote: upvote,
     downvote: downvote
->>>>>>> upvote and downvote routes to server
   };
 })
 .factory('Messages', function($http){
