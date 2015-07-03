@@ -15,7 +15,7 @@
     <div class="list card">
       <div class="item item-body incident-box-margin">
         <ion-slide-box on-slide-changed="slideHasChanged($index)">
-          <ion-slide ng-repeat="picture in currentIncident.pictures"><img src="{{picture.image}}" class="incident-image {{picture.oriClass}}"></ion-slide>
+          <ion-slide ng-repeat="picture in currentIncident.pictures"><img src="{{picture.image}}" class="incident-image {{picture.oriClass}}"></div></ion-slide>
 
         </ion-slide-box>
       </div>
@@ -32,8 +32,8 @@
       </div>
 
       <div class="item tabs tabs-secondary tabs-icon-left">
-        <a class="tab-item" href="#">
-          <i class="icon ion-arrow-up-a" ng-click="upvote(currentIncident)"></i>
+        <a class="tab-item" href="#" ng-click="upvote(currentIncident)">
+          <i class="icon ion-arrow-up-a"></i>
           UpVote
         </a>
         <a class="tab-item" href="#" ng-click="downvote(currentIncident)">
