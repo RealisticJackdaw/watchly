@@ -7,7 +7,6 @@ module.exports = {
   getMessagesForIncident: function (req, res) {
     var uri = req.url;
     var incidentsId = (url.parse(uri).pathname).slice(1);
-    console.log('incident: ', incidentsId)
     knex('messages').where({'incidentsId': incidentsId })
       .then(function (rows) {
         console.log(rows);
@@ -23,7 +22,6 @@ module.exports = {
     }
     new Message(messageData).save().then(function (newMessage) {
       Messages.add(newMessage);
-      console.log('added new message!');
       console.log(newMessage)
       res.send(newMessage);
     });

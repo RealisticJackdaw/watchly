@@ -49,19 +49,13 @@ module.exports = {
 
   },
 
-  checkAuth: function (req, res, next) {
-    // checking to see if the user is authenticated
-    // grab the token in the header is any
-    // then decode the token, which we end up being the user object
-    // check to see if that user exists in the database
-  },
-
   signout: function (req, res, next) {
     req.session.destroy(function(){
       res.redirect('/');
     });
   },
 
+  //TODO: send emails to users who forgot their passwords
   forgotpassword: function (req, res, next) {
     var email = req.body.email;
 
@@ -111,14 +105,11 @@ module.exports = {
       }
     });
   },
-
+  //determines if a user has a current session token and signs them in if so
   loggedIn: function(req, res) {
     if (req.session.userId) {
-      console.log(req.session.userId);
       new User({id: req.session.userId}).fetch().then(function(user) {
         if (user) {
-          // utils.createSession(req, res, user);
-          console.log(user);
           res.status(200).send(user);
         } else {
           res.status(200).send('');
