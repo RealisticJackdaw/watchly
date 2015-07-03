@@ -224,7 +224,7 @@ angular.module('watchly.services',[])
   var shareOnFacebook = function() {
     FB.ui({
       method: 'share',
-      href: 'http://watchlier.elasticbeanstalk.com/',
+      href: 'watchlier.elasticbeanstalk.com/',
     },
     function(response) {
       if (response && !response.error_code) {

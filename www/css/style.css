@@ -36,21 +36,33 @@
 .signInWindow {
   max-width: 300px;
   max-height: 320px;
+  position: absolute !important;
+  top: 20% !important;
+  left: 38% !important;
 }
 
 .signUpWindow {
   height: 420px;
   max-width: 400px;
+  position: absolute !important;
+  top: 20% !important;
+  left: 33% !important;
 }
 
 .forgotPasswordWindow {
   max-height: 180px;
   max-width: 320px;
+  position: absolute !important;
+  top: 20% !important;
+  left: 38% !important;
 }
 
 .profileWindow {
   height: 425px;
   max-width: 320px;
+  position: absolute !important;
+  top: 20% !important;
+  left: 38% !important;
 }
 
 .incidentPopupWindow {
