@@ -4,6 +4,8 @@ module.exports = function (app) {
   app.route('/')
     .post(messageController.newMessage);
 
-  app.route('/thread')
-    .post(messageController.getMessagesForIncident);
+  app.delete('/', messageController.deleteMessages);
+
+  app.route('/:incidentId')
+    .get(messageController.getMessagesForIncident);
 };

@@ -1,12 +1,14 @@
 var knex = require('knex')({
   client: 'mysql',
   connection: {
-    user: 'root',
-    host: '127.0.0.1',
-    password: 'brian',
-    database: 'watchly',
-    charset: 'utf8'
+    host: process.env.RDS_HOSTNAME || '127.0.0.1',
+    user: process.env.RDS_USERNAME || 'root',
+    password: process.env.RDS_PASSWORD || null,
+    port: process.env.RDS_PORT || null,
+    database: process.env.RDS_DB_NAME || 'watchly'
   }
 });
 
 module.exports = knex;
+
+
