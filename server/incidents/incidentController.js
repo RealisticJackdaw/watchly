@@ -59,8 +59,8 @@ module.exports = {
         console.log("this Incident ", thisIncident)
         thisIncident.votes--;
         new Incident(thisIncident).save().then(function(newIncident){
-          console.log('making new incident: ', thisIncident)
-          Incidents.add(newIncident);
+          // console.log('making new incident: ', thisIncident)
+          // Incidents.add(newIncident);
           res.send(newIncident);
         })
       });
@@ -73,8 +73,8 @@ module.exports = {
         console.log("this Incident ", thisIncident)
         thisIncident.votes++;
         new Incident(thisIncident).save().then(function(newIncident){
-          console.log('making new incident: ', thisIncident)
-          Incidents.add(newIncident);
+          // console.log('making new incident: ', thisIncident)
+          // Incidents.add(newIncident);
           res.send(newIncident);
         })
       });
