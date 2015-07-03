@@ -1,3 +1,7 @@
+/**
+  THIS CODE SHOULD NOT BE RUN! IT IS HERE AS AN EXAMPLE OF HOW TO SET UP FIREBASE
+*/
+
 //At the top of your app.js file, outside any AngularJS code, 
 //you want to add the following line:
 
@@ -19,7 +23,7 @@ imageApp.controller("uploadController", function($scope, $firebaseArray, $cordov
 
   $scope.images = syncArray;
   //image data needs to be in base 64 (so that it can be stored as a string)
-  //
+  
   $scope.upload = function(username) {
     //these options are for Cordova, not firebase
     var options = {
@@ -43,10 +47,6 @@ imageApp.controller("uploadController", function($scope, $firebaseArray, $cordov
   }
 
 })
-
-
-
-
 
 
 

@@ -170,11 +170,11 @@ $http.post('api/messages/thread', data);
 
 ### Legacy Features
 
--Added pictures to incidents! Can now add and view pictures related (or unrelated) to the incident
--Added comments on incidents! Can now visibly gasp in horror at all the crime around you
--Added votes on incidents! Can now like or dislike criminal activity. -3 Votes and the incident is auto deleted
--Added profile editing! Can now edit your profile by clicking on the Person Icon after signing in
--Added sustained sessions! When you log in your session will last for an hour and reset/autologin on refreshing the page
--Changed incident views! Incident views are Ionic Modals and not silly google maps popups
--Changed mobile formating! It works now! What was GreenField doing?!?
--Changed incident icons! Ours are better
+- Added pictures to incidents! Can now add and view pictures related (or unrelated) to the incident
+- Added comments on incidents! Can now visibly gasp in horror at all the crime around you
+- Added votes on incidents! Can now like or dislike criminal activity. -3 Votes and the incident is auto deleted
+- Added profile editing! Can now edit your profile by clicking on the Person Icon after signing in
+- Added sustained sessions! When you log in your session will last for an hour and reset/autologin on refreshing the page
+- Changed incident views! Incident views are Ionic Modals and not silly google maps popups
+- Changed mobile formating! It works now! What was GreenField doing?!?
+- Changed incident icons! Ours are better

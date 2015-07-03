@@ -6,7 +6,6 @@ angular.module('watchly.services',[])
     $http.post('/api/users/loggedIn', {message: 'hi'}).success(function(res) {
       console.log('success?');
       authenticatedUser = res;
-      console.log(authenticatedUser);
       return res.status;
     });
   };
@@ -224,7 +223,7 @@ angular.module('watchly.services',[])
   var shareOnFacebook = function() {
     FB.ui({
       method: 'share',
-      href: 'http://watchlier.elasticbeanstalk.com/',
+      href: 'watchlier.elasticbeanstalk.com/',
     },
     function(response) {
       if (response && !response.error_code) {
@@ -325,7 +324,6 @@ angular.module('watchly.services',[])
     })
     .then(function (res) {
       if (res.status === 200) {
-        console.log('message saved')
       }
       else {
         console.log(res.data.error);

@@ -12,5 +12,4 @@ module.exports = function (app) {
   app.post('/update', userController.update);
   app.get('/:userId', userController.getUsernameFromId);
   app.post('/loggedIn', userController.loggedIn);
-  // app.get('/signedin', userController.checkAuth);
 };
