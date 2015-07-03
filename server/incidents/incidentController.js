@@ -53,13 +53,31 @@ module.exports = {
   },
 
   downvoteIncident: function(req, res, next){
-    console.log(req.body)
-    res.send(req.body)
+    knex('incidents').where({id: req.body.id})
+      .then(function(rows){
+        var thisIncident = rows[0]
+        console.log("this Incident ", thisIncident)
+        thisIncident.votes--;
+        new Incident(thisIncident).save().then(function(newIncident){
+          console.log('making new incident: ', thisIncident)
+          Incidents.add(newIncident);
+          res.send(newIncident);
+        })
+      });
   },
 
   upvoteIncident: function(req, res, next){
-    console.log(req.body)
-    res.send(req.body)
+    knex('incidents').where({id: req.body.id})
+      .then(function(rows){
+        var thisIncident = rows[0]
+        console.log("this Incident ", thisIncident)
+        thisIncident.votes++;
+        new Incident(thisIncident).save().then(function(newIncident){
+          console.log('making new incident: ', thisIncident)
+          Incidents.add(newIncident);
+          res.send(newIncident);
+        })
+      });
   }
 
 };

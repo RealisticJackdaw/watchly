@@ -14,6 +14,7 @@ module.exports = {
         res.send(rows);
       });
   },
+  
   newMessage: function (req, res) {
     var messageData = {
       description: req.body.description,
