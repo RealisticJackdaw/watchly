@@ -444,6 +444,7 @@ angular.module('watchly.controllers', ['watchly.services', 'ngFileUpload', 'ngCo
       function(data) {
         var orientation;
         if (data.exif) {
+          console.log('catching here')
           orientation = data.exif.get('Orientation');
         }
         if (!orientation) orientation = null;
