@@ -6,7 +6,6 @@ angular.module('watchly.services',[])
     $http.post('/api/users/loggedIn', {message: 'hi'}).success(function(res) {
       console.log('success?');
       authenticatedUser = res;
-      console.log(authenticatedUser);
       return res.status;
     });
   };
@@ -25,6 +24,22 @@ angular.module('watchly.services',[])
         console.log(res.data.error);
       }
       return authenticatedUser;
+    });
+  };
+
+  var resetUserDB = function (callback) {
+    return $http({
+      method: 'DELETE',
+      url: '/api/users'
+    })
+    .then(function (res) {
+      if (res.status === 200) {
+        console.log(res.data);
+        if (callback) {callback();}
+      }
+      else {
+        console.log(res.data.error);
+      }
     });
   };
 
@@ -123,7 +138,8 @@ angular.module('watchly.services',[])
     forgotpassword: forgotpassword,
     updateUserProfile: updateUserProfile,
     getUsernameFromId: getUsernameFromId,
-    loggedIn: loggedIn
+    loggedIn: loggedIn,
+    resetUserDB: resetUserDB
   };
 })
 .factory('Incidents', function($http){
@@ -207,7 +223,7 @@ angular.module('watchly.services',[])
   var shareOnFacebook = function() {
     FB.ui({
       method: 'share',
-      href: 'http://watchlier.elasticbeanstalk.com/',
+      href: 'watchlier.elasticbeanstalk.com/',
     },
     function(response) {
       if (response && !response.error_code) {
@@ -252,6 +268,22 @@ angular.module('watchly.services',[])
     });
   };
 
+  var resetIncidentDB = function (callback) {
+    return $http({
+      method: 'DELETE',
+      url: '/api/incidents'
+    })
+    .then(function (res) {
+      if (res.status === 200) {
+        console.log(res.data);
+        if (callback) {callback();}
+      }
+      else {
+        console.log(res.data.error);
+      }
+    });
+  };
+
   return {
     getIncidentById: getIncidentById,
     getIncidentsByLocation: getIncidentsByLocation,
@@ -260,7 +292,8 @@ angular.module('watchly.services',[])
     createNewIncident: createNewIncident,
     shareOnFacebook: shareOnFacebook, 
     upvote: upvote,
-    downvote: downvote
+    downvote: downvote,
+    resetIncidentDB:resetIncidentDB
   };
 })
 .factory('Messages', function($http){
@@ -291,7 +324,6 @@ angular.module('watchly.services',[])
     })
     .then(function (res) {
       if (res.status === 200) {
-        console.log('message saved')
       }
       else {
         console.log(res.data.error);
@@ -300,8 +332,25 @@ angular.module('watchly.services',[])
     });
   };
 
+  var resetMessageDB = function (callback) {
+    return $http({
+      method: 'DELETE',
+      url: '/api/messages'
+    })
+    .then(function (res) {
+      if (res.status === 200) {
+        console.log(res.data);
+        if (callback) {callback();}
+      }
+      else {
+        console.log(res.data.error);
+      }
+    });
+  };
+
   return {
     getMessageByIncident: getMessageByIncident,
-    createNewMessage: createNewMessage
+    createNewMessage: createNewMessage,
+    resetMessageDB: resetMessageDB
   };
 });

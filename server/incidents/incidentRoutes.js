@@ -3,6 +3,9 @@ var incidentController = require('./incidentController.js');
 module.exports = function (app) {
   // app === linkRouter injected from middleware.js
   console.log('incident routes module run')
+
+  app.delete('/', incidentController.deleteIncidents);
+
   app.route('/')
     .get(incidentController.allIncidents)
     .post(incidentController.newIncident);

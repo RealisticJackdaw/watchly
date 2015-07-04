@@ -10,8 +10,8 @@ module.exports = function (app, express) {
                 httpOnly: true,
                 secure: false,
                 secret: 'town watch',
-                cookie: {maxAge: 60000, secure: false},
-                maxAge: 60000,
+                cookie: {maxAge: 6000000, secure: false},
+                maxAge: 6000000,
                 resave: false,
                 saveUninitialized: true
               };
