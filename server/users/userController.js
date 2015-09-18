@@ -1,5 +1,6 @@
 var utils = require('../config/utility');
 var User = require('../db/models/user');
+var url = require('url')
 
 
 module.exports = {
@@ -8,7 +9,7 @@ module.exports = {
         password = req.body.password;
 
     new User({username: username}).fetch().then(function(user){
-      if( !user ){  
+      if( !user ){
         res.status(401).send({error: "Unknown user"});
       }
       else {
@@ -39,20 +40,13 @@ module.exports = {
           utils.createSession(req, res, savedUser);
           res.send(savedUser);
         });
-      } 
+      }
       else {
         console.log('Account already exists');
         res.status(400).send({error: 'Account already exists'});
       }
-    });    
+    });
 
-  },
-
-  checkAuth: function (req, res, next) {
-    // checking to see if the user is authenticated
-    // grab the token in the header is any
-    // then decode the token, which we end up being the user object
-    // check to see if that user exists in the database
   },
 
   signout: function (req, res, next) {
@@ -61,11 +55,12 @@ module.exports = {
     });
   },
 
+  //TODO: send emails to users who forgot their passwords
   forgotpassword: function (req, res, next) {
     var email = req.body.email;
 
     new User({email: email}).fetch().then(function(user){
-      if( !user ){  
+      if( !user ){
         res.status(401).send({error: "Unknown user"});
       }
       else {
@@ -74,6 +69,70 @@ module.exports = {
       }
 
     });
-    
+  },
+
+  update : function (req, res, next) {
+    var oldUsername = req.body.oldUsername;
+    var info = req.body.user;
+    new User({username: oldUsername}).fetch().then(function(exist){
+      if (exist) {
+        new User({ username: info.username }).fetch().then(function(user) {
+          if(user){
+            console.log('Username already exists');
+            res.status(400).send({error: 'Username already exists'});
+          }
+          else {
+            exist.save(info).then(function(savedUser) {
+              res.send(savedUser);
+            });
+          }
+        });
+      } else {
+        console.log("Unknown user");
+        res.status(401).send({error: "Unknown user"});
+      }
+    });
+  },
+
+  getUsernameFromId: function(req, res, next) {
+    var uri = req.url;
+    var userId = (url.parse(uri).pathname).slice(1);
+    new User({id: userId}).fetch().then(function(user){
+      if( !user ){
+        res.status(401).send({error: "Unknown user"});
+      } else {
+        res.status(200).send(user);
+      }
+    });
+  },
+  //determines if a user has a current session token and signs them in if so
+  loggedIn: function(req, res) {
+    if (req.session.userId) {
+      new User({id: req.session.userId}).fetch().then(function(user) {
+        if (user) {
+          res.status(200).send(user);
+        } else {
+          res.status(200).send('');
+        }
+      })
+    } else {
+      console.log('not signed in');
+      res.status(200).send('');
+    }
+  },
+
+  deleteUsers: function(req,res,next) {
+    console.log('deleting users');
+    User.collection().fetch().then(function(collection) {
+      collection.invokeThen('destroy').then(function() {
+    // ... all models in the collection have been destroyed
+        if (new User().fetchAll().length > 0) {
+          res.status(401).send({error: "unable to delete users"});
+        } else {
+          res.status(200).send('users table deleted');
+        }
+      });
+    });
   }
+
 };
